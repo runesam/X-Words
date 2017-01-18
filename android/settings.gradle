@@ -1,0 +1,3 @@
+rootProject.name = 'ten_words'
+
+include ':app'
