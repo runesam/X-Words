@@ -85,7 +85,7 @@ class LoginForm extends Component {
     this.setState({ [type]: value });
   }
   alertRender() {
-    if (this.props.error && counter === 1) {
+    if (this.props.error && counter === 1 && !this.props.user) {
       counter++;
       Alert.alert(
         this.props.error.code,
@@ -94,7 +94,7 @@ class LoginForm extends Component {
           { text: 'OK', onPress: () => console.log('OK Pressed') },
         ]
       );
-    } else if (this.props.user && counter === 1) {
+    } else if (this.props.user && counter === 1 && !this.props.error) {
       counter++;
       Alert.alert(
         'Success',
