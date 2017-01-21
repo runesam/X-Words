@@ -3,13 +3,27 @@ import { StyleSheet } from 'react-native';
 import { Scene, Router } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
 import EmployeeList from './components/EmployeeList';
+import Slider from './components/Slider';
 
 class RouterComponent extends Component {
   render() {
     return (
-      <Router sceneStyle={styles.view_style}>
-        <Scene key="login" component={LoginForm} title="Please Login" initial />
-        <Scene key="employeelist" component={EmployeeList} title="Employees" />
+      <Router>
+        <Scene key="slider" component={Slider} title="Please Login" hideNavBar initial />
+        <Scene
+          key="login"
+          component={LoginForm}
+          title="Please Login"
+          hideNavBar={false}
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="employeelist"
+          component={EmployeeList}
+          hideNavBar={false}
+          title="Employees"
+          sceneStyle={styles.view_style}
+        />
       </Router>
     );
   }
