@@ -30,7 +30,7 @@ class Slider extends Component {
 
   }
   onPress() {
-    Actions.login();
+    Actions.signup();
   }
   render() {
     return (

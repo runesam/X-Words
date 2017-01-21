@@ -24,11 +24,13 @@ class CardSection extends Component {
 const styles = StyleSheet.create({
   view_style: {
     borderBottomWidth: 1,
-    padding: 5,
+    // padding: 5,
+    margin: 10,
+    marginBottom: 0,
     backgroundColor: '#fff',
     justifyContent: 'flex-start',
     flexDirection: 'row',
-    borderColor: '#ddd',
+    borderColor: 'black',
     position: 'relative'
   },
   view_text: {
