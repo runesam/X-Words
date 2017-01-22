@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  LayoutAnimation
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Button from 'react-native-button';
@@ -15,22 +16,29 @@ import {
   // Button,
   // Card,
 } from './common/';
-import data from './data.json';
+import data from './json/sliderData.json';
 
 class Slider extends Component {
   state = {
-
+    routing: null
   }
   componentWillMount() {
 
   }
   onPress() {
-    Actions.signup();
+    LayoutAnimation.spring();
+    // this.setState({ routing: true });
+    // setTimeout(() => {
+      Actions.signup();
+    // }, 10);
+    setTimeout(() => {
+      this.setState({ routing: null });
+    }, 500);
   }
   WholeViews() {
     return data.map((single, i) =>
       (
-        <View key={i} style={styles.singleView}>
+        <View key={i} style={this.state.routing === null ? { flex: 1 } : { flex: 1, opacity: 0 }}>
           <Image source={{ uri: single.img }} style={styles.sliderImage} />
             {/* <Image source={logo} style={styles.logoImage} /> */}
             <View style={styles.textWrapper}>
@@ -62,6 +70,7 @@ class Slider extends Component {
         nextButton={<Text style={styles.arrows}>›</Text>}
         prevButton={<Text style={styles.arrows}>‹</Text>}
         loop={false}
+        bounces
       >
       {this.WholeViews()}
       </Swiper>

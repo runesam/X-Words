@@ -17,8 +17,11 @@ class RouterComponent extends Component {
             navigationBarStyle={styles.navigationBarStyle}
             component={SignUpForm}
             title="Sign Up"
-            hideNavBar={false}
+            hideNavBar
             sceneStyle={styles.view_style}
+            animation="fade"
+            direction="vertical"
+            initial
           />
         <Scene
           key="login"
@@ -44,7 +47,7 @@ module.exports = RouterComponent;
 
 const styles = StyleSheet.create({
   view_style: {
-    paddingTop: 60
+    // paddingTop: 60
   },
   view_text: {
     color: 'black'

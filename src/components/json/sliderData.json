@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "last": false,
+    "img": "slider_00",
+    "text": "Learn & Have Fun"
+  },
+  {
+    "id": 1,
+    "last": false,
+    "img": "slider_01",
+    "text": "Learn & Have Fun"
+  },
+  {
+    "id": 2,
+    "last": false,
+    "img": "slider_02",
+    "text": "Learn & Have Fun"
+  },
+  {
+    "id": 3,
+    "last": false,
+    "img": "slider_03",
+    "text": "Learn & Have Fun"
+  },
+  {
+    "id": 4,
+    "last": true,
+    "img": "slider_04",
+    "text": "Learn & Have Fun"
+  }
+]

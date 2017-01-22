@@ -3,37 +3,38 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  // View,
+  View,
   Image,
   Alert,
   // TextInput
+  StatusBar,
+  // Picker
 } from 'react-native';
 import {
   Button,
   // Card,
   CardSection,
   ShapedTextInput,
-  Spinner
+  Spinner,
+  ShapedSelectInput
 } from './common/';
 
-const Logo = require('./images/logo_small.png');
-const backgroundImageI = require('./images/main_background.png');
-
-const Phone = require('./images/phone.png');
-const Email = require('./images/email.png');
+import optionData from './json/levelOptionData.json';
 
 let counter = 0;
 class SignUpForm extends Component {
   state= {
     Email: '',
+    phone: '',
     PassWord: '',
+    level: '',
     error: null,
     loading: false,
     loginSuccess: false,
     signupSuccess: false
   }
-  componentWillUpdate() {
-
+  componentWillMount() {
+    console.log(optionData);
   }
   onEverythingFail() {
     console.log('onEverythingFail');
@@ -43,8 +44,9 @@ class SignUpForm extends Component {
   onLoginSuccess() {
     console.log('onLoginSuccess');
     this.setState({
-      Email: '',
-      PassWord: '',
+      email: '',
+      phone: '',
+      password: '',
       loading: false,
       error: null,
       loginSuccess: true
@@ -79,16 +81,17 @@ class SignUpForm extends Component {
     // }
   }
   updateInput(type, value) {
-    switch (type) {
-      case 'Email':
-        this.props.emailChanged(value);
-        break;
-      case 'Password':
-        this.props.passwordChanged(value);
-        break;
-      default:
-    }
-    this.setState({ [type]: value });
+    // switch (type) {
+    //   case 'Email':
+    //     this.props.emailChanged(value);
+    //     break;
+    //   case 'Password':
+    //     this.props.passwordChanged(value);
+    //     break;
+    //   default:
+    // }
+    // this.setState({ [type]: value });
+    console.log(type + value);
   }
   alertRender() {
     if (this.props.error && counter === 1 && !this.props.user) {
@@ -124,35 +127,57 @@ class SignUpForm extends Component {
   }
   render() {
     return (
-      <Image source={backgroundImageI} style={styles.backgroundImageI}>
-        <Image source={Logo} style={styles.backgroundImageII} />
+      <Image source={{ uri: 'user_auth' }} style={styles.userAuth}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.FlexI}>
+          <View style={{ flex: 1 }}>
+            <Image source={{ uri: 'logo_white' }} style={styles.logo} />
+          </View>
+          <View style={{ flex: 2, paddingLeft: 20 }}>
+            <Text style={styles.textI}>{'Register'}</Text>
+            <Text style={styles.textII}>
+              {'Register to get our free offers and more ways to approve your English'}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.FlexII}>
           <CardSection>
             <ShapedTextInput
-              text='Phone'
-              placeholder='5xx 4xx 9x 8x'
-              name='Phone'
+              placeholder='Email'
+              name='email'
               onChangeText={this.updateInput.bind(this)}
-              keyboardType={'phone-pad'}
-              value={this.state.phone}
-              iconImage={Phone}
+              keyboardType={'email-address'}
+              // keyboardType={'phone-pad'}
+              value={this.state.email}
             />
           </CardSection>
           <CardSection>
             <ShapedTextInput
-              text='Email'
-              placeholder='example@etc.com'
-              name='Email'
+              placeholder='Telephone'
+              name='phone'
+              onChangeText={this.updateInput.bind(this)}
+              keyboardType={'phone-pad'}
+              value={this.state.phone}
+            />
+          </CardSection>
+          <CardSection>
+            <ShapedTextInput
+              placeholder='Password'
+              name='password'
               onChangeText={this.updateInput.bind(this)}
               secureTextEntry
-              keyboardType={'email-address'}
-              value={this.state.email}
-              iconImage={Email}
+              value={this.state.password}
             />
           </CardSection>
             {this.renderError()}
           <CardSection>
-            {this.renderButton()}
+            <ShapedSelectInput
+              data={optionData}
+              name='level'
+              onChangeText={this.updateInput.bind(this)}
+            />
           </CardSection>
+        </View>
       </Image>
     );
   }
@@ -165,6 +190,14 @@ const styles = StyleSheet.create({
   view_text: {
 
   },
+  textI: {
+    fontSize: 20,
+    color: 'white',
+    paddingBottom: 5,
+  },
+  textII: {
+    color: 'white'
+  },
   error_text: {
     fontSize: 15,
     color: 'red',
@@ -172,16 +205,30 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     alignSelf: 'center'
   },
-  backgroundImageI: {
+  userAuth: {
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
+    padding: 30,
     width: null,
     height: null,
   },
-  backgroundImageII: {
-    marginTop: 30,
-    alignSelf: 'center',
+  FlexI: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
+  logo: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'contain'
+  },
+  FlexII: {
+    flex: 5,
+    marginTop: 10
   },
 });
 
