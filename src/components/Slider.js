@@ -2,120 +2,114 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  // View,
+  View,
   Image
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Button from 'react-native-button';
 import { Actions } from 'react-native-router-flux';
+import renderIf from 'render-if';
 
 import {
   // Header,
   // Button,
   // Card,
 } from './common/';
-
-const Logo = require('./images/logo.png');
-const backgroundImageI = require('./images/slider_background_00.png');
-const backgroundImageII = require('./images/slider_background_01.png');
-const backgroundImageIII = require('./images/slider_background_02.png');
-const backgroundImageIV = require('./images/slider_background_03.png');
-const backgroundImageV = require('./images/slider_background_04.png');
+import data from './data.json';
 
 class Slider extends Component {
   state = {
 
   }
-  componentWillUpdate() {
+  componentWillMount() {
 
   }
   onPress() {
     Actions.signup();
   }
+  WholeViews() {
+    return data.map((single, i) =>
+      (
+        <View key={i} style={styles.singleView}>
+          <Image source={{ uri: single.img }} style={styles.sliderImage} />
+            {/* <Image source={logo} style={styles.logoImage} /> */}
+            <View style={styles.textWrapper}>
+              {renderIf(!single.last)(
+                <Text style={styles.text}>
+                  {single.text}
+                </Text>
+              )}
+              {renderIf(single.last)(
+              <View style={styles.textWrapper}>
+                <Button
+                  containerStyle={styles.buttonRounded}
+                  style={{ fontSize: 40, color: 'white' }}
+                  onPress={() => this.onPress()}
+                >
+                  ✓
+                </Button>
+              </View>
+            )}
+            </View>
+        </View>
+      )
+    );
+  }
   render() {
     return (
       <Swiper
-        showsButtons
+        showsButtons={false}
         nextButton={<Text style={styles.arrows}>›</Text>}
         prevButton={<Text style={styles.arrows}>‹</Text>}
         loop={false}
       >
-        <Image source={backgroundImageI} style={styles.backgroundImageI}>
-          <Image source={Logo} style={styles.backgroundImageII} />
-          <Text style={styles.text}>
-            {'Learn & Have Fun'}
-          </Text>
-        </Image>
-        <Image source={backgroundImageII} style={styles.backgroundImageI}>
-          <Image source={Logo} style={styles.backgroundImageII} />
-          <Text style={styles.text}>
-            {'Learn & Have Fun'}
-          </Text>
-        </Image>
-        <Image source={backgroundImageIII} style={styles.backgroundImageI}>
-          <Image source={Logo} style={styles.backgroundImageII} />
-          <Text style={styles.text}>
-            {'Learn & Have Fun'}
-          </Text>
-        </Image>
-        <Image source={backgroundImageIV} style={styles.backgroundImageI}>
-          <Image source={Logo} style={styles.backgroundImageII} />
-          <Text style={styles.text}>
-            {'Learn & Have Fun'}
-          </Text>
-        </Image>
-        <Image source={backgroundImageV} style={styles.backgroundImageI}>
-          <Image source={Logo} style={styles.backgroundImageII} />
-          <Text style={styles.text}>
-            {'Learn & Have Fun'}
-          </Text>
-          <Text>
-            {'Powered By Finest Group'}
-          </Text>
-          <Button
-            containerStyle={styles.buttonContainer}
-            style={{ fontSize: 60, color: 'black' }}
-            onPress={() => this.onPress()}
-          >
-            ✓
-          </Button>
-        </Image>
+      {this.WholeViews()}
       </Swiper>
     );
   }
 }
 const styles = StyleSheet.create({
-  backgroundImageI: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  singleView: {
+    flex: 1
+  },
+  sliderImage: {
+    flex: 4,
+    justifyContent: 'flex-end',
+    // alignItems: 'center',
     width: null,
     height: null
   },
-  backgroundImageII: {
+  logoImage: {
     justifyContent: 'center',
     alignItems: 'center',
-    resizeMode: 'cover'
+    // resizeMode: 'cover'
   },
   text: {
     color: 'black',
     fontSize: 30,
     fontWeight: 'bold',
-    marginTop: 100
+    textAlign: 'center',
+    marginTop: 20
+  },
+  textWrapper: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   arrows: {
     color: 'black',
     fontSize: 60,
     fontWeight: 'bold'
   },
-  buttonContainer: {
-    marginTop: 30,
-    paddingTop: 30,
-    height: 70,
-    width: 70,
+  buttonRounded: {
+    marginTop: 20,
+    paddingTop: 25,
+    height: 50,
+    width: 50,
     overflow: 'hidden',
-    borderRadius: 1000,
-    backgroundColor: 'white',
+    borderRadius: 200,
+    backgroundColor: '#00b4ff',
     justifyContent: 'center',
     alignItems: 'center',
   }

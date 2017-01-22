@@ -20,7 +20,7 @@ class ShapedTextInput extends Component {
           keyboardType={this.props.keyboardType || 'default'}
           secureTextEntry={this.props.secureTextEntry || false}
           value={this.props.value}
-          onChangeText={
+          onChangeTextt={
             function (text) {
               if (this.props.onChangeText && this.props.name) {
                   this.props.onChangeText(this.props.name, text);
@@ -35,6 +35,7 @@ class ShapedTextInput extends Component {
 
 const styles = StyleSheet.create({
   TextInput: {
+    backgroundColor: 'rgba(0,0,0,0)',
     color: '#000',
     paddingRight: 5,
     paddingLeft: 5,
