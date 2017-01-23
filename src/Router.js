@@ -11,18 +11,15 @@ class RouterComponent extends Component {
     return (
       <Router>
         <Scene key="slider" component={Slider} hideNavBar initial />
-          <Scene
-            key="signup"
-            backTitle="back"
-            navigationBarStyle={styles.navigationBarStyle}
-            component={SignUpForm}
-            title="Sign Up"
-            hideNavBar
-            sceneStyle={styles.view_style}
-            animation="fade"
-            direction="vertical"
-            initial
-          />
+        <Scene
+          key="signup"
+          backTitle="back"
+          navigationBarStyle={styles.navigationBarStyle}
+          component={SignUpForm}
+          title="Sign Up"
+          hideNavBar
+          sceneStyle={styles.view_style}
+        />
         <Scene
           key="login"
           component={LoginForm}
