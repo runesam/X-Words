@@ -19,6 +19,7 @@ class RouterComponent extends Component {
           title="Sign Up"
           hideNavBar
           sceneStyle={styles.view_style}
+          initial
         />
         <Scene
           key="login"

@@ -1,0 +1,50 @@
+[
+  {
+    "id": 0,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 1,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 2,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 3,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
+  },
+  {
+    "id": 4,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 5,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 6,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 7,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
+  }
+]

@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   overlayStyles: {
-    opacity: 0.3
+    backgroundColor: 'black',
+    opacity: 0.7,
   }
 });
 

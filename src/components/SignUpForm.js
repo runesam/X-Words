@@ -6,35 +6,52 @@ import {
   View,
   Image,
   Alert,
-  // TextInput
   StatusBar,
-  // Picker
+  Keyboard,
+  // AsyncStorage
 } from 'react-native';
+import renderIf from 'render-if';
 import {
   Button,
-  // Card,
   CardSection,
   ShapedTextInput,
   Spinner,
-  ShapedSelectInput
+  PickerView,
+  PickerButton,
+  HscrollView
 } from './common/';
 
 import optionData from './json/levelOptionData.json';
+import interestsData from './json/interestsData.json';
 
 let counter = 0;
 class SignUpForm extends Component {
   state= {
-    Email: '',
+    email: '',
     phone: '',
-    PassWord: '',
-    level: '',
-    error: null,
-    loading: false,
-    loginSuccess: false,
-    signupSuccess: false
+    password: '',
+    level: optionData[0].default.text,
+    openPickerView: false,
+    interestsData: {}
   }
   componentWillMount() {
-    console.log(optionData);
+  //   try {
+  //     const value = AsyncStorage.getItem('interests');
+  //     if (value !== null) {
+  //      this.setState({ interestsData: value});
+  //      console.log('Recovered selection from disk: ' + value);
+  //     } else {
+  //       try {
+  //         AsyncStorage.setItem('interests', interestsData);
+  //         console.log('Saved selection to disk: ' + selectedValue);
+  //       } catch (error) {
+  //         console.log('AsyncStorage error: ' + error.message);
+  //       }
+  //      console.log('Initialized with no selection on disk.');
+  //    }
+  //  } catch (error) {
+  //    console.log('AsyncStorage error: ' + error.message);
+  //  }
   }
   onEverythingFail() {
     console.log('onEverythingFail');
@@ -82,15 +99,21 @@ class SignUpForm extends Component {
   }
   updateInput(type, value) {
     // switch (type) {
-    //   case 'Email':
+    //   case 'email':
     //     this.props.emailChanged(value);
     //     break;
-    //   case 'Password':
+    //   case 'phone':
+    //     this.props.emailChanged(value);
+    //     break;
+    //   case 'password':
     //     this.props.passwordChanged(value);
+    //     break;
+    //   case 'level':
+    //     this.props.emailChanged(value);
     //     break;
     //   default:
     // }
-    // this.setState({ [type]: value });
+    this.setState({ [type]: value });
     console.log(type + value);
   }
   alertRender() {
@@ -114,6 +137,10 @@ class SignUpForm extends Component {
       );
     }
   }
+  togglePicker() {
+    Keyboard.dismiss();
+    this.setState({ openPickerView: !this.state.openPickerView });
+  }
   renderButton() {
     if (this.props.loading) {
       return <Spinner size='large' />;
@@ -129,6 +156,16 @@ class SignUpForm extends Component {
     return (
       <Image source={{ uri: 'user_auth' }} style={styles.userAuth}>
         <StatusBar barStyle="light-content" />
+        {renderIf(this.state.openPickerView)(
+          <View style={styles.PickerView}>
+            <PickerView
+              data={optionData}
+              name='level'
+              togglePicker={this.togglePicker.bind(this)}
+              onChangeText={this.updateInput.bind(this)}
+            />
+          </View>
+        )}
         <View style={styles.FlexI}>
           <View style={{ flex: 1 }}>
             <Image source={{ uri: 'logo_white' }} style={styles.logo} />
@@ -147,7 +184,6 @@ class SignUpForm extends Component {
               name='email'
               onChangeText={this.updateInput.bind(this)}
               keyboardType={'email-address'}
-              // keyboardType={'phone-pad'}
               value={this.state.email}
             />
           </CardSection>
@@ -169,14 +205,21 @@ class SignUpForm extends Component {
               value={this.state.password}
             />
           </CardSection>
-            {this.renderError()}
-          <CardSection>
-            <ShapedSelectInput
-              data={optionData}
-              name='level'
-              onChangeText={this.updateInput.bind(this)}
-            />
-          </CardSection>
+          <PickerButton
+            data={optionData}
+            level={this.state.level}
+            togglePicker={this.togglePicker.bind(this)}
+          />
+          <View style={styles.topics} >
+            <View style={styles.line} />
+            <Text style={styles.topicsText}>{'Choose Some Interests'}</Text>
+            <View style={styles.line} />
+          </View>
+          <HscrollView
+            data={interestsData}
+            name='interests'
+            onChangeText={this.updateInput.bind(this)}
+          />
         </View>
       </Image>
     );
@@ -184,11 +227,32 @@ class SignUpForm extends Component {
 }
 
 const styles = StyleSheet.create({
-  view_style: {
-
+  PickerView: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 90
   },
-  view_text: {
-
+  topics: {
+    marginTop: 20,
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  topicsText: {
+    flex: 2.5,
+    backgroundColor: 'rgba(0,0,0,0)',
+    color: '#c5c4d6',
+    textAlign: 'center',
+    marginTop: -10,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  line: {
+    flex: 1,
+    alignSelf: 'flex-start',
+    borderBottomWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
   },
   textI: {
     fontSize: 20,
@@ -207,8 +271,6 @@ const styles = StyleSheet.create({
   },
   userAuth: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     padding: 30,
     width: null,
     height: null,
