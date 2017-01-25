@@ -95,10 +95,12 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'black',
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 20,
+    // fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 20
+    marginTop: 20,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   textWrapper: {
     flex: 1,

@@ -12,13 +12,13 @@ class PickerView extends Component {
   WholeOptions() {
     return this.props.data[1].options.map((option, i) =>
       (
-        <Picker.Item style={styles.pickerItem} key={i} label={option.text} value={option.value} />
+      <Picker.Item style={styles.pickerItem} key={i} label={option.text} value={option.value} />
       )
     );
   }
   render() {
     return (
-      <View style={styles.view_style}>
+      <View style={{ flex: 1 }}>
         <Picker
           style={styles.mainPicker}
           itemStyle={styles.pickerItem}
@@ -40,9 +40,11 @@ class PickerView extends Component {
 
 const styles = StyleSheet.create({
   mainPicker: {
-    marginTop: 10,
+    flex: 1,
+    // marginTop: 10,
     // borderRadius: 5,
-    backgroundColor: 'rgba(0,0,0,0.6)'
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.7)'
   },
   pickerItem: {
     color: 'white'

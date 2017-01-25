@@ -46,5 +46,29 @@
     "image": "love_nature",
     "text": "Nature",
     "active": false
+  },
+  {
+    "id": 8,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 9,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 10,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 11,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
   }
 ]

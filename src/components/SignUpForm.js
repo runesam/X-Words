@@ -8,7 +8,7 @@ import {
   Alert,
   StatusBar,
   Keyboard,
-  // AsyncStorage
+  ScrollView
 } from 'react-native';
 import renderIf from 'render-if';
 import {
@@ -166,61 +166,63 @@ class SignUpForm extends Component {
             />
           </View>
         )}
-        <View style={styles.FlexI}>
-          <View style={{ flex: 1 }}>
-            <Image source={{ uri: 'logo_white' }} style={styles.logo} />
+        <ScrollView style={{ flex: 1 }}>
+          <View style={styles.FlexI}>
+            <View style={{ flex: 1 }}>
+              <Image source={{ uri: 'logo_white' }} style={styles.logo} />
+            </View>
+            <View style={{ flex: 2, paddingLeft: 20 }}>
+              <Text style={styles.textI}>{'Register'}</Text>
+              <Text style={styles.textII}>
+                {'Register to get our free offers and more ways to approve your English'}
+              </Text>
+            </View>
           </View>
-          <View style={{ flex: 2, paddingLeft: 20 }}>
-            <Text style={styles.textI}>{'Register'}</Text>
-            <Text style={styles.textII}>
-              {'Register to get our free offers and more ways to approve your English'}
-            </Text>
+          <View style={styles.FlexII}>
+            <CardSection>
+              <ShapedTextInput
+                placeholder='Email'
+                name='email'
+                onChangeText={this.updateInput.bind(this)}
+                keyboardType={'email-address'}
+                value={this.state.email}
+              />
+            </CardSection>
+            <CardSection>
+              <ShapedTextInput
+                placeholder='Telephone'
+                name='phone'
+                onChangeText={this.updateInput.bind(this)}
+                keyboardType={'phone-pad'}
+                value={this.state.phone}
+              />
+            </CardSection>
+            <CardSection>
+              <ShapedTextInput
+                placeholder='Password'
+                name='password'
+                onChangeText={this.updateInput.bind(this)}
+                secureTextEntry
+                value={this.state.password}
+              />
+            </CardSection>
+            <PickerButton
+              data={optionData}
+              level={this.state.level}
+              togglePicker={this.togglePicker.bind(this)}
+            />
+            <View style={styles.topics} >
+              <View style={styles.line} />
+              <Text style={styles.topicsText}>{'Choose Some Interests'}</Text>
+              <View style={styles.line} />
+            </View>
+            <HscrollView
+              data={interestsData}
+              name='interests'
+              onChangeText={this.updateInput.bind(this)}
+            />
           </View>
-        </View>
-        <View style={styles.FlexII}>
-          <CardSection>
-            <ShapedTextInput
-              placeholder='Email'
-              name='email'
-              onChangeText={this.updateInput.bind(this)}
-              keyboardType={'email-address'}
-              value={this.state.email}
-            />
-          </CardSection>
-          <CardSection>
-            <ShapedTextInput
-              placeholder='Telephone'
-              name='phone'
-              onChangeText={this.updateInput.bind(this)}
-              keyboardType={'phone-pad'}
-              value={this.state.phone}
-            />
-          </CardSection>
-          <CardSection>
-            <ShapedTextInput
-              placeholder='Password'
-              name='password'
-              onChangeText={this.updateInput.bind(this)}
-              secureTextEntry
-              value={this.state.password}
-            />
-          </CardSection>
-          <PickerButton
-            data={optionData}
-            level={this.state.level}
-            togglePicker={this.togglePicker.bind(this)}
-          />
-          <View style={styles.topics} >
-            <View style={styles.line} />
-            <Text style={styles.topicsText}>{'Choose Some Interests'}</Text>
-            <View style={styles.line} />
-          </View>
-          <HscrollView
-            data={interestsData}
-            name='interests'
-            onChangeText={this.updateInput.bind(this)}
-          />
-        </View>
+        </ScrollView>
       </Image>
     );
   }
@@ -228,7 +230,9 @@ class SignUpForm extends Component {
 
 const styles = StyleSheet.create({
   PickerView: {
+    justifyContent: 'center',
     position: 'absolute',
+    top: 0,
     bottom: 0,
     left: 0,
     right: 0,
