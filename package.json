@@ -18,7 +18,8 @@
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "render-if": "^0.1.1"
+    "render-if": "^0.1.1",
+    "rn-cook": "0.0.4"
   },
   "devDependencies": {
     "babel-jest": "18.0.0",

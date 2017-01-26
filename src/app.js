@@ -5,7 +5,6 @@ import {
 StyleSheet,
 // Text,
 View,
-// ScrollView
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -20,7 +19,9 @@ import {
 import Router from './Router';
 // import LibraryList from './components/LibraryList';
 
+import generalUtails from './utils/generalUtils';
 
+const STORAGE_KEY = '@AsyncStorageExample:key';
 class App extends Component {
   state = {
     store: createStore(reducers, {}, applyMiddleware(ReduxThunk))
@@ -34,6 +35,11 @@ class App extends Component {
       messagingSenderId: '111479488991'
     };
     firebase.initializeApp(config);
+  }
+  componentDidMount() {
+    generalUtails.storageGetItem(STORAGE_KEY).done((response) => {
+      console.log(response);
+    });
   }
   render() {
     return (
