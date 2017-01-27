@@ -4,7 +4,6 @@ import {
 
 module.exports = {
   storageSetItem: async (key, value) => {
-      this.setState({ value });
       try {
         await AsyncStorage.setItem(key, value);
         console.log('Saved selection to disk');
@@ -27,6 +26,22 @@ module.exports = {
     try {
       await AsyncStorage.removeItem(key);
       console.log('Selection removed from disk.');
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  storageGetAllItems: async () => {
+    try {
+      await AsyncStorage.getAllKeys((err, keys) => {
+        AsyncStorage.multiGet(keys, (error, stores) => {
+          stores.map((result, i, store) => {
+            const key = store[i][0];
+            const value = store[i][1];
+            console.log({ [key]: value });
+            return { key, value };
+           });
+        });
+      });
     } catch (error) {
       console.log(error);
     }

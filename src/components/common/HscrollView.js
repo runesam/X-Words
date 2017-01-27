@@ -13,31 +13,34 @@ class HscrollView extends Component {
 
   }
   interestsHandler(data) {
-    console.log(data);
+    this.props.onChangeText(this.props.name, data);
   }
   WholeOptions() {
-    return this.props.data.map((data, i) =>
-      (
-        <TouchableHighlight
-          key={i}
-          style={styles.touchStyle}
-          onPress={this.interestsHandler.bind(this, data.id)}
-          underlayColor='rgba(0,0,0,0.3)'
-        >
-          <View style={styles.view_style}>
-            <Image
-              source={{ uri: data.image }}
-              style={[styles.imageStyle, data.active ? { opacity: 0.6 } : { opacity: 0.2 }]}
-            />
-            <Text
-              style={[styles.textStyle, data.active ? { color: 'white' } : { color: '#c5c4d6' }]}
-            >
-              {data.text}
-            </Text>
-          </View>
-        </TouchableHighlight>
-      )
-    );
+    if (this.props.data) {
+      // return this.props.data.map((data, i) =>
+      //   (
+      //     <TouchableHighlight
+      //       key={i}
+      //       style={styles.touchStyle}
+      //       onPress={this.interestsHandler.bind(this, data.id)}
+      //       underlayColor='rgba(0,0,0,0.3)'
+      //     >
+      //       <View style={styles.view_style}>
+      //         <Image
+      //           source={{ uri: data.image }}
+      //           style={[styles.imageStyle, data.active ? { opacity: 0.6 } : { opacity: 0.2 }]}
+      //         />
+      //         <Text
+      //           style={[styles.textStyle, data.active ? { color: 'white' } : { color: '#c5c4d6' }]}
+      //         >
+      //           {data.text}
+      //         </Text>
+      //       </View>
+      //     </TouchableHighlight>
+      //   )
+      // );
+    }
+    return <Text>{'love test'}</Text>;
   }
   render() {
     return (

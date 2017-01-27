@@ -21,8 +21,9 @@ import {
   HscrollView
 } from './common/';
 
+import generalUtails from '../utils/generalUtils';
 import optionData from './json/levelOptionData.json';
-import interestsData from './json/interestsData.json';
+import interestsDataOrigin from './json/interestsData.json';
 
 let counter = 0;
 class SignUpForm extends Component {
@@ -32,26 +33,20 @@ class SignUpForm extends Component {
     password: '',
     level: optionData[0].default.text,
     openPickerView: false,
-    interestsData: {}
+    interestsData: interestsDataOrigin
   }
   componentWillMount() {
-  //   try {
-  //     const value = AsyncStorage.getItem('interests');
-  //     if (value !== null) {
-  //      this.setState({ interestsData: value});
-  //      console.log('Recovered selection from disk: ' + value);
-  //     } else {
-  //       try {
-  //         AsyncStorage.setItem('interests', interestsData);
-  //         console.log('Saved selection to disk: ' + selectedValue);
-  //       } catch (error) {
-  //         console.log('AsyncStorage error: ' + error.message);
-  //       }
-  //      console.log('Initialized with no selection on disk.');
-  //    }
-  //  } catch (error) {
-  //    console.log('AsyncStorage error: ' + error.message);
-  //  }
+    generalUtails.storageGetAllItems();
+    // generalUtails.storageGetItem('signupData').done(function (response) {
+    //   if (response) {
+    //     this.setState({ interestsData: response.interestsData });
+    //   } else {
+    //     this.setState({ interestsData: interestsDataOrigin });
+    //   }
+    // }.bind(this));
+    generalUtails.storageSetItem('signupData', { interestsData: JSON.stringify(this.state.interestsData) });
+    // generalUtails.storageRemoveItem('@AsyncStorageExample:key');
+    console.log(this.state.interestsData);
   }
   onEverythingFail() {
     console.log('onEverythingFail');
@@ -114,7 +109,7 @@ class SignUpForm extends Component {
     //   default:
     // }
     this.setState({ [type]: value });
-    console.log(type + value);
+    console.log(type + value + this.state[type]);
   }
   alertRender() {
     if (this.props.error && counter === 1 && !this.props.user) {
@@ -217,8 +212,8 @@ class SignUpForm extends Component {
               <View style={styles.line} />
             </View>
             <HscrollView
-              data={interestsData}
-              name='interests'
+              data={this.state.interestsData}
+              name='interestsData'
               onChangeText={this.updateInput.bind(this)}
             />
           </View>
