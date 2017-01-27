@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 30,
     flex: 4,
+    borderRadius: 5,
   },
   view_style: {
     height: 50,
