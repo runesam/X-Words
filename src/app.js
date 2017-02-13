@@ -40,7 +40,7 @@ class App extends Component {
     return (
       <Provider store={this.state.store}>
         <View style={styles.view_style}>
-          <Router />
+          <Router deviceAndroid={this.props.deviceAndroid} />
         </View>
       </Provider>
     );

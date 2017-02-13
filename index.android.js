@@ -12,7 +12,7 @@ class manager extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <App />
+          <App deviceAndroid />
       </View>
     );
   }

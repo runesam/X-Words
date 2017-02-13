@@ -20,6 +20,7 @@ class RouterComponent extends Component {
           hideNavBar
           sceneStyle={styles.view_style}
           initial
+          deviceAndroid={this.props.deviceAndroid}
         />
         <Scene
           key="login"

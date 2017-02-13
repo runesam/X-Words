@@ -16,7 +16,7 @@ class Spinner extends Component {
   render() {
     return (
       <View style={styles.view_style}>
-        <ActivityIndicator size={this.props.size || 'large'} />
+        <ActivityIndicator color='white' size={this.props.size || 'large'} style={styles.spinner} />
       </View>
     );
   }
@@ -25,11 +25,11 @@ class Spinner extends Component {
 const styles = StyleSheet.create({
   view_style: {
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'center'
   },
-  view_text: {
-
+  spinner: {
+    flexDirection: 'row',
   },
 });
 

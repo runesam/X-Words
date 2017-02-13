@@ -32,11 +32,11 @@ class PickerButton extends Component {
           <Text
             style={[
               styles.pickerValue,
-              this.props.level === this.props.data[0].default.text ?
+              this.props.level === 0 ?
                 { color: '#c5c4d6' } : { color: 'white' }
             ]}
           >
-            {this.props.level}
+            {this.props.data[this.props.level].text}
           </Text>
         </TouchableHighlight>
       </View>

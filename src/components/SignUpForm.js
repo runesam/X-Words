@@ -21,32 +21,35 @@ import {
   HscrollView
 } from './common/';
 
-import generalUtails from '../utils/generalUtils';
+import generalUtils from '../utils/generalUtils';
+import signUpUtils from '../utils/signUpUtils';
 import optionData from './json/levelOptionData.json';
 import interestsDataOrigin from './json/interestsData.json';
+
+const _ = require('lodash');
 
 let counter = 0;
 class SignUpForm extends Component {
   state= {
-    email: '',
+    email: null,
     phone: '',
     password: '',
-    level: optionData[0].default.text,
+    level: 0,
     openPickerView: false,
-    interestsData: interestsDataOrigin
+    interestsData: '',
+    error: []
   }
   componentWillMount() {
-    generalUtails.storageGetAllItems();
-    // generalUtails.storageGetItem('signupData').done(function (response) {
-    //   if (response) {
-    //     this.setState({ interestsData: response.interestsData });
-    //   } else {
-    //     this.setState({ interestsData: interestsDataOrigin });
-    //   }
-    // }.bind(this));
-    generalUtails.storageSetItem('signupData', { interestsData: JSON.stringify(this.state.interestsData) });
-    // generalUtails.storageRemoveItem('@AsyncStorageExample:key');
-    console.log(this.state.interestsData);
+    console.log(optionData[0]);
+    generalUtils.storageGetAllItems();
+    generalUtils.storageGetItem('signupData').done((response) => {
+      if (response) {
+        this.setState({ interestsData: response.interestsData });
+      } else {
+        this.setState({ interestsData: interestsDataOrigin });
+        generalUtils.storageSetItem('signupData', { interestsData: this.state.interestsData });
+      }
+    });
   }
   onEverythingFail() {
     console.log('onEverythingFail');
@@ -75,17 +78,20 @@ class SignUpForm extends Component {
     });
   }
   onPressMe() {
-    counter = 1;
-    const email = this.props.email;
-    const password = this.props.password;
-    this.props.loginUser({ email, password });
+    Object.keys(this.state).forEach((key) => {
+      const value = this.state[key];
+      console.log(`${key} : ${value}`);
+    });
+    // this.state.forEach((value, key) => {
+    //   console.log(`${key}' : '${value}`);
+    // });
     // if (!this.state.loading) {
     //   this.setState({ error: null, loading: true });
     //   firebase.auth().signInWithEmailAndPassword(this.state.Email, this.state.PassWord)
     //   .then(this.onLoginSuccess.bind(this))
     //   .catch(
     //     () => {
-    //       firebase.auth().createUserWithEmailAndPassword(this.state.Email, this.state.PassWord)
+    //          this.state.Email, this.state.PassWord)
     //       .then(this.onSignupSuccess.bind(this))
     //       .catch(this.onEverythingFail.bind(this));
     //     }
@@ -93,23 +99,23 @@ class SignUpForm extends Component {
     // }
   }
   updateInput(type, value) {
-    // switch (type) {
-    //   case 'email':
-    //     this.props.emailChanged(value);
-    //     break;
-    //   case 'phone':
-    //     this.props.emailChanged(value);
-    //     break;
-    //   case 'password':
-    //     this.props.passwordChanged(value);
-    //     break;
-    //   case 'level':
-    //     this.props.emailChanged(value);
-    //     break;
-    //   default:
-    // }
-    this.setState({ [type]: value });
-    console.log(type + value + this.state[type]);
+    switch (type) {
+      case 'email':
+      case 'phone':
+      case 'password':
+      case 'level':
+        this.setState({ [type]: value });
+        setTimeout(() => { console.log(this.state[type]); });
+        break;
+      case 'interestsData':
+        this.setState({
+          interestsData: signUpUtils.updateInterestsData(this.state.interestsData, value, 'active')
+        });
+        break;
+      default:
+    }
+    // this.setState({ [type]: value });
+    // console.log(type + value + this.state[type]);
   }
   alertRender() {
     if (this.props.error && counter === 1 && !this.props.user) {
@@ -136,11 +142,47 @@ class SignUpForm extends Component {
     Keyboard.dismiss();
     this.setState({ openPickerView: !this.state.openPickerView });
   }
+  validationChecker(type) {
+    const tempError = this.state.error;
+    switch (type) {
+      case 'email':
+        if (!generalUtils.validateEmail(this.state.email)) {
+          tempError.push('email');
+        } else {
+          _.remove(tempError, (n) => n === 'email');
+        }
+        break;
+      case 'phone':
+        if (!generalUtils.validatePhone(this.state.phone)) {
+          tempError.push('phone');
+        } else {
+          _.remove(tempError, (n) => n === 'phone');
+        }
+        break;
+      case 'password':
+        if (this.state.password.length < 8) {
+          tempError.push('password');
+        } else {
+          _.remove(tempError, (n) => n === 'password');
+        }
+        break;
+      default:
+    }
+    this.setState({ error: tempError });
+  }
   renderButton() {
     if (this.props.loading) {
       return <Spinner size='large' />;
     }
-    return <Button text={'Login'} onPressMe={this.onPressMe.bind(this)} />;
+    return (
+      <Button
+        text={'Sign Up'}
+        style={styles.SignUpButton}
+        textStyle={[styles.SignUpButtonText, this.state.valid ? { color: 'white' } : { color: '#c5c4d6' }]}
+        disabled={!this.state.valid}
+        onPressMe={this.onPressMe.bind(this)}
+      />
+    );
   }
   renderError() {
     if (this.state.error) {
@@ -151,7 +193,7 @@ class SignUpForm extends Component {
     return (
       <Image source={{ uri: 'user_auth' }} style={styles.userAuth}>
         <StatusBar barStyle="light-content" />
-        {renderIf(this.state.openPickerView)(
+        {renderIf(this.state.openPickerView && !this.props.deviceAndroid)(
           <View style={styles.PickerView}>
             <PickerView
               data={optionData}
@@ -179,33 +221,52 @@ class SignUpForm extends Component {
                 placeholder='Email'
                 name='email'
                 onChangeText={this.updateInput.bind(this)}
+                onBlurText={this.validationChecker.bind(this)}
                 keyboardType={'email-address'}
                 value={this.state.email}
+                valid={!this.state.error.includes('email')}
               />
             </CardSection>
             <CardSection>
               <ShapedTextInput
-                placeholder='Telephone'
+                placeholder='5xx xxx xx xx'
                 name='phone'
                 onChangeText={this.updateInput.bind(this)}
+                onBlurText={this.validationChecker.bind(this)}
                 keyboardType={'phone-pad'}
                 value={this.state.phone}
+                valid={!this.state.error.includes('phone')}
               />
             </CardSection>
             <CardSection>
               <ShapedTextInput
-                placeholder='Password'
+                placeholder='Password (at least 8 letters)'
                 name='password'
                 onChangeText={this.updateInput.bind(this)}
+                onBlurText={this.validationChecker.bind(this)}
                 secureTextEntry
                 value={this.state.password}
+                valid={!this.state.error.includes('password')}
               />
             </CardSection>
-            <PickerButton
-              data={optionData}
-              level={this.state.level}
-              togglePicker={this.togglePicker.bind(this)}
-            />
+            {renderIf(!this.props.deviceAndroid)(
+              <PickerButton
+                data={optionData}
+                level={this.state.level}
+                togglePicker={this.togglePicker.bind(this)}
+              />
+            )}
+            {renderIf(this.props.deviceAndroid)(
+              <View style={{ flex: 1, borderRadius: 10 }}>
+              <PickerView
+                data={optionData}
+                name='level'
+                deviceAndroid={this.props.deviceAndroid}
+                onChangeText={this.updateInput.bind(this)}
+                selectedValue={this.state.level}
+              />
+            </View>
+            )}
             <View style={styles.topics} >
               <View style={styles.line} />
               <Text style={styles.topicsText}>{'Choose Some Interests'}</Text>
@@ -216,6 +277,7 @@ class SignUpForm extends Component {
               name='interestsData'
               onChangeText={this.updateInput.bind(this)}
             />
+            {this.renderButton()}
           </View>
         </ScrollView>
       </Image>
@@ -239,7 +301,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   topicsText: {
-    flex: 2.5,
+    flex: 4,
     backgroundColor: 'rgba(0,0,0,0)',
     color: '#c5c4d6',
     textAlign: 'center',
@@ -291,6 +353,19 @@ const styles = StyleSheet.create({
     flex: 5,
     marginTop: 10
   },
+  SignUpButton: {
+    flex: 1,
+    borderRadius: 5,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginTop: 10,
+  },
+  SignUpButtonText: {
+    alignSelf: 'center',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 15,
+    paddingBottom: 15
+  }
 });
 
 module.exports = SignUpForm;

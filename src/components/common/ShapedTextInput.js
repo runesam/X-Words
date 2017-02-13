@@ -8,7 +8,7 @@ import {
 class ShapedTextInput extends Component {
   render() {
     return (
-      <View style={styles.view_style}>
+      <View style={[styles.view_style, !this.props.valid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
         <TextInput
           placeholder={this.props.placeholder || 'placeholder'}
           placeholderTextColor={this.props.placeholderColor || '#c5c4d6'}
@@ -19,6 +19,13 @@ class ShapedTextInput extends Component {
           keyboardType={this.props.keyboardType || 'default'}
           secureTextEntry={this.props.secureTextEntry || false}
           value={this.props.value}
+          onBlur={
+            function (text) {
+              if (this.props.onBlurText && this.props.name) {
+                  this.props.onBlurText(this.props.name, text);
+                }
+            }.bind(this)
+          }
           onChangeText={
             function (text) {
               if (this.props.onChangeText && this.props.name) {

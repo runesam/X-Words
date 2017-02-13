@@ -8,6 +8,12 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import renderIf from 'render-if';
+
+import {
+  Spinner,
+} from './';
+
 class HscrollView extends Component {
   state = {
 
@@ -17,30 +23,29 @@ class HscrollView extends Component {
   }
   WholeOptions() {
     if (this.props.data) {
-      // return this.props.data.map((data, i) =>
-      //   (
-      //     <TouchableHighlight
-      //       key={i}
-      //       style={styles.touchStyle}
-      //       onPress={this.interestsHandler.bind(this, data.id)}
-      //       underlayColor='rgba(0,0,0,0.3)'
-      //     >
-      //       <View style={styles.view_style}>
-      //         <Image
-      //           source={{ uri: data.image }}
-      //           style={[styles.imageStyle, data.active ? { opacity: 0.6 } : { opacity: 0.2 }]}
-      //         />
-      //         <Text
-      //           style={[styles.textStyle, data.active ? { color: 'white' } : { color: '#c5c4d6' }]}
-      //         >
-      //           {data.text}
-      //         </Text>
-      //       </View>
-      //     </TouchableHighlight>
-      //   )
-      // );
+      return this.props.data.map((data, i) =>
+        (
+          <TouchableHighlight
+            key={i}
+            style={styles.touchStyle}
+            onPress={this.interestsHandler.bind(this, data.id)}
+            underlayColor='rgba(0,0,0,0.3)'
+          >
+            <View style={styles.view_style}>
+              <Image
+                source={{ uri: data.image }}
+                style={[styles.imageStyle, data.active ? { opacity: 0.6 } : { opacity: 0.2 }]}
+              />
+              <Text
+                style={[styles.textStyle, data.active ? { color: 'white' } : { color: '#c5c4d6' }]}
+              >
+                {data.text}
+              </Text>
+            </View>
+          </TouchableHighlight>
+        )
+      );
     }
-    return <Text>{'love test'}</Text>;
   }
   render() {
     return (
@@ -54,13 +59,26 @@ class HscrollView extends Component {
         >
           {this.WholeOptions()}
         </ScrollView>
+        {renderIf(!this.props.data)(
+          <View style={styles.spinnerContainer}>
+            <Spinner size='small' />
+          </View>
+        )}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  spinnerContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      flexDirection: 'row',
+      position: 'absolute',
+      top: 35
+  },
   ScrollViewContainer: {
+    flex: 1,
     height: 90,
     backgroundColor: 'rgba(255,255,255,0.2)',
     borderRadius: 5,
@@ -76,7 +94,8 @@ const styles = StyleSheet.create({
   },
   touchStyle: {
     borderRadius: 5,
-    paddingBottom: 10
+    paddingBottom: 10,
+    paddingTop: 10
   },
   textStyle: {
     textAlign: 'center',

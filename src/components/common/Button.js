@@ -16,10 +16,11 @@ class Button extends Component {
   render() {
     return (
       <TouchableOpacity
-        style={styles.buttonStyle}
+        style={this.props.style ? this.props.style : styles.buttonStyle}
         onPress={this.props.onPressMe.bind(this) || null}
+        disabled={this.props.disabled ? this.props.disabled : false}
       >
-        <Text style={styles.view_text}>
+        <Text style={this.props.textStyle ? this.props.textStyle : styles.view_text}>
           {this.props.text || 'Please Inject "text"'}
         </Text>
       </TouchableOpacity>
