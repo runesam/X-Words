@@ -10,5 +10,5 @@ module.exports = {
     oldData.interestsData = newData;
     generalUtails.storageSetItem(signupDataKey, oldData);
     return newData;
-  }
+  },
 };

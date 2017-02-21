@@ -49,7 +49,7 @@ class HscrollView extends Component {
   }
   render() {
     return (
-      <View style={styles.ScrollViewContainer}>
+      <View style={[styles.ScrollViewContainer, this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}

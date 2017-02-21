@@ -18,7 +18,7 @@ class PickerView extends Component {
   }
   render() {
     return (
-      <View style={{ flex: 1, borderRadius: 5, backgroundColor: 'rgba(255,255,255,0.2)' }}>
+      <View style={[styles.container, this.props.deviceAndroid && this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
         <Picker
           style={this.props.deviceAndroid ?
                   [styles.androidMainPicker, this.props.selectedValue === 0 ?
@@ -68,6 +68,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     marginLeft: 10
+  },
+  container: {
+    flex: 1,
+    borderRadius: 5,
+    backgroundColor: 'rgba(255,255,255,0.2)'
   },
   pickerItem: {
     color: 'white'

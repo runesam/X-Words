@@ -8,7 +8,7 @@ import {
 class ShapedTextInput extends Component {
   render() {
     return (
-      <View style={[styles.view_style, !this.props.valid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
+      <View style={[styles.view_style, this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
         <TextInput
           placeholder={this.props.placeholder || 'placeholder'}
           placeholderTextColor={this.props.placeholderColor || '#c5c4d6'}

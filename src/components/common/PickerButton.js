@@ -26,7 +26,7 @@ class PickerButton extends Component {
       <View style={styles.view_style}>
         <TouchableHighlight
           underlayColor="#ffffff"
-          style={styles.pickerValueContainer}
+          style={[styles.pickerValueContainer, this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null]}
           onPress={this.props.togglePicker.bind(this)}
         >
           <Text
