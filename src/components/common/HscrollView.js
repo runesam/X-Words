@@ -7,9 +7,8 @@ import {
   Text,
   TouchableHighlight
 } from 'react-native';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import renderIf from 'render-if';
-
 import {
   Spinner,
 } from './';
@@ -50,6 +49,9 @@ class HscrollView extends Component {
   render() {
     return (
       <View style={[styles.ScrollViewContainer, this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
+        <View style={styles.leftArrow}>
+          <Icon name='angle-left' size={30} color='white' />
+        </View>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -59,6 +61,9 @@ class HscrollView extends Component {
         >
           {this.WholeOptions()}
         </ScrollView>
+        <View style={styles.rightArrow}>
+          <Icon name='angle-right' size={30} color='white' />
+        </View>
         {renderIf(!this.props.data)(
           <View style={styles.spinnerContainer}>
             <Spinner size='small' />
@@ -71,22 +76,34 @@ class HscrollView extends Component {
 
 const styles = StyleSheet.create({
   spinnerContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      flexDirection: 'row',
-      position: 'absolute',
-      top: 35
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 35
   },
   ScrollViewContainer: {
-    flex: 1,
     height: 90,
     backgroundColor: 'rgba(255,255,255,0.2)',
+    flexDirection: 'row',
     borderRadius: 5,
     marginTop: 10,
+  },
+  leftArrow: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    width: 20
   },
   ScrollView: {
     justifyContent: 'center',
     flexDirection: 'row',
+  },
+  rightArrow: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    width: 20
   },
   view_style: {
     flex: 1,

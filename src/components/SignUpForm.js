@@ -12,7 +12,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import renderIf from 'render-if';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Button,
   CardSection,
@@ -277,10 +277,15 @@ class SignUpForm extends Component {
           <View style={styles.flexOne}>
             <View style={styles.lineHelp} />
             <View style={styles.textHelpContainer}>
-              <Icon name='ios-bug' size={30} color='white' />
               <Text style={styles.textHelp}>
                 {'Having troubles please call us on'}
               </Text>
+              <View style={styles.phoneContainer}>
+                <Icon name='phone-square' size={30} color='white' />
+                <Text style={styles.phoneContainerText}>
+                  {'0 (212) 988 - 19 88'}
+                </Text>
+              </View>
             </View>
           </View>
         </Image>
@@ -403,6 +408,17 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingTop: 15,
     paddingBottom: 15
+  },
+  phoneContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  phoneContainerText: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
+    paddingLeft: 10
   }
 });
 
