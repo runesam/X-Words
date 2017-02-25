@@ -11,7 +11,7 @@ const App = require('./src/app');
 class manager extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container}> 
           <App deviceAndroid />
       </View>
     );
