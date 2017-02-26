@@ -3,14 +3,15 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  Image,
-  Text,
-  TouchableHighlight
+  // Image,
+  // Text,
+  // TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import renderIf from 'render-if';
 import {
   Spinner,
+  Interest
 } from './';
 
 class HscrollView extends Component {
@@ -18,40 +19,24 @@ class HscrollView extends Component {
 
   }
   interestsHandler(data) {
+    console.log(data);
     this.props.onChangeText(this.props.name, data);
   }
   WholeOptions() {
     if (this.props.data) {
       return this.props.data.map((data, i) =>
-        (
-          <TouchableHighlight
-            key={i}
-            style={styles.touchStyle}
-            onPress={this.interestsHandler.bind(this, data.id)}
-            underlayColor='rgba(0,0,0,0.3)'
-          >
-            <View style={styles.view_style}>
-              <Image
-                source={{ uri: data.image }}
-                style={[styles.imageStyle, data.active ? { opacity: 0.6 } : { opacity: 0.2 }]}
-              />
-              <Text
-                style={[styles.textStyle, data.active ? { color: 'white' } : { color: '#c5c4d6' }]}
-              >
-                {data.text}
-              </Text>
-            </View>
-          </TouchableHighlight>
-        )
+        <Interest key={i} data={data} interestsHandler={this.interestsHandler.bind(this, data.id)} />
       );
     }
   }
   render() {
     return (
-      <View style={[styles.ScrollViewContainer, this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
-        <View style={styles.leftArrow}>
-          <Icon name='angle-left' size={30} color='white' />
-        </View>
+      <View style={[styles.ScrollViewContainer, this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null, this.props.data ? { flexDirection: 'row' } : null]}>
+        {renderIf(this.props.data)(
+          <View style={styles.leftArrow}>
+            <Icon name='angle-left' size={30} color='white' />
+          </View>
+        )}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -61,12 +46,14 @@ class HscrollView extends Component {
         >
           {this.WholeOptions()}
         </ScrollView>
-        <View style={styles.rightArrow}>
-          <Icon name='angle-right' size={30} color='white' />
-        </View>
         {renderIf(!this.props.data)(
           <View style={styles.spinnerContainer}>
             <Spinner size='small' />
+          </View>
+        )}
+        {renderIf(this.props.data)(
+          <View style={styles.rightArrow}>
+            <Icon name='angle-right' size={30} color='white' />
           </View>
         )}
       </View>
@@ -85,7 +72,6 @@ const styles = StyleSheet.create({
   ScrollViewContainer: {
     height: 90,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    flexDirection: 'row',
     borderRadius: 5,
     marginTop: 10,
   },
@@ -93,6 +79,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.2)',
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
     width: 20
   },
   ScrollView: {
@@ -103,6 +91,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.2)',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
     width: 20
   },
   view_style: {

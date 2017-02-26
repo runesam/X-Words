@@ -23,11 +23,13 @@ import {
   HscrollView
 } from './common/';
 import generalUtils from '../utils/generalUtils';
-import signUpUtils from '../utils/signUpUtils';
+// import signUpUtils from '../utils/signUpUtils';
 import optionData from './json/levelOptionData.json';
 import interestsDataOrigin from './json/interestsData.json';
 
 const _ = require('lodash');
+
+let newData;
 
 let counter = 0;
 class SignUpForm extends Component {
@@ -37,6 +39,7 @@ class SignUpForm extends Component {
     level: 0,
     openPickerView: false,
     interestsData: '',
+    newInterests: '',
     error: ['email', 'phone', 'level', 'interestsData'],
     submitted: false
   }
@@ -54,10 +57,14 @@ class SignUpForm extends Component {
   }
   onPressMe() {
     this.setState({ submitted: true });
+    Object.keys(this.state).forEach((key) => {
+      this.validationChecker(key);
+    });
     setTimeout(() => {
       Object.keys(this.state).forEach((key) => {
         const value = this.state[key];
         console.log(`${key} : ${value}`);
+        console.log(this.state.interestsData)
       });
     });
     // firebase.auth().signInWithEmailAndPassword(this.state.Email, this.state.PassWord)
@@ -70,7 +77,18 @@ class SignUpForm extends Component {
     //   }
     // );
   }
+  ComponentDidUpdate() {
+    console.log(123)
+    this.setState({
+      interestsData: newData
+    });
+    Object.keys(this.state).forEach((key) => {
+      this.validationChecker(key);
+    });
+  }
   updateInput(type, value) {
+    newData = this.state.interestsData;
+    let saveTimer = null;
     switch (type) {
       case 'email':
       case 'phone':
@@ -80,15 +98,16 @@ class SignUpForm extends Component {
         this.setState({ [type]: value });
         break;
       case 'interestsData':
-        this.setState({
-          interestsData: signUpUtils.updateInterestsData(this.state.interestsData, value, 'active')
-        });
+        newData[value].active = !newData[value].active;
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+          // signUpUtils.updateInterestsData(this.state.interestsData, value, 'active');
+
+        }, 1000);
+
         break;
       default:
     }
-    setTimeout(() => {
-      this.validationChecker(type);
-    });
   }
   alertRender() {
     if (this.props.error && counter === 1 && !this.props.user) {
@@ -162,6 +181,7 @@ class SignUpForm extends Component {
     } else {
       this.setState({ valid: false });
     }
+    console.log(this.state.error);
   }
   renderButton() {
     if (this.props.loading) {
