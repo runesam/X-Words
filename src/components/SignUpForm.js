@@ -64,7 +64,7 @@ class SignUpForm extends Component {
       Object.keys(this.state).forEach((key) => {
         const value = this.state[key];
         console.log(`${key} : ${value}`);
-        console.log(this.state.interestsData)
+        console.log(this.state.interestsData);
       });
     });
     // firebase.auth().signInWithEmailAndPassword(this.state.Email, this.state.PassWord)
@@ -78,7 +78,7 @@ class SignUpForm extends Component {
     // );
   }
   ComponentDidUpdate() {
-    console.log(123)
+    console.log(123);
     this.setState({
       interestsData: newData
     });

@@ -6,6 +6,7 @@ import {
   Image,
   LayoutAnimation
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 import Button from 'react-native-button';
 import { Actions } from 'react-native-router-flux';
@@ -14,7 +15,7 @@ import renderIf from 'render-if';
 import {
   // Header,
   // Button,
-  // Card,
+  Spinner,
 } from './common/';
 import data from './json/sliderData.json';
 
@@ -39,7 +40,9 @@ class Slider extends Component {
     return data.map((single, i) =>
       (
         <View key={i} style={this.state.routing === null ? { flex: 1 } : { flex: 1, opacity: 0 }}>
-          <Image source={{ uri: single.img }} style={styles.sliderImage} />
+          <Image source={{ uri: single.img }} style={styles.sliderImage}>
+            <Spinner size='large' style={styles.spinnerStyle} />
+          </Image>
             {/* <Image source={logo} style={styles.logoImage} /> */}
             <View style={styles.textWrapper}>
               {renderIf(!single.last)(
@@ -51,10 +54,9 @@ class Slider extends Component {
               <View style={styles.textWrapper}>
                 <Button
                   containerStyle={styles.buttonRounded}
-                  style={{ fontSize: 40, color: 'white' }}
                   onPress={() => this.onPress()}
                 >
-                  ✓
+                  <Icon name='arrow-circle-right' size={50} color='black' />
                 </Button>
               </View>
             )}
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     // fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 20,
+    // marginTop: 20,
     paddingLeft: 10,
     paddingRight: 10
   },
@@ -114,15 +116,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   buttonRounded: {
-    marginTop: 20,
-    paddingTop: 25,
+    marginTop: 10,
+    // paddingTop: 25,
     height: 50,
     width: 50,
     overflow: 'hidden',
     borderRadius: 200,
-    backgroundColor: '#00b4ff',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  spinnerStyle: {
+    flex: 1,
+    justifyContent: 'center'
   }
 });
 module.exports = Slider;

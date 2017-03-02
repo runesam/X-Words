@@ -19,7 +19,6 @@ class RouterComponent extends Component {
           title="Sign Up"
           hideNavBar
           sceneStyle={styles.view_style}
-          initial
           deviceAndroid={this.props.deviceAndroid}
         />
         <Scene
