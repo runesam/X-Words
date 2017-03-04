@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Image,
-  LayoutAnimation
+  // LayoutAnimation
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
@@ -21,18 +21,17 @@ import data from './json/sliderData.json';
 
 class Slider extends Component {
   state = {
-    routing: null
+    routing: null,
+    loading: false
   }
   componentWillMount() {
 
   }
   onPress() {
-    LayoutAnimation.spring();
-    // this.setState({ routing: true });
-    // setTimeout(() => {
-      Actions.signup();
-    // }, 10);
+    // LayoutAnimation.spring();
+    this.setState({ loading: true });
     setTimeout(() => {
+      Actions.signup();
       this.setState({ routing: null });
     }, 500);
   }
@@ -41,7 +40,7 @@ class Slider extends Component {
       (
         <View key={i} style={this.state.routing === null ? { flex: 1 } : { flex: 1, opacity: 0 }}>
           <Image source={{ uri: single.img }} style={styles.sliderImage}>
-            <Spinner size='large' style={styles.spinnerStyle} />
+            <Spinner size='large' style={[styles.spinnerStyle, this.state.loading ? { opacity: 1 } : { opacity: 0 }]} />
           </Image>
             {/* <Image source={logo} style={styles.logoImage} /> */}
             <View style={styles.textWrapper}>
@@ -51,15 +50,15 @@ class Slider extends Component {
                 </Text>
               )}
               {renderIf(single.last)(
-              <View style={styles.textWrapper}>
-                <Button
-                  containerStyle={styles.buttonRounded}
-                  onPress={() => this.onPress()}
-                >
-                  <Icon name='arrow-circle-right' size={50} color='black' />
-                </Button>
-              </View>
-            )}
+                <View style={styles.textWrapper}>
+                  <Button
+                    containerStyle={styles.buttonRounded}
+                    onPress={() => this.onPress()}
+                  >
+                    <Icon name='arrow-circle-right' size={50} color='black' />
+                  </Button>
+                </View>
+              )}
             </View>
         </View>
       )
@@ -73,6 +72,7 @@ class Slider extends Component {
         prevButton={<Text style={styles.arrows}>‹</Text>}
         loop={false}
         bounces
+        paginationStyle={styles.paginationStyle}
       >
       {this.WholeViews()}
       </Swiper>
@@ -80,11 +80,15 @@ class Slider extends Component {
   }
 }
 const styles = StyleSheet.create({
+  paginationStyle: {
+    position: 'absolute',
+    bottom: 40
+  },
   singleView: {
     flex: 1
   },
   sliderImage: {
-    flex: 4,
+    flex: 3,
     justifyContent: 'flex-end',
     // alignItems: 'center',
     width: null,

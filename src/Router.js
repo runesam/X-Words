@@ -5,12 +5,22 @@ import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
 import EmployeeList from './components/EmployeeList';
 import Slider from './components/Slider';
+import Interests from './components/Interests';
 
 class RouterComponent extends Component {
   render() {
     return (
       <Router>
         <Scene key="slider" component={Slider} hideNavBar initial />
+        <Scene
+          key="interests"
+          component={Interests}
+          hideNavBar
+          sceneStyle={styles.view_style}
+          deviceAndroid={this.props.deviceAndroid}
+          initial
+          lang={this.props.lang}
+        />
         <Scene
           key="signup"
           backTitle="back"

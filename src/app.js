@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+// import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
 import {
 StyleSheet,
@@ -18,19 +18,21 @@ import {
 // import LoginForm from './components/LoginForm';
 import Router from './Router';
 // import LibraryList from './components/LibraryList';
+import lang from './components/json/lang_en.json';
 
 class App extends Component {
   state = {
-    store: createStore(reducers, {}, applyMiddleware(ReduxThunk))
+    store: createStore(reducers, {}, applyMiddleware(ReduxThunk)),
+    lang
   }
   componentWillMount() {
-    const config = {
-      apiKey: 'AIzaSyDWIqk__XudJoxv8dEu1VpE8TdByVFUUKM',
-      authDomain: 'manager-7edd8.firebaseapp.com',
-      databaseURL: 'https://manager-7edd8.firebaseio.com',
-      storageBucket: 'manager-7edd8.appspot.com',
-      messagingSenderId: '111479488991'
-    };
+    // const config = {
+    //   apiKey: 'AIzaSyDWIqk__XudJoxv8dEu1VpE8TdByVFUUKM',
+    //   authDomain: 'manager-7edd8.firebaseapp.com',
+    //   databaseURL: 'https://manager-7edd8.firebaseio.com',
+    //   storageBucket: 'manager-7edd8.appspot.com',
+    //   messagingSenderId: '111479488991'
+    // };
     // firebase.initializeApp(config);
   }
   componentDidMount() {
@@ -40,7 +42,7 @@ class App extends Component {
     return (
       <Provider store={this.state.store}>
         <View style={styles.view_style}>
-          <Router deviceAndroid={this.props.deviceAndroid} />
+          <Router deviceAndroid={this.props.deviceAndroid} lang={this.state.lang} />
         </View>
       </Provider>
     );

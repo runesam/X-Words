@@ -2,6 +2,7 @@
   "extends" : "rallycoding",
   "rules": {
     "max-len": "off",
-    "no-useless-escape": "off"
+    "no-useless-escape": "off",
+    "no-multi-comp": "off"
     }
 }
