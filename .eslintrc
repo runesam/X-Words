@@ -3,6 +3,6 @@
   "rules": {
     "max-len": "off",
     "no-useless-escape": "off",
-    "no-multi-comp": "off"
+    "react/no-multi-comp": "off"
     }
 }
