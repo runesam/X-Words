@@ -17,7 +17,7 @@ import {
   // Button,
   Spinner,
 } from './common/';
-import data from './json/sliderData.json';
+import data from '../json/sliderData.json';
 
 class Slider extends Component {
   state = {

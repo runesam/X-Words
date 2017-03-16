@@ -17,35 +17,34 @@ import {
   Button,
   // CardSection,
   // ShapedTextInput,
-  Spinner,
+  // Spinner,
   // PickerView,
   // PickerButton,
   // HscrollView
 } from './common/';
 import generalUtils from '../utils/generalUtils';
-import interestsDataOrigin from '../json/interestsData.json';
+import levelOptionDataOrigin from '../json/levelOptionData.json';
 
 const _ = require('lodash');
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-const Interest = class Interest extends Component {
+const Level = class Interest extends Component {
   state = {
-    active: this.props.data.active
+
   }
   onPressMe() {
-    this.props.updateData(this.props.data.id, !this.state.active);
-    this.setState({ active: !this.state.active });
+    this.props.updateData(this.props.data.id);
   }
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.onPressMe.bind(this)}>
         <View style={styles.itemContainer}>
-          {renderIf(this.state.active)(
+          {renderIf(this.props.data.active)(
             <Icon name='check' size={20} color={'white'} />
           )}
-          <Text style={[styles.itemText, this.state.active ? { color: 'white' } : { color: '#c5c4d6' }]}>
-            {this.props.data.name_english}
+          <Text style={[styles.itemText, this.props.data.active ? { color: 'white' } : { color: '#c5c4d6' }]}>
+            {this.props.data.text}
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -53,21 +52,15 @@ const Interest = class Interest extends Component {
   }
 };
 
-class Interests extends Component {
+class Levels extends Component {
   state = {
-    dataSource: null,
-    interestsStorage: interestsDataOrigin,
-    Interests: [],
+    dataSource: ds.cloneWithRows(levelOptionDataOrigin),
+    levelsStorage: levelOptionDataOrigin,
+    Levels: [],
+    reRender: true
   }
   componentWillMount() {
-    generalUtils.getDataFromApi('interests')
-      .then(data => {
-        this.setState({ dataSource: ds.cloneWithRows(data) });
-        console.log(data);
-
-        console.log(JSON.parse(JSON.stringify(data)));
-      })
-      .catch(reason => console.log(reason));
+    generalUtils.getDataFromApi('interests');
   }
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
@@ -76,35 +69,34 @@ class Interests extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
   onPressMe() {
-    const interestsApi = [];
-    this.state.Interests.map((value) =>
-      interestsApi.push(_.filter(interestsDataOrigin, (o) => o.id === value)[0])
-    );
+    const levelsApi = _.filter(levelOptionDataOrigin, (o) => o.id === this.state.selectedLevel)[0];
     setTimeout(() => {
-      console.log(interestsApi);
+      console.log(levelsApi);
     }, 10);
   }
   handleAppStateChange() {
 
   }
-  updateData(data, state) {
-    const temp = this.state.Interests;
-    if (state) {
-      temp.push(data);
-    } else {
-      _.remove(temp, (n) =>
-        n === data
-      );
-    }
-    const tempVar = interestsDataOrigin;
-    _.forEach(temp, (value) => {
-      tempVar[value].active = true;
+  updateData(data) {
+    const temp = levelOptionDataOrigin;
+    console.log(data);
+    Object.keys(temp).forEach((key) => {
+      console.log(key);
+      if (parseInt(key, 10) !== data) {
+        temp[key].active = false;
+      } else {
+        temp[data].active = true;
+      }
     });
-    generalUtils.storageSetItem('interestsData', tempVar);
+    console.log(temp);
+    this.setState({
+      selectedLevel: data,
+      dataSource: ds.cloneWithRows(temp),
+    });
   }
   renderRow() {
     return (data) =>
-      <Interest data={data} updateData={this.updateData.bind(this)} />
+      <Level data={data} updateData={this.updateData.bind(this)} />
     ;
   }
   render() {
@@ -112,25 +104,22 @@ class Interests extends Component {
       <View style={styles.mainContainer}>
         <View style={{ flex: 1 }}>
           <Text style={styles.headerText}>
-            {this.props.lang.text.interests_text}
+            {this.props.lang.text.levels_text}
           </Text>
         </View>
         <View style={{ flex: 10 }}>
           <ScrollView style={styles.itemsContainer} showsVerticalScrollIndicator={false}>
-            {renderIf(this.state.dataSource)(
-              <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow()}
-              />
-            )}
-            <Spinner size='large' style={styles.spinnerStyle} />
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={this.renderRow()}
+            />
           </ScrollView>
         </View>
         <View style={styles.bottonView}>
           <Button
             text={this.props.lang.title.continue}
-            style={styles.InterestsButton}
-            textStyle={styles.InterestsButtonText}
+            style={styles.LevelsButton}
+            textStyle={[styles.LevelsButtonText, this.state.valid ? { color: '#ff0050' } : { color: '#c5c4d6' }]}
             // disabled={!this.state.valid}
             onPressMe={this.onPressMe.bind(this)}
           />
@@ -175,12 +164,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  InterestsButton: {
+  LevelsButton: {
     borderRadius: 20,
     backgroundColor: 'white',
     width: 120
   },
-  InterestsButtonText: {
+  LevelsButtonText: {
     alignSelf: 'center',
     fontSize: 16,
     fontWeight: '600',
@@ -189,10 +178,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5
   },
-  spinnerStyle: {
-    flex: 1,
-    justifyContent: 'center'
-  }
 });
 
-module.exports = Interests;
+module.exports = Levels;

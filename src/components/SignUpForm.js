@@ -24,8 +24,8 @@ import {
 } from './common/';
 import generalUtils from '../utils/generalUtils';
 // import signUpUtils from '../utils/signUpUtils';
-import optionData from './json/levelOptionData.json';
-import interestsDataOrigin from './json/interestsData.json';
+import optionData from '../json/levelOptionData.json';
+import interestsDataOrigin from '../json/interestsData.json';
 
 const _ = require('lodash');
 

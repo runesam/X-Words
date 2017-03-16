@@ -18,7 +18,7 @@ import {
 // import LoginForm from './components/LoginForm';
 import Router from './Router';
 // import LibraryList from './components/LibraryList';
-import lang from './components/json/lang_en.json';
+import lang from './json/lang_en.json';
 
 class App extends Component {
   state = {

@@ -1,0 +1,27 @@
+[
+  {
+    "id": 0,
+    "text": "level_0",
+    "active": true
+  },
+  {
+    "id": 1,
+    "text": "level_1",
+    "active": false
+  },
+  {
+    "id": 2,
+    "text": "level_2",
+    "active": false
+  },
+  {
+    "id": 3,
+    "text": "level_3",
+    "active": false
+  },
+  {
+    "id": 4,
+    "text": "level_4",
+    "active": false
+  }
+]
