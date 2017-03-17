@@ -2,9 +2,12 @@
   "title": {
     "continue": "Continue",
     "interests_title": "interests",
+    "error": "Error",
+    "ok": "OK"
   },
   "text": {
     "interests_text": "Scroll and choose your interests",
-    "levels_text": "Select your English level"
+    "levels_text": "Select your English level",
+    "error_interests_validation": "You must select at least 3 interests"
   }
 }

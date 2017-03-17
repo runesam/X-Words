@@ -13,17 +13,18 @@ import {
 } from 'react-native';
 import renderIf from 'render-if';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Actions } from 'react-native-router-flux';
 import {
   Button,
   // CardSection,
   // ShapedTextInput,
-  // Spinner,
+  Spinner,
   // PickerView,
   // PickerButton,
   // HscrollView
 } from './common/';
 import generalUtils from '../utils/generalUtils';
-import levelOptionDataOrigin from '../json/levelOptionData.json';
+// import levelOptionDataOrigin from '../json/levelOptionData.json';
 
 const _ = require('lodash');
 
@@ -34,7 +35,7 @@ const Level = class Interest extends Component {
 
   }
   onPressMe() {
-    this.props.updateData(this.props.data.id);
+    this.props.updateData(parseInt(this.props.data.level_id, 10));
   }
   render() {
     return (
@@ -44,7 +45,7 @@ const Level = class Interest extends Component {
             <Icon name='check' size={20} color={'white'} />
           )}
           <Text style={[styles.itemText, this.props.data.active ? { color: 'white' } : { color: '#c5c4d6' }]}>
-            {this.props.data.text}
+            {this.props.data.level_name}
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -54,13 +55,23 @@ const Level = class Interest extends Component {
 
 class Levels extends Component {
   state = {
-    dataSource: ds.cloneWithRows(levelOptionDataOrigin),
-    levelsStorage: levelOptionDataOrigin,
-    Levels: [],
-    reRender: true
+    dataSource: ds.cloneWithRows([]),
+    levelsStorage: null,
+    Levels: null,
+    selectedLevel: null,
+    dataCame: false
   }
   componentWillMount() {
-    generalUtils.getDataFromApi('interests');
+    generalUtils.getDataFromApi('levels')
+      .then(data => {
+        const filterLevels = _.filter(data, (o) => o.active === true);
+        const tempLevels = [];
+        filterLevels.map((value) =>
+          tempLevels.push(parseInt(value.level_id, 10))
+        );
+        this.setState({ dataSource: ds.cloneWithRows(data), dataCame: true, levelsStorage: data, Levels: tempLevels });
+      })
+      .catch(reason => console.log(reason));
   }
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
@@ -69,29 +80,29 @@ class Levels extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
   onPressMe() {
-    const levelsApi = _.filter(levelOptionDataOrigin, (o) => o.id === this.state.selectedLevel)[0];
-    setTimeout(() => {
-      console.log(levelsApi);
-    }, 10);
+    generalUtils.storageSetItem('levelOptionData', this.state.selectedLevel);
+    generalUtils.storageGetItem('levelOptionData').then((data) => console.log(data));
+    Actions.signup();
   }
   handleAppStateChange() {
 
   }
   updateData(data) {
-    const temp = levelOptionDataOrigin;
-    console.log(data);
-    Object.keys(temp).forEach((key) => {
-      console.log(key);
-      if (parseInt(key, 10) !== data) {
-        temp[key].active = false;
+    this.setState({ dataCame: false });
+    const temp = this.state.levelsStorage;
+    this.state.levelsStorage.map((value) => {
+      const key = _.findIndex(temp, (o) => parseInt(o.level_id, 10) === parseInt(value.level_id, 10));
+      if (parseInt(value.level_id, 10) === data) {
+        temp[key].active = true;
       } else {
-        temp[data].active = true;
+        temp[key].active = false;
       }
+      return false;
     });
-    console.log(temp);
     this.setState({
       selectedLevel: data,
       dataSource: ds.cloneWithRows(temp),
+      dataCame: true
     });
   }
   renderRow() {
@@ -109,18 +120,22 @@ class Levels extends Component {
         </View>
         <View style={{ flex: 10 }}>
           <ScrollView style={styles.itemsContainer} showsVerticalScrollIndicator={false}>
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={this.renderRow()}
-            />
+            {renderIf(this.state.dataCame)(
+              <ListView
+                dataSource={this.state.dataSource}
+                renderRow={this.renderRow()}
+              />
+            )}
+            {renderIf(!this.state.dataCame)(
+              <Spinner size='large' style={styles.spinnerStyle} />
+            )}
           </ScrollView>
         </View>
         <View style={styles.bottonView}>
           <Button
             text={this.props.lang.title.continue}
             style={styles.LevelsButton}
-            textStyle={[styles.LevelsButtonText, this.state.valid ? { color: '#ff0050' } : { color: '#c5c4d6' }]}
-            // disabled={!this.state.valid}
+            textStyle={styles.LevelsButtonText}
             onPressMe={this.onPressMe.bind(this)}
           />
         </View>
@@ -173,6 +188,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 16,
     fontWeight: '600',
+    color: '#ff0050',
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 5,

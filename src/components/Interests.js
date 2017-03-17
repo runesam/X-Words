@@ -5,7 +5,7 @@ import {
   ListView,
   View,
   Text,
-  // Alert,
+  Alert,
   // StatusBar,
   AppState,
   ScrollView,
@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import renderIf from 'render-if';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Actions } from 'react-native-router-flux';
 import {
   Button,
   // CardSection,
@@ -23,7 +24,7 @@ import {
   // HscrollView
 } from './common/';
 import generalUtils from '../utils/generalUtils';
-import interestsDataOrigin from '../json/interestsData.json';
+// import interestsDataOrigin from '../json/interestsData.json';
 
 const _ = require('lodash');
 
@@ -34,7 +35,7 @@ const Interest = class Interest extends Component {
     active: this.props.data.active
   }
   onPressMe() {
-    this.props.updateData(this.props.data.id, !this.state.active);
+    this.props.updateData(parseInt(this.props.data.interest_id, 10), !this.state.active);
     this.setState({ active: !this.state.active });
   }
   render() {
@@ -55,17 +56,21 @@ const Interest = class Interest extends Component {
 
 class Interests extends Component {
   state = {
-    dataSource: null,
-    interestsStorage: interestsDataOrigin,
+    dataSource: ds.cloneWithRows([]),
+    interestsStorage: null,
     Interests: [],
+    dataCame: false
   }
   componentWillMount() {
     generalUtils.getDataFromApi('interests')
       .then(data => {
-        this.setState({ dataSource: ds.cloneWithRows(data) });
-        console.log(data);
-
-        console.log(JSON.parse(JSON.stringify(data)));
+        const filterInterests = _.filter(data, (o) => o.active === true);
+        const tempInterests = [];
+        filterInterests.map((value) =>
+          tempInterests.push(parseInt(value.interest_id, 10))
+        );
+        this.setState({ dataSource: ds.cloneWithRows(data), dataCame: true, interestsStorage: data, Interests: tempInterests });
+        console.log(this.state.Interests);
       })
       .catch(reason => console.log(reason));
   }
@@ -76,13 +81,13 @@ class Interests extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
   onPressMe() {
-    const interestsApi = [];
-    this.state.Interests.map((value) =>
-      interestsApi.push(_.filter(interestsDataOrigin, (o) => o.id === value)[0])
-    );
-    setTimeout(() => {
-      console.log(interestsApi);
-    }, 10);
+    if (this.state.Interests.length < 3) {
+      Alert.alert(this.props.lang.title.error, this.props.lang.text.error_interests_validation, [{ text: this.props.lang.title.ok }]);
+    } else {
+      generalUtils.storageSetItem('interestsData', this.state.Interests);
+      generalUtils.storageGetItem('interestsData').then((data) => console.log(data));
+      Actions.levels();
+    }
   }
   handleAppStateChange() {
 
@@ -96,11 +101,6 @@ class Interests extends Component {
         n === data
       );
     }
-    const tempVar = interestsDataOrigin;
-    _.forEach(temp, (value) => {
-      tempVar[value].active = true;
-    });
-    generalUtils.storageSetItem('interestsData', tempVar);
   }
   renderRow() {
     return (data) =>
@@ -117,13 +117,15 @@ class Interests extends Component {
         </View>
         <View style={{ flex: 10 }}>
           <ScrollView style={styles.itemsContainer} showsVerticalScrollIndicator={false}>
-            {renderIf(this.state.dataSource)(
+            {renderIf(this.state.dataCame)(
               <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this.renderRow()}
               />
             )}
-            <Spinner size='large' style={styles.spinnerStyle} />
+            {renderIf(!this.state.dataCame)(
+              <Spinner size='large' style={styles.spinnerStyle} />
+            )}
           </ScrollView>
         </View>
         <View style={styles.bottonView}>
@@ -131,7 +133,6 @@ class Interests extends Component {
             text={this.props.lang.title.continue}
             style={styles.InterestsButton}
             textStyle={styles.InterestsButtonText}
-            // disabled={!this.state.valid}
             onPressMe={this.onPressMe.bind(this)}
           />
         </View>
@@ -183,6 +184,7 @@ const styles = StyleSheet.create({
   InterestsButtonText: {
     alignSelf: 'center',
     fontSize: 16,
+    color: '#ff0050',
     fontWeight: '600',
     paddingLeft: 10,
     paddingRight: 10,
