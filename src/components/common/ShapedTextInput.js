@@ -38,7 +38,7 @@ class ShapedTextInput extends Component {
           />
         {renderIf(this.props.icon)(
           <View style={styles.icon_container}>
-            <Icon name={this.props.icon || 'bath'} size={30} color='white' />
+            <Icon name={this.props.icon[0] || 'bath'} size={this.props.icon[1]} color='white' />
           </View>
         )}
       </View>

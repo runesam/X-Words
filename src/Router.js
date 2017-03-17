@@ -20,6 +20,7 @@ class RouterComponent extends Component {
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
           lang={this.props.lang}
+          initial
         />
         <Scene
           key='levels'
@@ -39,7 +40,6 @@ class RouterComponent extends Component {
           hideNavBar
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
-          initial
         />
         <Scene
           key='login'
