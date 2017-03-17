@@ -34,6 +34,7 @@ class RouterComponent extends Component {
           backTitle='back'
           navigationBarStyle={styles.navigationBarStyle}
           component={SignUpForm}
+          lang={this.props.lang}
           title='Sign Up'
           hideNavBar
           sceneStyle={styles.view_style}

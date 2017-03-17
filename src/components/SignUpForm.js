@@ -5,55 +5,34 @@ import {
   Text,
   View,
   Image,
-  Alert,
+  // Alert,
   StatusBar,
   Keyboard,
   ScrollView,
   TouchableWithoutFeedback
 } from 'react-native';
-import renderIf from 'render-if';
+// import renderIf from 'render-if';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Button,
   CardSection,
   ShapedTextInput,
   Spinner,
-  PickerView,
-  PickerButton,
-  HscrollView
 } from './common/';
 import generalUtils from '../utils/generalUtils';
-// import signUpUtils from '../utils/signUpUtils';
-import optionData from '../json/levelOptionData.json';
-import interestsDataOrigin from '../json/interestsData.json';
 
 const _ = require('lodash');
 
-let newData;
-
-let counter = 0;
 class SignUpForm extends Component {
   state= {
+    name: null,
+    phone: null,
     email: null,
-    phone: '',
-    level: 0,
-    openPickerView: false,
-    interestsData: '',
-    newInterests: '',
     error: ['email', 'phone', 'level', 'interestsData'],
     submitted: false
   }
   componentWillMount() {
-    generalUtils.storageGetAllItems();
-    generalUtils.storageGetItem('signupData').done((response) => {
-      if (response) {
-        this.setState({ interestsData: response.interestsData });
-        this.validationChecker('interestsData');
-      } else {
-        this.setState({ interestsData: interestsDataOrigin });
-        generalUtils.storageSetItem('signupData', { interestsData: this.state.interestsData });
-      }
-    });
+
   }
   onPressMe() {
     this.setState({ submitted: true });
@@ -78,56 +57,16 @@ class SignUpForm extends Component {
     // );
   }
   ComponentDidUpdate() {
-    console.log(123);
-    this.setState({
-      interestsData: newData
-    });
-    Object.keys(this.state).forEach((key) => {
-      this.validationChecker(key);
-    });
+
   }
   updateInput(type, value) {
-    newData = this.state.interestsData;
-    let saveTimer = null;
     switch (type) {
-      case 'email':
+      case 'name':
       case 'phone':
+      case 'email':
         this.setState({ [type]: value });
-        break;
-      case 'level':
-        this.setState({ [type]: value });
-        break;
-      case 'interestsData':
-        newData[value].active = !newData[value].active;
-        clearTimeout(saveTimer);
-        saveTimer = setTimeout(() => {
-          // signUpUtils.updateInterestsData(this.state.interestsData, value, 'active');
-
-        }, 1000);
-
         break;
       default:
-    }
-  }
-  alertRender() {
-    if (this.props.error && counter === 1 && !this.props.user) {
-      counter++;
-      Alert.alert(
-        this.props.error.code,
-        this.props.error.message,
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ]
-      );
-    } else if (this.props.user && counter === 1 && !this.props.error) {
-      counter++;
-      Alert.alert(
-        'Success',
-        'Logged In Successfully',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ]
-      );
     }
   }
   togglePicker() {
@@ -189,9 +128,9 @@ class SignUpForm extends Component {
     }
     return (
       <Button
-        text={'Sign Up'}
+        text={this.props.lang.title.start_test}
         style={styles.SignUpButton}
-        textStyle={[styles.SignUpButtonText, this.state.valid ? { color: 'white' } : { color: '#c5c4d6' }]}
+        textStyle={styles.SignUpButtonText}
         // disabled={!this.state.valid}
         onPressMe={this.onPressMe.bind(this)}
       />
@@ -205,95 +144,63 @@ class SignUpForm extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss.bind(this)}>
-        <Image source={{ uri: 'user_auth' }} style={styles.userAuth}>
+        <View style={styles.userAuth}>
           <StatusBar barStyle='light-content' />
-          {renderIf(this.state.openPickerView && !this.props.deviceAndroid)(
-            <View style={styles.PickerView}>
-              <PickerView
-                data={optionData}
-                name='level'
-                togglePicker={this.togglePicker.bind(this)}
-                onChangeText={this.updateInput.bind(this)}
-              />
-            </View>
-          )}
           <ScrollView style={{ flex: 7 }} showsVerticalScrollIndicator={false}>
             <View style={styles.FlexI}>
               <View style={{ flex: 1 }}>
                 <Image source={{ uri: 'logo_white' }} style={styles.logo} />
               </View>
               <View style={{ flex: 2, paddingLeft: 10 }}>
-                <Text style={styles.textI}>{'Register'}</Text>
+                <Text style={styles.textI}>{this.props.lang.title.register}</Text>
                 <Text style={styles.textII}>
-                  {'Register to get our free offers and more ways to approve your English'}
+                  {this.props.lang.text.signup_text_I}
                 </Text>
               </View>
             </View>
             <View style={styles.FlexII}>
               <CardSection>
                 <ShapedTextInput
-                  placeholder='Email'
-                  name='email'
+                  placeholder={this.props.lang.title.placeholder_name}
+                  placeholderColor={'white'}
+                  name='name'
                   onChangeText={this.updateInput.bind(this)}
-                  keyboardType={'email-address'}
-                  value={this.state.email}
-                  inValid={this.state.error.includes('email') && this.state.submitted}
+                  keyboardType={'default'}
+                  value={this.state.name}
+                  icon={['user', 30]}
+                  inValid={this.state.error.includes('name') && this.state.submitted}
                 />
               </CardSection>
               <CardSection>
                 <ShapedTextInput
-                  placeholder='5xx xxx xx xx'
+                  placeholder={this.props.lang.title.placeholder_phone}
+                  placeholderColor={'white'}
                   name='phone'
                   onChangeText={this.updateInput.bind(this)}
                   keyboardType={'phone-pad'}
                   value={this.state.phone}
+                  icon={['mobile', 40]}
                   inValid={this.state.error.includes('phone') && this.state.submitted}
                 />
               </CardSection>
-              {/* <CardSection>
+              <CardSection>
                 <ShapedTextInput
-                  placeholder='Password (at least 8 letters)'
-                  name='password'
+                  placeholder={this.props.lang.title.placeholder_email}
+                  placeholderColor={'white'}
+                  name='email'
                   onChangeText={this.updateInput.bind(this)}
-                  secureTextEntry
-                  value={this.state.password}
-                  inValid={!this.state.error.includes('password') && !this.state.submitted}
+                  keyboardType={'email-address'}
+                  value={this.state.email}
+                  icon={['mobile', 40]}
+                  inValid={this.state.error.includes('email') && this.state.submitted}
                 />
-              </CardSection> */}
-              {renderIf(!this.props.deviceAndroid)(
-                <PickerButton
-                  data={optionData}
-                  level={this.state.level}
-                  togglePicker={this.togglePicker.bind(this)}
-                  inValid={this.state.error.includes('level') && this.state.submitted}
-                />
-              )}
-              {renderIf(this.props.deviceAndroid)(
-                <View style={{ flex: 1, borderRadius: 10 }}>
-                <PickerView
-                  data={optionData}
-                  name='level'
-                  deviceAndroid={this.props.deviceAndroid}
-                  onChangeText={this.updateInput.bind(this)}
-                  selectedValue={this.state.level}
-                  inValid={this.state.error.includes('level') && this.state.submitted}
-                />
-              </View>
-              )}
-              <View style={styles.topics} >
-                <View style={styles.line} />
-                <Text style={styles.topicsText}>{'Choose Some Interests'}</Text>
-                <View style={styles.line} />
-              </View>
-              <HscrollView
-                data={this.state.interestsData}
-                name='interestsData'
-                onChangeText={this.updateInput.bind(this)}
-                inValid={this.state.error.includes('interestsData') && this.state.submitted}
-              />
-              {this.renderButton()}
+              </CardSection>
+              <Text style={styles.textII}>
+                {this.props.lang.text.signup_text_II}
+              </Text>
             </View>
           </ScrollView>
+          {this.renderButton()}
           <View style={styles.flexOne}>
             <View style={styles.lineHelp} />
             <View style={styles.textHelpContainer}>
@@ -308,7 +215,7 @@ class SignUpForm extends Component {
               </View>
             </View>
           </View>
-        </Image>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -395,6 +302,7 @@ const styles = StyleSheet.create({
   userAuth: {
     flex: 1,
     padding: 30,
+    backgroundColor: '#FF2C55',
     paddingBottom: 100,
     width: null,
     height: null,
@@ -417,13 +325,13 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   SignUpButton: {
-    flex: 1,
     borderRadius: 5,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,1)',
     marginTop: 10,
   },
   SignUpButtonText: {
     alignSelf: 'center',
+    color: '#FF2C55',
     fontSize: 16,
     fontWeight: '600',
     paddingTop: 15,
