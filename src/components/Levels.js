@@ -41,7 +41,7 @@ const Level = class Interest extends Component {
     return (
       <TouchableWithoutFeedback onPress={this.onPressMe.bind(this)}>
         <View style={styles.itemContainer}>
-          <Icon name='check' size={20} color={this.state.active ? 'white' : '#ff0050'} />
+          <Icon name='check' size={20} color={this.props.data.active ? 'white' : '#ff0050'} />
           <Text style={[styles.itemText, this.props.data.active ? { color: 'white' } : { color: '#c5c4d6' }]}>
             {this.props.data.level_name}
           </Text>
