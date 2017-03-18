@@ -31,7 +31,7 @@ class Slider extends Component {
     // LayoutAnimation.spring();
     this.setState({ loading: true });
     setTimeout(() => {
-      Actions.signup();
+      Actions.interests();
       this.setState({ routing: null });
     }, 500);
   }

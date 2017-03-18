@@ -12,7 +12,7 @@ class RouterComponent extends Component {
   render() {
     return (
       <Router>
-        <Scene key='slider' component={Slider} hideNavBar />
+        <Scene key='slider' component={Slider} hideNavBar initial />
         <Scene
           key='interests'
           component={Interests}
@@ -20,7 +20,7 @@ class RouterComponent extends Component {
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
           lang={this.props.lang}
-          initial
+
         />
         <Scene
           key='levels'

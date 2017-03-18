@@ -45,7 +45,7 @@ module.exports = {
     }
   },
   getDataFromApi: async (uri, data) => {
-    const URL = `http://10wordsapp.com/AgknHajKK/api/application/${uri}.php`;
+    const URL = `https://10wordsapp.com/AgknHajKK/api/application/${uri}.php`;
     try {
       const response = await fetch(URL, data || null);
       const responseJson = await response.json();

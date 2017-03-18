@@ -42,9 +42,7 @@ const Interest = class Interest extends Component {
     return (
       <TouchableWithoutFeedback onPress={this.onPressMe.bind(this)}>
         <View style={styles.itemContainer}>
-          {renderIf(this.state.active)(
-            <Icon name='check' size={20} color={'white'} />
-          )}
+          <Icon name='check' size={20} color={this.state.active ? 'white' : '#ff0050'} />
           <Text style={[styles.itemText, this.state.active ? { color: 'white' } : { color: '#c5c4d6' }]}>
             {this.props.data.name_english}
           </Text>
@@ -168,6 +166,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     paddingLeft: 10,
+    paddingRight: 15,
     fontWeight: '900',
     fontSize: 16,
   },
