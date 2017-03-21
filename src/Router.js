@@ -6,14 +6,11 @@ import SignUpForm from './components/SignUpForm';
 import EmployeeList from './components/EmployeeList';
 import Slider from './components/Slider';
 import Interests from './components/Interests';
-<<<<<<< HEAD
 import ListItem from './components/ListItem';
 import template from './components/template';
 import template0 from './components/template0';
-=======
 import Levels from './components/Levels';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
->>>>>>> 85c7d9ec2213b3869f898e3738b1ce54e98116de
 
 class RouterComponent extends Component {
   render() {
