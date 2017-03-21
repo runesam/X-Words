@@ -44,6 +44,32 @@ module.exports = {
       console.log(error);
     }
   },
+  getDataFromApi: async (uri, data) => {
+    const URL = `https://10wordsapp.com/AgknHajKK/api/application/${uri}.php`;
+    try {
+      const response = await fetch(URL, data || null);
+      const responseJson = await response.json();
+      return responseJson;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  setDataFromApi: async (uri, data) => {
+    const URL = `https://10wordsapp.com/AgknHajKK/api/application/${uri}.php`;
+    return fetch(URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then((response) => {
+      const responseJson = response.json();
+      return responseJson;
+    })
+    .catch((reason) => console.log(reason));
+  },
   validateEmail: (email) => {
     const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     console.log(reg.test(email));

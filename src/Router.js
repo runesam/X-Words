@@ -6,17 +6,28 @@ import SignUpForm from './components/SignUpForm';
 import EmployeeList from './components/EmployeeList';
 import Slider from './components/Slider';
 import Interests from './components/Interests';
+<<<<<<< HEAD
 import ListItem from './components/ListItem';
 import template from './components/template';
 import template0 from './components/template0';
+=======
+import Levels from './components/Levels';
+import testWithPhotos from './components/testWithPhotos/testWithPhotos';
+>>>>>>> 85c7d9ec2213b3869f898e3738b1ce54e98116de
 
 class RouterComponent extends Component {
   render() {
     return (
       <Router>
-        <Scene key="slider" component={Slider} hideNavBar initial />
         <Scene
-          key="interests"
+          key='slider'
+          component={Slider}
+          deviceAndroid={this.props.deviceAndroid}
+          lang={this.props.lang}
+          hideNavBar
+        />
+        <Scene
+          key='interests'
           component={Interests}
           hideNavBar
           sceneStyle={styles.view_style}
@@ -24,28 +35,51 @@ class RouterComponent extends Component {
           lang={this.props.lang}
         />
         <Scene
-          key="signup"
-          backTitle="back"
+          key='levels'
+          component={Levels}
+          hideNavBar
+          sceneStyle={styles.view_style}
+          deviceAndroid={this.props.deviceAndroid}
+          lang={this.props.lang}
+        />
+        <Scene
+          key='signup'
+          backTitle='back'
           navigationBarStyle={styles.navigationBarStyle}
           component={SignUpForm}
-          title="Sign Up"
+          lang={this.props.lang}
+          api={this.props.api}
+          title='Sign Up'
           hideNavBar
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
         />
         <Scene
-          key="login"
+          key='testWithPhotos'
+          backTitle='back'
+          navigationBarStyle={styles.navigationBarStyle}
+          component={testWithPhotos}
+          lang={this.props.lang}
+          api={this.props.api}
+          title='Test With Photos'
+          hideNavBar
+          sceneStyle={styles.view_style}
+          deviceAndroid={this.props.deviceAndroid}
+          initial
+        />
+        <Scene
+          key='login'
           component={LoginForm}
-          title="Please Login"
+          title='Please Login'
           hideNavBar={false}
           sceneStyle={styles.view_style}
           titleStyle={styles.titleStyle}
         />
         <Scene
-          key="employeelist"
+          key='employeelist'
           component={EmployeeList}
           hideNavBar={false}
-          title="Employees"
+          title='Employees'
           sceneStyle={styles.view_style}
         />
         <Scene

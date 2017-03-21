@@ -18,12 +18,14 @@ import {
 // import LoginForm from './components/LoginForm';
 import Router from './Router';
 // import LibraryList from './components/LibraryList';
-import lang from './components/json/lang_en.json';
+import lang from './json/lang_en.json';
+import api from './json/apiKeys.json';
 
 class App extends Component {
   state = {
     store: createStore(reducers, {}, applyMiddleware(ReduxThunk)),
-    lang
+    lang,
+    api
   }
   componentWillMount() {
     // const config = {
@@ -42,7 +44,7 @@ class App extends Component {
     return (
       <Provider store={this.state.store}>
         <View style={styles.view_style}>
-          <Router deviceAndroid={this.props.deviceAndroid} lang={this.state.lang} />
+          <Router deviceAndroid={this.props.deviceAndroid} lang={this.state.lang} api={this.state.api} />
         </View>
       </Provider>
     );

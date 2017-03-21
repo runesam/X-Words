@@ -5,7 +5,7 @@ import {
   ListView,
   View,
   Text,
-  // Alert,
+  Alert,
   // StatusBar,
   AppState,
   ScrollView,
@@ -13,17 +13,18 @@ import {
 } from 'react-native';
 import renderIf from 'render-if';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Actions } from 'react-native-router-flux';
 import {
   Button,
   // CardSection,
   // ShapedTextInput,
-  // Spinner,
+  Spinner,
   // PickerView,
   // PickerButton,
   // HscrollView
 } from './common/';
 import generalUtils from '../utils/generalUtils';
-import interestsDataOrigin from './json/interestsData.json';
+// import interestsDataOrigin from '../json/interestsData.json';
 
 const _ = require('lodash');
 
@@ -34,18 +35,16 @@ const Interest = class Interest extends Component {
     active: this.props.data.active
   }
   onPressMe() {
-    this.props.updateData(this.props.data.id, !this.state.active);
+    this.props.updateData(parseInt(this.props.data.interest_id, 10), !this.state.active);
     this.setState({ active: !this.state.active });
   }
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.onPressMe.bind(this)}>
         <View style={styles.itemContainer}>
-          {renderIf(this.state.active)(
-            <Icon name='check' size={20} color={'white'} />
-          )}
+          <Icon name='check' size={20} color={this.state.active ? 'white' : '#ff0050'} />
           <Text style={[styles.itemText, this.state.active ? { color: 'white' } : { color: '#c5c4d6' }]}>
-            {this.props.data.text}
+            {this.props.data.name_english}
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -55,19 +54,23 @@ const Interest = class Interest extends Component {
 
 class Interests extends Component {
   state = {
-    dataSource: ds.cloneWithRows(interestsDataOrigin),
-    interestsStorage: interestsDataOrigin,
+    dataSource: ds.cloneWithRows([]),
+    interestsStorage: null,
     Interests: [],
+    dataCame: false
   }
   componentWillMount() {
-    generalUtils.storageGetItem('interestsData').done((response) => {
-      if (response) {
-        console.log(this.state.dataSource);
-        this.setState({ dataSource: ds.cloneWithRows(response) });
-      } else {
-        this.setState({ dataSource: ds.cloneWithRows(interestsDataOrigin) });
-      }
-    });
+    generalUtils.getDataFromApi('interests')
+      .then(data => {
+        const filterInterests = _.filter(data, (o) => o.active === true);
+        const tempInterests = [];
+        filterInterests.map((value) =>
+          tempInterests.push(parseInt(value.interest_id, 10))
+        );
+        this.setState({ dataSource: ds.cloneWithRows(data), dataCame: true, interestsStorage: data, Interests: tempInterests });
+        console.log(this.state.Interests);
+      })
+      .catch(reason => console.log(reason));
   }
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
@@ -76,13 +79,13 @@ class Interests extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
   onPressMe() {
-    const interestsApi = [];
-    this.state.Interests.map((value) =>
-      interestsApi.push(_.filter(interestsDataOrigin, (o) => o.id === value)[0])
-    );
-    setTimeout(() => {
-      console.log(interestsApi);
-    }, 10);
+    if (this.state.Interests.length < 3) {
+      Alert.alert(this.props.lang.title.error, this.props.lang.text.error_interests_validation, [{ text: this.props.lang.title.ok }]);
+    } else {
+      generalUtils.storageSetItem('interestsData', this.state.Interests);
+      generalUtils.storageGetItem('interestsData').then((data) => console.log(data));
+      Actions.levels();
+    }
   }
   handleAppStateChange() {
 
@@ -96,11 +99,6 @@ class Interests extends Component {
         n === data
       );
     }
-    const tempVar = interestsDataOrigin;
-    _.forEach(temp, (value) => {
-      tempVar[value].active = true;
-    });
-    generalUtils.storageSetItem('interestsData', tempVar);
   }
   renderRow() {
     return (data) =>
@@ -117,18 +115,22 @@ class Interests extends Component {
         </View>
         <View style={{ flex: 10 }}>
           <ScrollView style={styles.itemsContainer} showsVerticalScrollIndicator={false}>
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={this.renderRow()}
-            />
+            {renderIf(this.state.dataCame)(
+              <ListView
+                dataSource={this.state.dataSource}
+                renderRow={this.renderRow()}
+              />
+            )}
+            {renderIf(!this.state.dataCame)(
+              <Spinner size='large' style={styles.spinnerStyle} />
+            )}
           </ScrollView>
         </View>
         <View style={styles.bottonView}>
           <Button
             text={this.props.lang.title.continue}
             style={styles.InterestsButton}
-            textStyle={[styles.InterestsButtonText, this.state.valid ? { color: '#ff0050' } : { color: '#c5c4d6' }]}
-            // disabled={!this.state.valid}
+            textStyle={styles.InterestsButtonText}
             onPressMe={this.onPressMe.bind(this)}
           />
         </View>
@@ -160,9 +162,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 10,
     paddingTop: 10,
+    marginRight: 10
   },
   itemText: {
     paddingLeft: 10,
+    paddingRight: 15,
     fontWeight: '900',
     fontSize: 16,
   },
@@ -179,12 +183,17 @@ const styles = StyleSheet.create({
   InterestsButtonText: {
     alignSelf: 'center',
     fontSize: 16,
+    color: '#ff0050',
     fontWeight: '600',
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 5,
     paddingBottom: 5
   },
+  spinnerStyle: {
+    flex: 1,
+    justifyContent: 'center'
+  }
 });
 
 module.exports = Interests;
