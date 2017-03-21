@@ -6,6 +6,9 @@ import SignUpForm from './components/SignUpForm';
 import EmployeeList from './components/EmployeeList';
 import Slider from './components/Slider';
 import Interests from './components/Interests';
+import ListItem from './components/ListItem';
+import template from './components/template';
+import template0 from './components/template0';
 
 class RouterComponent extends Component {
   render() {
@@ -18,7 +21,6 @@ class RouterComponent extends Component {
           hideNavBar
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
-          initial
           lang={this.props.lang}
         />
         <Scene
@@ -44,6 +46,28 @@ class RouterComponent extends Component {
           component={EmployeeList}
           hideNavBar={false}
           title="Employees"
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="listitem"
+          component={ListItem}
+          hideNavBar={false}
+          title="ListItem"
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="template"
+          component={template}
+          hideNavBar
+          title="template"
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="template0"
+          component={template0}
+          hideNavBar
+          title="template0 "
+          initial
           sceneStyle={styles.view_style}
         />
       </Router>

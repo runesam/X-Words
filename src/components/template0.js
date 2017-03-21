@@ -10,7 +10,9 @@ import {
   // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
-import Footer from './footer';
+import Header from './header';
+import Footer2 from './footer2';
+import LearnWithPhoto from './LearnWithPhoto';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -24,7 +26,6 @@ import {
 } from './common/';
 // import generalUtils from '../utils/generalUtils';
 // const _ = require('lodash');
-
 class template extends Component {
   state= {
 
@@ -40,12 +41,11 @@ class template extends Component {
   }
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <View style={{ flex: 10.5 }} />
-          <View style={{ flex: 1.5 }} >
-              <Footer number='10' current='4' />
-          </View>
-      </View>
+      <View style={{ backgroundColor: '#f8f7f7', flex: 1, flexDirection: 'column' }}>
+      <Header headerText={'8/10'} />
+      <LearnWithPhoto wordId={'5'} />
+      <Footer2 icon='2' />
+    </View>
     );
   }
 }
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1
   }
+
 });
 
 module.exports = template;
