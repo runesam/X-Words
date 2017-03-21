@@ -9,13 +9,19 @@
     "start_test": "Start Test",
     "placeholder_name": "Your Name",
     "placeholder_email": "Email",
-    "placeholder_phone": "Telephone"
+    "placeholder_phone": "Telephone",
+    "placeholder_password": "Password"
   },
   "text": {
     "interests_text": "Scroll and choose your interests",
     "levels_text": "Select your English level",
     "error_interests_validation": "You must select at least 3 interests",
     "signup_text_I": "Resgister to get our free offers and more ways to approve your English",
-    "signup_text_II": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+    "signup_text_II": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+    "nameError": "Please enter a valid name and surname",
+    "phoneError": "Please enter a valid phone number",
+    "emailError": "Please enter a valid E-mail",
+    "passwordError": "Password must be at least 6 characters",
+    "which_photo": "Which photo refers to"
   }
 }

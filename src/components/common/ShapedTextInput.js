@@ -37,7 +37,7 @@ class ShapedTextInput extends Component {
             }
           />
         {renderIf(this.props.icon)(
-          <View style={styles.icon_container}>
+          <View style={[styles.icon_container, { top: this.props.icon[2] }, { left: this.props.icon[3] }]}>
             <Icon name={this.props.icon[0] || 'bath'} size={this.props.icon[1]} color='white' />
           </View>
         )}
@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
   },
   icon_container: {
     position: 'absolute',
-    top: 10,
-    left: 20
   }
 });
 

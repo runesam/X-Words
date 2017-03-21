@@ -7,12 +7,19 @@ import EmployeeList from './components/EmployeeList';
 import Slider from './components/Slider';
 import Interests from './components/Interests';
 import Levels from './components/Levels';
+import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 
 class RouterComponent extends Component {
   render() {
     return (
       <Router>
-        <Scene key='slider' component={Slider} hideNavBar initial />
+        <Scene
+          key='slider'
+          component={Slider}
+          deviceAndroid={this.props.deviceAndroid}
+          lang={this.props.lang}
+          hideNavBar
+        />
         <Scene
           key='interests'
           component={Interests}
@@ -20,7 +27,6 @@ class RouterComponent extends Component {
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
           lang={this.props.lang}
-
         />
         <Scene
           key='levels'
@@ -36,10 +42,24 @@ class RouterComponent extends Component {
           navigationBarStyle={styles.navigationBarStyle}
           component={SignUpForm}
           lang={this.props.lang}
+          api={this.props.api}
           title='Sign Up'
           hideNavBar
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
+        />
+        <Scene
+          key='testWithPhotos'
+          backTitle='back'
+          navigationBarStyle={styles.navigationBarStyle}
+          component={testWithPhotos}
+          lang={this.props.lang}
+          api={this.props.api}
+          title='Test With Photos'
+          hideNavBar
+          sceneStyle={styles.view_style}
+          deviceAndroid={this.props.deviceAndroid}
+          initial
         />
         <Scene
           key='login'
