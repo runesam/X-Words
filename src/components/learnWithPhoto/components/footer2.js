@@ -5,22 +5,22 @@ const onButtonPress = () => {
 };
 const Footer2 = (props) => {
   const { textStyle, viewStyle } = styles;
-var data1=require('../img/icon10.png');
-var data2=require('../img/icon20.png');
-var data3=require('../img/icon30.png');
-var data4=require('../img/icon40.png');
+var data1=require('../../../img/icon10.png');
+var data2=require('../../../img/icon20.png');
+var data3=require('../../../img/icon30.png');
+var data4=require('../../../img/icon40.png');
 var xox=props.icon;
   if( xox == '1' ){
-    data1= require('../img/icon11.png');
+    data1= require('../../../img/icon11.png');
   }
   if( xox == '2'){
-    data2 =require('../img/icon21.png');
+    data2 =require('../../../img/icon21.png');
   }
   if( xox == '3'){
-    data3 =require('../img/icon31.png');
+    data3 =require('../../../img/icon31.png');
   }
   if( xox == '4'){
-    data4 =require('../img/icon41.png');
+    data4 =require('../../../img/icon41.png');
   }
   return (
     <View style={viewStyle}>

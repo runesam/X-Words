@@ -10,23 +10,14 @@ import {
   // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
-import Header from './header';
-import Footer2 from './footer2';
-import LearnWithPhoto from './LearnWithPhoto';
+import Header from './components/header';
+import Footer2 from './components/footer2';
+import LearnWithPhoto from './components/LearnWithPhoto';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-import {
-  // Button,
-  // CardSection,
-  // ShapedTextInput,
-  // Spinner,
-  // PickerView,
-  // PickerButton,
-  // HscrollView
-} from './common/';
 // import generalUtils from '../utils/generalUtils';
 // const _ = require('lodash');
-class template extends Component {
+class LearnWithPhotoHolder extends Component {
   state= {
 
   }
@@ -57,4 +48,4 @@ const styles = StyleSheet.create({
 
 });
 
-module.exports = template;
+module.exports = LearnWithPhotoHolder;

@@ -8,7 +8,8 @@ import Slider from './components/Slider';
 import Interests from './components/Interests';
 import ListItem from './components/ListItem';
 import template from './components/template';
-import template0 from './components/template0';
+import FooterWithNumberHolder from './components/footerWithNumber/footerWithNumberHolder';
+import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import Levels from './components/Levels';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 
@@ -87,18 +88,18 @@ class RouterComponent extends Component {
           sceneStyle={styles.view_style}
         />
         <Scene
-          key="template"
-          component={template}
+          key="LearnWithPhotoHolder"
+          component={LearnWithPhotoHolder}
           hideNavBar
-          title="template"
+          title="LearnWithPhotoHolder "
+          initial
           sceneStyle={styles.view_style}
         />
         <Scene
-          key="template0"
-          component={template0}
+          key="FooterWithNumberHolder"
+          component={FooterWithNumberHolder}
           hideNavBar
-          title="template0 "
-          initial
+          title="FooterWithNumberHolder "
           sceneStyle={styles.view_style}
         />
       </Router>

@@ -10,7 +10,6 @@ import {
   // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
-import Footer from './footer';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -41,10 +40,6 @@ class template extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View style={{ flex: 10.5 }} />
-          <View style={{ flex: 1.5 }} >
-              <Footer number='10' current='4' />
-          </View>
       </View>
     );
   }

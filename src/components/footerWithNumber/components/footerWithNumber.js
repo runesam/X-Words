@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Dimensions } from 'react-native';
 
-class Footer extends Component {
+class FooterWithNumber extends Component {
 
   componentWillMount() {
     this.state = {
@@ -102,4 +102,4 @@ if (i > this.props.current) {
   }
 
 }
-export default Footer;
+export default FooterWithNumber;

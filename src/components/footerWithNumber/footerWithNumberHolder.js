@@ -10,22 +10,13 @@ import {
   // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
-import Footer from './footer';
+import FooterWithNumber from './components/footerWithNumber';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-import {
-  // Button,
-  // CardSection,
-  // ShapedTextInput,
-  // Spinner,
-  // PickerView,
-  // PickerButton,
-  // HscrollView
-} from './common/';
 // import generalUtils from '../utils/generalUtils';
 // const _ = require('lodash');
 
-class template extends Component {
+class FooterWithNumberHolder extends Component {
   state= {
 
   }
@@ -43,7 +34,7 @@ class template extends Component {
       <View style={styles.mainContainer}>
         <View style={{ flex: 10.5 }} />
           <View style={{ flex: 1.5 }} >
-              <Footer number='10' current='4' />
+              <FooterWithNumber number='5' current='1' />
           </View>
       </View>
     );
@@ -56,4 +47,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = template;
+module.exports = FooterWithNumberHolder;
