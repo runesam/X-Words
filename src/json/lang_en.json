@@ -10,7 +10,8 @@
     "placeholder_name": "Your Name",
     "placeholder_email": "Email",
     "placeholder_phone": "Telephone",
-    "placeholder_password": "Password"
+    "placeholder_password": "Password",
+    "submit": "Submit"
   },
   "text": {
     "interests_text": "Scroll and choose your interests",

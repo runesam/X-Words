@@ -24,6 +24,7 @@ import {
   // HscrollView
 } from '../common/';
 import TestI from './components/testI';
+import FooterWithNumber from './../footerWithNumber/components/footerWithNumber';
 import generalUtils from './../../utils/generalUtils';
 // const _ = require('lodash');
 
@@ -73,9 +74,7 @@ class component extends Component {
           )}
         </View>
         <View style={styles.footerContainer}>
-          <Text>
-            {'test'}
-          </Text>
+          <FooterWithNumber number='5' current='1' />
         </View>
       </View>
     );
@@ -104,6 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E6E6E6'
   },
   footerContainer: {
+    backgroundColor: '#E6E6E6',
     flex: 1.5
   }
 });
