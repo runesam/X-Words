@@ -7,6 +7,7 @@ import Slider from './components/Slider';
 import Interests from './components/Interests';
 import FooterWithNumberHolder from './components/footerWithNumber/footerWithNumberHolder';
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
+import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import Levels from './components/Levels';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 
@@ -60,7 +61,6 @@ class RouterComponent extends Component {
           hideNavBar
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
-          initial
         />
         <Scene
           key='login'
@@ -75,6 +75,14 @@ class RouterComponent extends Component {
           component={LearnWithPhotoHolder}
           hideNavBar
           title="LearnWithPhotoHolder "
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="LearnWithoutHolder"
+          component={LearnWithoutHolder}
+          hideNavBar
+          title="LearnWithoutHolder "
+          initial
           sceneStyle={styles.view_style}
         />
         <Scene
