@@ -10,6 +10,8 @@ import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHold
 import Levels from './components/Levels';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import PurchaseHolder from './components/purchase/purchaseHolder';
+import HomePageHolder from './components/homePage/homePageHolder';
+import ChooseWordsHolder from './components/chooseWords/chooseWordsHolder';
 
 class RouterComponent extends Component {
   render() {
@@ -61,7 +63,6 @@ class RouterComponent extends Component {
           hideNavBar
           sceneStyle={styles.view_style}
           deviceAndroid={this.props.deviceAndroid}
-          initial
         />
         <Scene
           key='login'
@@ -87,10 +88,29 @@ class RouterComponent extends Component {
           sceneStyle={styles.view_style}
         />
         <Scene
+<<<<<<< HEAD
+=======
+          key="HomePageHolder"
+          lang={this.props.lang}
+          component={HomePageHolder}
+          hideNavBar
+          title="HomePageHolder "
+          initial
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+>>>>>>> 307f7317471c465f78b32fcb75f5e0230d3899ab
           key="FooterWithNumberHolder"
           component={FooterWithNumberHolder}
           hideNavBar
           title="FooterWithNumberHolder "
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="ChooseWordsHolder"
+          component={ChooseWordsHolder}
+          hideNavBar
+          title="ChooseWordsHolder "
           sceneStyle={styles.view_style}
         />
       </Router>
