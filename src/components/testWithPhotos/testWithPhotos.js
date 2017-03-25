@@ -30,8 +30,8 @@ import generalUtils from './../../utils/generalUtils';
 
 class component extends Component {
   state= {
-    header: '1/4',
-    page: 1,
+    header: null,
+    page: 2,
     testIData: null
   }
   componentWillMount() {
@@ -40,7 +40,10 @@ class component extends Component {
       data.level_id = 4;
       generalUtils.setDataFromApi(this.props.api.getTestByLevel, data)
       .then(res => {
-        this.setState({ testIData: res });
+        this.setState({
+          testIData: res,
+          header: `${this.state.page}/${res.length}`
+        });
         console.log(res);
       })
       .catch(reason => console.log(reason));
@@ -55,7 +58,7 @@ class component extends Component {
   renderRowTestView() {
     if (this.state.testIData) {
       return (
-        <TestI data={this.state.testIData[0]} lang={this.props.lang} />
+        <TestI data={this.state.testIData[this.state.page - 1]} lang={this.props.lang} />
       );
     }
   }
@@ -69,12 +72,10 @@ class component extends Component {
           </Text>
         </View>
         <View style={styles.rowContainer}>
-          {renderIf(this.state.page === 1)(
-            this.renderRowTestView()
-          )}
+          {this.renderRowTestView()}
         </View>
         <View style={styles.footerContainer}>
-          <FooterWithNumber number='5' current='1' />
+          <FooterWithNumber number={this.state.testIData ? this.state.testIData.length : null} current={this.state.page} />
         </View>
       </View>
     );

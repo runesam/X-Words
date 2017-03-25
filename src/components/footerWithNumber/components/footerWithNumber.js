@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import { Text, View, Dimensions } from 'react-native';
 
 class FooterWithNumber extends Component {
+  state = {
+    view2LayoutProps: Dimensions.get('window').height / 27
 
-  componentWillMount() {
-    this.state = {
-      view2LayoutProps: Dimensions.get('window').height / 27,
-      view2Layoutwidth: Dimensions.get('window').width / this.props.number,
-    };
-    }
-    findDimesions(layout) {
-       const { x, y, width, height } = layout;
-       this.setState({ view2LayoutProps: height });
-     }
+  }
+  findDimesions(layout) {
+    const { height } = layout;
+     this.setState({ view2LayoutProps: height });
+   }
     render() {
     const styles = {
      grayBarContainer: {
@@ -59,7 +56,7 @@ class FooterWithNumber extends Component {
        bottom: 0,
        left: 0,
        height: this.state.view2LayoutProps / 1.9,
-       width: this.state.view2Layoutwidth,
+       width: Dimensions.get('window').width / this.props.number,
        backgroundColor: '#4f4f4f'
      },
      downBarRed: {
@@ -67,7 +64,7 @@ class FooterWithNumber extends Component {
        bottom: 0,
        left: 0,
        height: this.state.view2LayoutProps / 1.9,
-       width: this.state.view2Layoutwidth,
+       width: Dimensions.get('window').width / this.props.number,
        backgroundColor: '#e84040'
      }
    };
