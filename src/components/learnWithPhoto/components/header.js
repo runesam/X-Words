@@ -14,7 +14,7 @@ const styles = {
   viewStyle: {
     backgroundColor: '#00cccc',
     alignItems: 'center',
-    flex: 1.5,
+    flex: 1.2,
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

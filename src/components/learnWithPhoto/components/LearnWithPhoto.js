@@ -4,7 +4,7 @@ const onButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
 const LearnWithPhoto = (props) => {
-const exampleText = 'I bought New Shoes from the shoppi mall and I like it but did u learn what to do';
+const exampleText = 'I bought New Shoes from the shoppi mall';
 const englishWord = 'extra ordinary';
 const turkishWord = 'Ailde new da';
 const grammerExplaination = ' but did u learn what to doI bought New Shoes from the shoppi mall and I like it but did u learn what to do';
@@ -13,30 +13,27 @@ const grammerExplaination = ' but did u learn what to doI bought New Shoes from 
     <ScrollView style={{ backgroundColor: '#f2fcfd' }}>
     <View style={styles.outerContainer}>
       <View style={styles.translateHolder}>
-        <View style={styles.translateWorder2}>
-            <Image source={require('../../../img/show1.png')}  style={styles.imageStyle} />
-        </View>
-
         <View style={styles.translateWorder}>
         <Text style={styles.wordEnglish}>{englishWord}</Text>
         <Text style={styles.wordTurkish}>{turkishWord}</Text>
-        <View style={styles.soundHolder}>
+      </View>
+      </View>
+      <View style={styles.translateWorder2}>
+        <View style={styles.abImageHolder}>
           <TouchableHighlight onPress={onButtonPress}>
             <Image source={require('../../../img/sound.png')} style={styles.abImage} />
         </TouchableHighlight>
-
           </View>
-      </View>
-      </View>
-      <View style={styles.exampleSentence}>
-      <View style={styles.sentenceHolder}>
-        <TouchableHighlight onPress={onButtonPress}>
-          <Image source={require('../../../img/sound.png')} style={styles.exampleSoundImage} />
-      </TouchableHighlight>
-      <Text style={styles.sentence}>{exampleText}</Text>
-      </View>
-      </View>
-
+            <Image source={require('../../../img/show1.png')}  style={styles.imageStyle} />
+        </View>
+        <View style={styles.exampleSentence}>
+        <View style={styles.sentenceHolder}>
+          <TouchableHighlight onPress={onButtonPress}>
+            <Image source={require('../../../img/sound.png')} style={styles.exampleSoundImage} />
+        </TouchableHighlight>
+        <Text style={styles.sentence}>{exampleText}</Text>
+        </View>
+        </View>
       <View style={styles.explainHolder}>
 <Text style={styles.explain}>{grammerExplaination}</Text>
 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
@@ -79,7 +76,7 @@ const grammerExplaination = ' but did u learn what to doI bought New Shoes from 
               position: 'absolute',
               height: 70,
               width: 70,
-              top: 50,
+              top: 60,
               right: 0,
             },
             abImage: {
@@ -118,15 +115,19 @@ const grammerExplaination = ' but did u learn what to doI bought New Shoes from 
               height: 50
             },
             translateWorder2: {
-              flexDirection: 'column',
               flex: 2,
               paddingTop: 15,
               paddingLeft: 5,
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              alignSelf: 'stretch'
             },
             translateWorder: {
               flexDirection: 'column',
               flex: 3,
-              paddingTop: 15,
+              paddingTop: 10,
+              alignItems: 'center'
             },
             wordEnglish: {
               fontSize: 30,
