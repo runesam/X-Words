@@ -16,7 +16,7 @@ class Spinner extends Component {
   render() {
     return (
       <View style={this.props.style ? this.props.style : styles.view_style} >
-        <ActivityIndicator color={this.props.color ? this.props.color : 'white'} size={this.props.size || 'large'} style={styles.spinner} />
+        <ActivityIndicator color={this.props.colors ? this.props.colors : 'black'} size={this.props.size || 'large'} style={styles.spinner} />
       </View>
     );
   }

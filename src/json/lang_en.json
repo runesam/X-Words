@@ -4,6 +4,7 @@
     "interests_title": "interests",
     "error": "Error",
     "ok": "OK",
+    "congrats" : "Congratulations",
     "start_test": " -------------------------------------- SignUpForm -------------------------------------------",
     "register": "Register",
     "start_test": "Start Test",
@@ -11,7 +12,11 @@
     "placeholder_email": "Email",
     "placeholder_phone": "Telephone",
     "placeholder_password": "Password",
-    "submit": "Submit"
+    "submit": "Submit",
+
+    "offer" : "Only 19 TRY",
+    "buy_now": "Buy Now!",
+    "phone": "0 (212) 988 - 19 88"
   },
   "text": {
     "interests_text": "Scroll and choose your interests",
@@ -23,6 +28,10 @@
     "phoneError": "Please enter a valid phone number",
     "emailError": "Please enter a valid E-mail",
     "passwordError": "Password must be at least 6 characters",
-    "which_photo": "Which photo refers to"
+    "which_photo": "Which photo refers to",
+    "congrats_text": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
+    "cancel_time": "You can cancel anytime",
+    "more_info": "More info and offers click to call",
+    "trouble": "Having troubles please call us on"
   }
 }

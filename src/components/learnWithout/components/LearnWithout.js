@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, View, Image, Button, Alert, TextInput, ScrollView, TouchableHighlight} from 'react-native';
+import { Text, View, Image, Alert, ScrollView, TouchableHighlight } from 'react-native';
+
 const onButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
-const LearnWithPhoto = (props) => {
+const LearnWithout = (props) => {
 const exampleText = 'I bought New Shoes from the shoppi mall';
 const englishWord = 'extra ordinary';
 const turkishWord = 'Ailde new da';
@@ -181,4 +182,4 @@ const grammerExplaination = ' but did u learn what to doI bought New Shoes from 
           alignItems: 'flex-end'
           },
               };
-export default LearnWithPhoto;
+export default LearnWithout;

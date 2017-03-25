@@ -33,7 +33,7 @@ const Option = class Option extends Component {
     id: this.props.data.id
   }
   componentWillMount() {
-    console.log((window.width - 10) / 2);
+    // console.log((window.width - 10) / 2);
   }
   onPressButton() {
     this.props.onSelectAnswer(this.state.id);
@@ -54,33 +54,15 @@ const Option = class Option extends Component {
 
 class testI extends Component {
   state= {
-    data: {}
+    data: this.props.data,
+    disabled: true
   }
   componentWillMount() {
-    const images = [this.props.data.correct, this.props.data.wrong1, this.props.data.wrong2, this.props.data.wrong3];
-    const answers = [];
-    let i = 0;
-    function structure() {
-      images.forEach((data) => {
-        const temp = {};
-        temp.id = i;
-        temp.image = data;
-        temp.active = false;
-        temp.correct = i === 0;
-        answers.push(temp);
-        i++;
-      });
-    }
-    structure();
-    this.setState({ data: _.shuffle(answers) });
-    setTimeout(() => {
-      console.log(this.state.data);
-    });
+
   }
   onPressSpeaker() {
-    console.log('test');
     Speech.speak({
-      text: this.props.data.word,
+      text: this.props.word,
       voice: 'en-US'
     }).then(started => {
       console.log(started);
@@ -100,10 +82,10 @@ class testI extends Component {
       }
       return false;
     });
-    this.setState({ data: temp });
+    this.setState({ data: temp, disabled: false });
   }
   onPressMe() {
-
+    this.props.next(this.state.data);
   }
   renderRow() {
     return this.state.data.map((single, i) =>
@@ -112,14 +94,15 @@ class testI extends Component {
   }
   renderButton() {
     if (this.props.loading) {
-      return <Spinner size='large' />;
+      return <Spinner size='large' color='black' />;
     }
     return (
       <Button
-        text={this.props.lang.title.start_test}
+        text={this.props.lang.title.submit}
         style={styles.submitButton}
         textStyle={styles.submitButtonText}
         onPressMe={this.onPressMe.bind(this)}
+        disabled={this.state.disabled}
       />
     );
   }
@@ -128,7 +111,7 @@ class testI extends Component {
       <View style={styles.mainContainer}>
         <View style={styles.top}>
           <Text style={styles.topText}>
-            {`${this.props.lang.text.which_photo} "${this.props.data.word}" ?`}
+            {`${this.props.lang.text.which_photo} "${this.props.word}" ?`}
           </Text>
           <TouchableOpacity onPress={this.onPressSpeaker.bind(this) || null}>
             <View style={styles.iconContainer}>

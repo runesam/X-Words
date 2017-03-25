@@ -248,12 +248,12 @@ class SignUpForm extends Component {
             <View style={styles.lineHelp} />
             <View style={styles.textHelpContainer}>
               <Text style={styles.textHelp}>
-                {'Having troubles please call us on'}
+                {this.props.lang.text.trouble}
               </Text>
               <View style={styles.phoneContainer}>
                 <Icon name='phone-square' size={30} color='white' />
                 <Text style={styles.phoneContainerText}>
-                  {'0 (212) 988 - 19 88'}
+                  {this.props.lang.title.phone}
                 </Text>
               </View>
             </View>

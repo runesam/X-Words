@@ -4,5 +4,6 @@
   "register": "new_user",
   "newInterests": "update_interests",
   "newLevel": "update_level",
-  "getTestByLevel": "test_by_level"
-}
+  "getTestByLevel": "test_by_level",
+  "saveTest": "update_test_results"
+ }

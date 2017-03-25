@@ -9,6 +9,7 @@ import FooterWithNumberHolder from './components/footerWithNumber/footerWithNumb
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import Levels from './components/Levels';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
+import PurchaseHolder from './components/purchase/purchaseHolder';
 
 class RouterComponent extends Component {
   render() {
@@ -75,6 +76,14 @@ class RouterComponent extends Component {
           component={LearnWithPhotoHolder}
           hideNavBar
           title="LearnWithPhotoHolder "
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="PurchaseHolder"
+          lang={this.props.lang}
+          component={PurchaseHolder}
+          hideNavBar
+          title="PurchaseHolder "
           sceneStyle={styles.view_style}
         />
         <Scene
