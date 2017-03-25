@@ -13,7 +13,10 @@
     "placeholder_phone": "Telephone",
     "placeholder_password": "Password",
     "submit": "Submit",
-
+    "welcome": "Have a good day, Here are sum results",
+    "days": "Days",
+    "words": "Words",
+    "startLearn": "Başlayalım!",
     "offer" : "Only 19 TRY",
     "buy_now": "Buy Now!",
     "phone": "0 (212) 988 - 19 88"
@@ -32,6 +35,7 @@
     "congrats_text": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
     "cancel_time": "You can cancel anytime",
     "more_info": "More info and offers click to call",
-    "trouble": "Having troubles please call us on"
+    "trouble": "Having troubles please call us on",
+    "starter": "Ready to choose today"
   }
 }

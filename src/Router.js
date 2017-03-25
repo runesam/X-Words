@@ -10,6 +10,9 @@ import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHold
 import Levels from './components/Levels';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import PurchaseHolder from './components/purchase/purchaseHolder';
+import HomePageHolder from './components/homePage/homePageHolder';
+import ChooseWordsHolder from './components/chooseWords/chooseWordsHolder';
+
 
 class RouterComponent extends Component {
   render() {
@@ -83,6 +86,14 @@ class RouterComponent extends Component {
           component={PurchaseHolder}
           hideNavBar
           title="PurchaseHolder "
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="HomePageHolder"
+          lang={this.props.lang}
+          component={HomePageHolder}
+          hideNavBar
+          title="HomePageHolder "
           initial
           sceneStyle={styles.view_style}
         />
@@ -91,6 +102,13 @@ class RouterComponent extends Component {
           component={FooterWithNumberHolder}
           hideNavBar
           title="FooterWithNumberHolder "
+          sceneStyle={styles.view_style}
+        />
+        <Scene
+          key="ChooseWordsHolder"
+          component={ChooseWordsHolder}
+          hideNavBar
+          title="ChooseWordsHolder "
           sceneStyle={styles.view_style}
         />
       </Router>
