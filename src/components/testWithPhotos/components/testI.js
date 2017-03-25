@@ -8,16 +8,17 @@ import {
   Dimensions,
   // StatusBar,
   // Keyboard,
-  // ScrollView,
-  TouchableOpacity
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback
 } from 'react-native';
 // import renderIf from 'render-if';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  // Button,
+  Button,
   // CardSection,
   // ShapedTextInput,
-  // Spinner,
+  Spinner,
   // PickerView,
   // PickerButton,
   // HscrollView
@@ -30,19 +31,22 @@ const Option = class Option extends Component {
   state = {
     id: this.props.data.id
   }
+  componentWillMount() {
+    console.log((window.width - 10) / 2);
+  }
   onPressButton() {
     this.props.onSelectAnswer(this.state.id);
   }
   render() {
     return (
-      <TouchableOpacity onPress={this.onPressButton.bind(this)}>
-        <View style={[styles.optionContainer, this.props.data.active ? { backgroundColor: '#00A1FF' } : { backgroundColor: '#E6E6E6' }]} >
+      <TouchableWithoutFeedback onPress={this.onPressButton.bind(this)}>
+        <View style={[styles.optionContainer, { width: (window.width - 60) / 2, height: ((window.width - 60) / 2) + 25 }, this.props.data.active ? { backgroundColor: '#00A1FF' } : { backgroundColor: '#E6E6E6' }]} >
           <Image source={{ uri: this.props.data.image }} style={styles.imageOption} />
           <View style={[styles.absolute, styles.absoluteBottom, this.props.data.active ? styles.iconActiveI : styles.iconInactiveI]}>
             <View style={this.props.data.active ? styles.iconActiveII : null} />
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   }
 };
@@ -52,7 +56,6 @@ class testI extends Component {
     data: {}
   }
   componentWillMount() {
-    console.log(window.width);
     const images = [this.props.data.correct, this.props.data.wrong1, this.props.data.wrong2, this.props.data.wrong3];
     const answers = [];
     let i = 0;
@@ -88,14 +91,26 @@ class testI extends Component {
       return false;
     });
     this.setState({ data: temp });
-    console.log(this.state.data);
   }
-  ComponentDidUpdate() {
+  onPressMe() {
 
   }
   renderRow() {
     return this.state.data.map((single, i) =>
       <Option key={i} data={single} index={i} onSelectAnswer={this.onSelectAnswer.bind(this)} />
+    );
+  }
+  renderButton() {
+    if (this.props.loading) {
+      return <Spinner size='large' />;
+    }
+    return (
+      <Button
+        text={this.props.lang.title.start_test}
+        style={styles.submitButton}
+        textStyle={styles.submitButtonText}
+        onPressMe={this.onPressMe.bind(this)}
+      />
     );
   }
   render() {
@@ -111,13 +126,15 @@ class testI extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.middleTop}>
-          {this.renderRow()}
+        <View style={{ flex: 10 }}>
+          <ScrollView>
+            <View style={styles.middleTop}>
+              {this.renderRow()}
+            </View>
+          </ScrollView>
         </View>
         <View style={styles.bottom}>
-          <Text>
-            {'test bottom'}
-          </Text>
+          {this.renderButton()}
         </View>
       </View>
     );
@@ -158,20 +175,20 @@ const styles = StyleSheet.create({
     top: 7,
     right: 8
   },
+  middleI: {
+    flex: 1
+  },
   middleTop: {
-    flex: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center'
   },
   bottom: {
-    flex: 1.5
+    flex: 1.7
   },
   optionContainer: {
     justifyContent: 'flex-start',
-    height: 200,
-    width: 175,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
@@ -187,6 +204,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   iconActiveI: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     left: 10,
     bottom: 5,
     backgroundColor: 'white',
@@ -195,8 +215,6 @@ const styles = StyleSheet.create({
     borderRadius: 50
   },
   iconActiveII: {
-    left: 1.7,
-    top: 1.7,
     borderColor: '#00A1FF',
     borderWidth: 2,
     backgroundColor: 'white',
@@ -214,6 +232,22 @@ const styles = StyleSheet.create({
     height: 23,
     borderRadius: 50
   },
+  submitButton: {
+    flex: 1,
+    backgroundColor: '#8CDD00',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+    marginRight: 30,
+    marginLeft: 30,
+    borderRadius: 250
+  },
+  submitButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 17,
+    fontWeight: '600'
+  }
 });
 
 module.exports = testI;

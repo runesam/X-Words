@@ -3,11 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Scene, Router } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
-import EmployeeList from './components/EmployeeList';
 import Slider from './components/Slider';
 import Interests from './components/Interests';
-import ListItem from './components/ListItem';
-import template from './components/template';
 import FooterWithNumberHolder from './components/footerWithNumber/footerWithNumberHolder';
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import Levels from './components/Levels';
@@ -74,25 +71,10 @@ class RouterComponent extends Component {
           titleStyle={styles.titleStyle}
         />
         <Scene
-          key='employeelist'
-          component={EmployeeList}
-          hideNavBar={false}
-          title='Employees'
-          sceneStyle={styles.view_style}
-        />
-        <Scene
-          key="listitem"
-          component={ListItem}
-          hideNavBar={false}
-          title="ListItem"
-          sceneStyle={styles.view_style}
-        />
-        <Scene
           key="LearnWithPhotoHolder"
           component={LearnWithPhotoHolder}
           hideNavBar
           title="LearnWithPhotoHolder "
-          initial
           sceneStyle={styles.view_style}
         />
         <Scene
