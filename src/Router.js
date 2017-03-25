@@ -7,9 +7,9 @@ import Slider from './components/Slider';
 import Interests from './components/Interests';
 import FooterWithNumberHolder from './components/footerWithNumber/footerWithNumberHolder';
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
-import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import Levels from './components/Levels';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
+import PurchaseHolder from './components/purchase/purchaseHolder';
 
 class RouterComponent extends Component {
   render() {
@@ -78,10 +78,11 @@ class RouterComponent extends Component {
           sceneStyle={styles.view_style}
         />
         <Scene
-          key="LearnWithoutHolder"
-          component={LearnWithoutHolder}
+          key="PurchaseHolder"
+          lang={this.props.lang}
+          component={PurchaseHolder}
           hideNavBar
-          title="LearnWithoutHolder "
+          title="PurchaseHolder "
           initial
           sceneStyle={styles.view_style}
         />
