@@ -21,6 +21,9 @@ import OneWord from './components/oneWord';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
+const xOffset = new Animated.Value(0);
+const onScroll = Animated.event([{ nativeEvent: { contentOffset: { x: xOffset } } }]);
+
 class ChooseWordsHolder extends Component {
   state = {
     dataSource: ds.cloneWithRows([['row 1', 'row 2'], ['row 1', 'row 2'], ['row 1', 'row 2'], ['row 1', 'row 2'], ['row 1', 'row 2'], ['row 1', 'row 2']]),
@@ -42,7 +45,8 @@ class ChooseWordsHolder extends Component {
       temper: this.state.temper - this.state.stepper
     });
   }
-
+  onScroll() {
+  }
   ComponentDidMount() {
 
   }
@@ -54,15 +58,20 @@ class ChooseWordsHolder extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Animated.View style={[styles.swipContainer, { marginLeft: this.state.marga }]}>
+        <Animated.ScrollView
+            scrollEventThrottle={16}
+            onScroll={this.onScroll}
+            horizontal
+            pagingEnabled>
           <ListView
-      horizontal ={true}
+      horizontal={true}
       scrollEnabled={false}
+      style={styles.swipContainer}
       showsHorizontalScrollIndicator={false}
       dataSource={this.state.dataSource}
        renderRow={this.renderRow()}
      />
- </Animated.View>
+   </Animated.ScrollView>
  <View style={styles.downPart}>
    <Button
      text={this.props.lang.title.start_test}
@@ -108,11 +117,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#00cccc'
   },
   swipContainer: {
-    flex: 3,
+    flex: 4,
   },
   downPart: {
     flex: 0.8,
     backgroundColor: '#00cccc'
   }
 });
-module.exports = ChooseWordsHolder;
+module.exports = ChooseWordsHolder
