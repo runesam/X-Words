@@ -25,7 +25,7 @@ import {
 } from '../../common/';
 // import generalUtils from '../utils/generalUtils';
 const _ = require('lodash');
-const Speech = require('react-native-speech');
+// const Speech = require('react-native-speech');
 
 const window = Dimensions.get('window');
 const Option = class Option extends Component {
@@ -61,15 +61,15 @@ class testI extends Component {
 
   }
   onPressSpeaker() {
-    Speech.speak({
-      text: this.props.word,
-      voice: 'en-US'
-    }).then(started => {
-      console.log(started);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    // Speech.speak({
+    //   text: this.props.word,
+    //   voice: 'en-US'
+    // }).then(started => {
+    //   console.log(started);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // });
   }
   onSelectAnswer(data) {
     const temp = this.state.data;
