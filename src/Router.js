@@ -88,8 +88,6 @@ class RouterComponent extends Component {
           sceneStyle={styles.view_style}
         />
         <Scene
-<<<<<<< HEAD
-=======
           key="HomePageHolder"
           lang={this.props.lang}
           component={HomePageHolder}
@@ -99,7 +97,6 @@ class RouterComponent extends Component {
           sceneStyle={styles.view_style}
         />
         <Scene
->>>>>>> 307f7317471c465f78b32fcb75f5e0230d3899ab
           key="FooterWithNumberHolder"
           component={FooterWithNumberHolder}
           hideNavBar
