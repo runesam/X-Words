@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
   offerText: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Cochin',
     fontSize: 35,
     fontWeight: '600'
   },

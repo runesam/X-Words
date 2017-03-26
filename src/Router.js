@@ -13,7 +13,6 @@ import PurchaseHolder from './components/purchase/purchaseHolder';
 import HomePageHolder from './components/homePage/homePageHolder';
 import ChooseWordsHolder from './components/chooseWords/chooseWordsHolder';
 
-
 class RouterComponent extends Component {
   render() {
     return (

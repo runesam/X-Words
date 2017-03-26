@@ -20,7 +20,7 @@ class Button extends Component {
         onPress={this.props.onPressMe.bind(this) || null}
         disabled={this.props.disabled ? this.props.disabled : false}
       >
-        <Text style={this.props.textStyle ? this.props.textStyle : styles.view_text}>
+        <Text style={[this.props.textStyle ? this.props.textStyle : styles.view_text, { opacity: this.props.disabled ? 0.5 : 1 }]}>
           {this.props.text || 'Please Inject "text"'}
         </Text>
       </TouchableOpacity>
