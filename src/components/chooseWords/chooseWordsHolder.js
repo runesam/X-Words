@@ -22,6 +22,9 @@ import OneWord from './components/oneWord';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
+// const xOffset = new Animated.Value(0);
+// const onScroll = Animated.event([{ nativeEvent: { contentOffset: { x: xOffset } } }]);
+
 class ChooseWordsHolder extends Component {
   state = {
     dataSource: ds.cloneWithRows([['row 1', 'row 2'], ['row 1', 'row 2'], ['row 1', 'row 2'], ['row 1', 'row 2'], ['row 1', 'row 2'], ['row 1', 'row 2']]),
@@ -151,11 +154,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#00cccc'
   },
   swipContainer: {
-    flex: 3,
+    flex: 4,
   },
   downPart: {
     flex: 0.8,
     backgroundColor: '#00cccc'
   }
 });
-module.exports = ChooseWordsHolder;
+  module.exports = ChooseWordsHolder;
