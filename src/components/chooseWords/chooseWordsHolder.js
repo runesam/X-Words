@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
+  // Text,
   View,
-  Image,
-  Alert,
+  // Image,
+  // Alert,
   ListView,
-  ScrollView,
+  // ScrollView,
   Dimensions,
-  Animated
+  Animated,
+  PanResponder
   // LayoutAnimation
 } from 'react-native';
 
 import {
   // Header,
   Button,
-//  Spinner,
+  //  Spinner,
 } from '../common/';
 import OneWord from './components/oneWord';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-const xOffset = new Animated.Value(0);
-const onScroll = Animated.event([{ nativeEvent: { contentOffset: { x: xOffset } } }]);
+// const xOffset = new Animated.Value(0);
+// const onScroll = Animated.event([{ nativeEvent: { contentOffset: { x: xOffset } } }]);
 
 class ChooseWordsHolder extends Component {
   state = {
@@ -30,31 +31,73 @@ class ChooseWordsHolder extends Component {
     marga: new Animated.Value(0),
     temper: -1 * (Dimensions.get('window').width - 50),
     stepper: Dimensions.get('window').width - 40,
+    currentX: null
   };
   componentWillMount() {
-
+    console.log(654);
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: this.test,
+      onMoveShouldSetPanResponder: this.test,
+      onPanResponderGrant: this.test,
+      onPanResponderMove: this.test,
+      onPanResponderRelease: this.test,
+      onPanResponderTerminate: this.test,
+    });
   }
-
   onPressMe() {
     Animated.timing(
       this.state.marga,
       { toValue: this.state.temper }
     ).start();
-
     this.setState({
       temper: this.state.temper - this.state.stepper
     });
   }
+<<<<<<< HEAD
+=======
+  goLeft() {
+    Animated.timing(
+      this.state.marga,
+      { toValue: this.state.temper }
+    ).start();
+    this.setState({
+      temper: this.state.temper - this.state.stepper
+    });
+  }
+  goRight() {
+    Animated.timing(
+      this.state.temper,
+      { toValue: this.state.marga }
+    ).start();
+    this.setState({
+      temper: this.state.temper - this.state.stepper
+    });
+  }
+  start(event) {
+    this.setState({ current: Math.floor(event.nativeEvent.pageX) });
+    console.log(Math.floor(event.nativeEvent.pageX));
+    return true;
+  }
+  end(event) {
+    if (this.state.current < Math.floor(event.nativeEvent.pageX)) {
+      this.goLeft();
+      console.log('go Left');
+    } else {
+      this.goLeft();
+      console.log('go Right');
+    }
+    return true;
+  }
+>>>>>>> 0d69c6566ddacf73ba9e319060f2558aecf7a1ad
   ComponentDidMount() {
 
   }
   renderRow() {
-    return (data) =>
-      <OneWord data={data} />
-    ;
+    return (data) => <OneWord data={data} />;
   }
   render() {
     return (
+<<<<<<< HEAD
       <View style={styles.container}>
 
           <ListView
@@ -74,6 +117,32 @@ class ChooseWordsHolder extends Component {
    />
  </View>
  </View>
+=======
+      <View
+        style={styles.container}
+        onStartShouldSetResponder={this.start.bind(this)}
+        onResponderMove={this.test}
+        onResponderRelease={this.end.bind(this)}
+      >
+        <Animated.View style={[styles.swipContainer, { marginLeft: this.state.marga }]}>
+          <ListView
+            horizontal
+            scrollEnabled={false}
+            showsHorizontalScrollIndicator={false}
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow()}
+          />
+        </Animated.View>
+        <View style={styles.downPart}>
+          <Button
+            text={this.props.lang.title.start_test}
+            style={styles.SignUpButton}
+            textStyle={styles.SignUpButtonText}
+            onPressMe={this.onPressMe.bind(this)}
+          />
+        </View>
+      </View>
+>>>>>>> 0d69c6566ddacf73ba9e319060f2558aecf7a1ad
     );
   }
 }
@@ -117,4 +186,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#00cccc'
   }
 });
-module.exports = ChooseWordsHolder
+  module.exports = ChooseWordsHolder;
