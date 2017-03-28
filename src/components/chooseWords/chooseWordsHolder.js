@@ -45,8 +45,6 @@ class ChooseWordsHolder extends Component {
       temper: this.state.temper - this.state.stepper
     });
   }
-  onScroll() {
-  }
   ComponentDidMount() {
 
   }
@@ -58,20 +56,15 @@ class ChooseWordsHolder extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Animated.ScrollView
-            scrollEventThrottle={16}
-            onScroll={this.onScroll}
-            horizontal
-            pagingEnabled>
+
           <ListView
       horizontal={true}
-      scrollEnabled={false}
       style={styles.swipContainer}
       showsHorizontalScrollIndicator={false}
       dataSource={this.state.dataSource}
        renderRow={this.renderRow()}
+       pagingEnabled
      />
-   </Animated.ScrollView>
  <View style={styles.downPart}>
    <Button
      text={this.props.lang.title.start_test}
