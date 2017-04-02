@@ -46,13 +46,13 @@ class ChooseWordsHolder extends Component {
     const apiData = {};
     apiData.memberId = this.state.memberId;
     apiData.not = this.state.not;
-    generalUtils.getMoreWords(this.state.getLink, apiData)
+    generalUtils.setDataFromApi(this.state.getLink, apiData)
     .then(data => {
       this.setState({
       dataSource: ds.cloneWithRows(data),
       rows: data
      });
-      for (var i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         this.setState({
           not: this.state.not.concat([data[i].word_id]),
          });
@@ -69,19 +69,19 @@ class ChooseWordsHolder extends Component {
       temper: this.state.temper - this.state.stepper
     });
   }
-  getMore(){
+  getMore() {
     console.log('hello');
     const apiData = {};
     apiData.memberId = this.state.memberId;
     apiData.not = this.state.not;
-    generalUtils.getMoreWords(this.state.getLink, apiData)
+    generalUtils.setDataFromApi(this.state.getLink, apiData)
     .then(data => {
-      if(data.none){
+      if (data.none) {
         Alert.alert('end');
         this.setState({
           canGet: false,
         });
-    }else{
+    } else {
       this.setState({
         rows: this.state.rows.concat(data)
       });
@@ -89,21 +89,21 @@ class ChooseWordsHolder extends Component {
         dataSource: ds.cloneWithRows(this.state.rows),
         canGet: true
       });
-      for (var i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         this.setState({
           not: this.state.not.concat([data[i].word_id]),
-         });
+        });
       }
     }
     })
     .catch(reason => console.log(reason));
   }
-  handleScroll(event){
+  handleScroll(event) {
     const width = this.state.not.length;
     const current = event.nativeEvent.contentOffset.x / Dimensions.get('window').width;
     const ah = width - current;
-    console.log('width' + ah);
-    if (ah == 3 && this.state.canGet) {
+    console.log(`width ${ah}`);
+    if (ah === 3 && this.state.canGet) {
       this.setState({ canGet: false });
       this.getMore();
     }
@@ -121,7 +121,7 @@ class ChooseWordsHolder extends Component {
         <ListView
           horizontal
           pagingEnabled
-           onScroll={this.handleScroll.bind(this)}
+          onScroll={this.handleScroll.bind(this)}
           showsHorizontalScrollIndicator={false}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow()}

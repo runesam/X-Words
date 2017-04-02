@@ -13,7 +13,7 @@ import {
   // TouchableWithoutFeedback
 } from 'react-native';
 // import renderIf from 'render-if';
-import Icon from 'react-native-vector-icons/simplelineicons';
+// import Icon from 'react-native-vector-icons/simplelineicons';
 import {
   // Button,
   // CardSection,
@@ -31,11 +31,13 @@ class OneWord extends Component {
 
   }
   componentWillMount() {
+
   }
   onPressMe() {
 
   }
   ComponentDidUpdate() {
+
   }
   render() {
     return (
@@ -67,11 +69,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   part1: {
-  flex: 1,
-  alignItems: 'center'
+    flex: 1,
+    alignItems: 'center'
   },
   headLine: {
-  fontWeight: '600'
+    fontWeight: '600'
   },
   wordEnglish: {
     fontSize: 30,
@@ -84,14 +86,14 @@ const styles = StyleSheet.create({
     color: '#666666'
   },
   part2: {
-  flex: 3,
+    flex: 3,
   alignItems: 'center'
   },
   part3: {
-  flex: 2,
+    flex: 2,
   },
   part4: {
-  flex: 3,
+    flex: 3,
   },
 });
 

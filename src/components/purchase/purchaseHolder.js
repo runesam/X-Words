@@ -5,12 +5,13 @@ import {
   View,
   Text,
   // Alert,
-  // StatusBar,
+  StatusBar,
   // Keyboard,
   // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
 // import renderIf from 'render-if';
+import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import Icony from 'react-native-vector-icons/FontAwesome';
 import {
@@ -33,7 +34,7 @@ class PurchaseHolder extends Component {
 
   }
   onPressMe() {
-
+    Actions.HomePageHolder();
   }
   ComponentDidUpdate() {
 
@@ -41,6 +42,7 @@ class PurchaseHolder extends Component {
   render() {
     return (
       <View style={styles.mainContainer} >
+        <StatusBar barStyle='light-content' />
         <View style={styles.imageHolder}>
           <Icon name='trophy' style={styles.iconSuccess} size={150} />
           <Text style={styles.imageLabel}>{this.props.lang.title.congrats}</Text>
@@ -129,7 +131,8 @@ const styles = StyleSheet.create({
   buyLabel: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 15
+    fontSize: 15,
+    marginTop: 5
   },
   lineHelp: {
     borderBottomWidth: 1,
