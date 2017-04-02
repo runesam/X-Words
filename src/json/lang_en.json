@@ -13,7 +13,6 @@
     "placeholder_phone": "Telephone",
     "placeholder_password": "Password",
     "submit": "Submit",
-
     "welcome": "Have a good day, Here are sum results",
     "days": "Days",
     "words": "Words",
@@ -23,6 +22,11 @@
     "phone": "0 (212) 988 - 19 88"
   },
   "text": {
+    "choosed": "SEÇILMIŞ",
+    "left": "KALAN",
+    "topic": " Konu",
+    "change": "Değişter",
+    "custom": "Düzey: ",
     "interests_text": "Scroll and choose your interests",
     "levels_text": "Select your English level",
     "error_interests_validation": "You must select at least 3 interests",
