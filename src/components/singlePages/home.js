@@ -23,7 +23,6 @@
     // PickerButton,
     // HscrollView
   } from '../common/';
-  import Footer from './components/footer';
   import generalUtils from '../../utils/generalUtils';
   import images from '../../json/images.json';
   // const _ = require('lodash');
@@ -36,7 +35,7 @@
     componentWillMount() {
       generalUtils.storageGetItem('status').then((data) => {
         if (data === 'choosen') {
-        Actions.ChooseWordsHolder();
+          Actions.ChooseWordsHolder();
         }
       });
     }
@@ -55,7 +54,7 @@
               <View style={styles.container}>
                 <View style={styles.spacer} />
                 <View style={styles.header}>
-                  <Text style={styles.headerText}>{this.props.lang.title.welcome}</Text>
+                  <Text style={styles.headerText}>{this.props.lang.text.welcome}</Text>
                 </View>
                 <View style={styles.statistics}>
                   <View style={styles.popUpContainer}>
@@ -81,7 +80,6 @@
               </View>
             </ScrollView>
           </View>
-          <Footer icon='2' />
         </View>
       );
     }
@@ -110,7 +108,8 @@
     },
     mainContainer: {
       flex: 1,
-      backgroundColor: '#00cccc'
+      backgroundColor: '#00cccc',
+      paddingBottom: 50
     },
     spacer: {
       flex: 0.5

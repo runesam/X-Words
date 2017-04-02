@@ -22,15 +22,15 @@ import {
   // PickerView,
   // PickerButton,
   // HscrollView
-} from './common/';
-import generalUtils from '../utils/generalUtils';
+} from '../common/';
+import generalUtils from '../../utils/generalUtils';
 // import levelOptionDataOrigin from '../json/levelOptionData.json';
 
 const _ = require('lodash');
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-const Level = class Interest extends Component {
+const Level = class Level extends Component {
   state = {
 
   }
