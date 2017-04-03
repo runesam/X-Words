@@ -25,7 +25,7 @@ import {
   // HscrollView
 } from '../common/';
 import TestI from './components/testI';
-import FooterWithNumber from './../footerWithNumber/components/footerWithNumber';
+import FooterWithNumber from './components/footerWithNumber';
 import generalUtils from './../../utils/generalUtils';
 
 const _ = require('lodash');

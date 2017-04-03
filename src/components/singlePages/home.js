@@ -39,9 +39,6 @@
         }
       });
     }
-    onPressMe() {
-      Actions.ChooseWordsHolder();
-    }
     ComponentDidUpdate() {
 
     }
@@ -74,7 +71,7 @@
                     text={this.props.lang.title.startLearn}
                     style={styles.SignUpButton}
                     textStyle={styles.SignUpButtonText}
-                    onPressMe={this.onPressMe.bind(this)}
+                    onPressMe={Actions.ChooseWordsHolder}
                   />
                 </View>
               </View>
