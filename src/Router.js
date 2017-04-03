@@ -94,7 +94,6 @@ class RouterComponent extends Component {
           hideNavBar
           title="HomePageHolder "
           sceneStyle={styles.view_style}
-          initial
         />
         <Scene
           key="FooterWithNumberHolder"
@@ -109,6 +108,7 @@ class RouterComponent extends Component {
           title="ChooseWordsHolder "
           lang={this.props.lang}
           hideNavBar
+          initial
           sceneStyle={styles.view_style}
         />
       </Router>
