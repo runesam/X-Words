@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from 'react-native';
 import { Scene, Router, Actions, Modal } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/singlePages/SignUp';
 import Slider from './components/singlePages/Slider';
@@ -9,7 +10,7 @@ import Interests from './components/singlePages/Interests';
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import Levels from './components/singlePages/Levels';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
-import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder'
+import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import PurchaseHolder from './components/purchase/purchaseHolder';
 import HomePageHolder from './components/singlePages/home';
 import ChooseWordsHolder from './components/chooseWords/chooseWordsHolder';
@@ -21,7 +22,8 @@ const singleTab = class singleTab extends Component {
     color: globalTabColor
   }
   componentWillMount() {
-    globalTabColor = 'white';
+    console.log(globalTabColor);
+    // globalTabColor = 'white';
   }
   render() {
     return (
@@ -38,10 +40,10 @@ class RouterComponent extends Component {
     color: null
   }
   componentWillMount() {
-    this.replaceColor('white');
+
   }
   onPressMe() {
-    Actions.pop();
+    Actions.pop(); 
   }
   replaceColor(data) {
     globalTabColor = data;
@@ -49,13 +51,13 @@ class RouterComponent extends Component {
   backRender(color) {
     return () =>
       <TouchableWithoutFeedback onPress={this.onPressMe.bind(this)}>
-        <Icon name='chevron-circle-left' size={30} color={color} />
+        <IconBack name='keyboard-backspace' size={30} color={color} />
       </TouchableWithoutFeedback>
     ;
   }
   render() {
     return (
-      <Router>
+      <Router duration={0} >
         <Scene key="modal" component={Modal} >
           <Scene key='root'>
             <Scene
@@ -104,7 +106,6 @@ class RouterComponent extends Component {
               hideNavBar
               sceneStyle={styles.view_style}
               deviceAndroid={this.props.deviceAndroid}
-              initial
             />
             <Scene
               key='login'
@@ -125,6 +126,7 @@ class RouterComponent extends Component {
               tabs
               tabBarStyle={styles.tabBarStyle}
               tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
+              initial
             >
               <Scene
                 key='Home'
@@ -140,6 +142,7 @@ class RouterComponent extends Component {
                   hideNavBar
                   sceneStyle={styles.tabSceneStyle}
                   renderBackButton={this.backRender('white')}
+                  replaceColor={this.replaceColor.bind(this)}
                 />
                 <Scene
                   key='ChooseWordsHolder'
@@ -159,6 +162,15 @@ class RouterComponent extends Component {
                   navigationBarStyle={styles.navigationBarStyle}
                   renderBackButton={this.backRender('white')}
                   replaceColor={this.replaceColor.bind(this)}
+                />
+                <Scene
+                  key='LearnWithoutHolder'
+                  component={LearnWithoutHolder}
+                  lang={this.props.lang}
+                  hideNavBar={false}
+                  navigationBarStyle={styles.navigationBarStyle}
+                  renderBackButton={this.backRender('white')}
+                  replaceColor={this.replaceColor.bind(this)}
                   initial
                 />
               </Scene>
@@ -172,6 +184,7 @@ class RouterComponent extends Component {
                 icon={singleTab}
                 sceneStyle={styles.tabSceneStyle}
                 renderBackButton={this.backRender('white')}
+                replaceColor={this.replaceColor.bind(this)}
               />
               <Scene
                 key='profile'
@@ -183,6 +196,7 @@ class RouterComponent extends Component {
                 icon={singleTab}
                 sceneStyle={styles.tabSceneStyle}
                 renderBackButton={this.backRender('white')}
+                replaceColor={this.replaceColor.bind(this)}
               />
               <Scene
                 key='settings'
@@ -194,6 +208,7 @@ class RouterComponent extends Component {
                 icon={singleTab}
                 sceneStyle={styles.tabSceneStyle}
                 renderBackButton={this.backRender('white')}
+                replaceColor={this.replaceColor.bind(this)}
               />
             </Scene>
           </Scene>

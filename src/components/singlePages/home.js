@@ -33,6 +33,10 @@
       words: 130
     }
     componentWillMount() {
+      console.log(this.props);
+      if (this.props.replaceColor) {
+        this.props.replaceColor('white');
+      }
       generalUtils.storageGetItem('status').then((data) => {
         if (data === 'choosen') {
           Actions.ChooseWordsHolder();
