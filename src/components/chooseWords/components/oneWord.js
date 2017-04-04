@@ -4,18 +4,18 @@ import {
   StyleSheet,
   View,
   Text,
-  Dimensions
-  // Image,
-  // Alert,
+  Dimensions,
+  Image,
+  Alert,
   // StatusBar,
   // Keyboard,
   // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
 // import renderIf from 'render-if';
-// import Icon from 'react-native-vector-icons/simplelineicons';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {
-  // Button,
+  Button,
   // CardSection,
   // ShapedTextInput,
   // Spinner,
@@ -28,7 +28,7 @@ import {
 
 class OneWord extends Component {
   state= {
-
+clicked: false
   }
   componentWillMount() {
 
@@ -38,6 +38,28 @@ class OneWord extends Component {
   }
   ComponentDidUpdate() {
 
+  }
+  imageHolder() {
+    if (this.props.data.image !== '') {
+    return (
+      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch' }} >
+        <View style={{ flex: 1 }} />
+      <View style={styles.imageHold}>
+        <Image source={{ uri: this.props.data.image }} style={styles.image} />
+      </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.circle}>
+          <Icon name='volume-2' size={28} color='#00cccc' />
+        </View>
+      </View>
+    </View>
+    );
+    }
+    return (<View />);
+  }
+  iWant() {
+    this.setState({ clicked: true });
+    this.props.handler(this.props.data.word_id);
   }
   render() {
     return (
@@ -49,8 +71,18 @@ class OneWord extends Component {
           <Text style={styles.wordEnglish}>{this.props.data.english}</Text>
           <Text style={styles.wordTurkish}>{this.props.data.turkish}</Text>
         </View>
-        <View style={styles.part3}></View>
-        <View style={styles.part4}></View>
+        <View style={styles.part3}>
+        {this.imageHolder()}
+        </View>
+        <View style={styles.part4}>
+          <Button
+            text={this.props.lang.title.iWantLearn}
+            style={styles.SignUpButton}
+            textStyle={styles.SignUpButtonText}
+            onPressMe={this.iWant.bind(this)}
+            disabled={this.state.clicked}
+          />
+        </View>
       </View>
     );
   }
@@ -65,11 +97,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     backgroundColor: 'white',
     borderRadius: 5,
-    padding: 30,
+    paddingTop: 30,
     flexDirection: 'column'
   },
   part1: {
-    flex: 1,
+    flex: 0.7,
     alignItems: 'center'
   },
   headLine: {
@@ -86,14 +118,51 @@ const styles = StyleSheet.create({
     color: '#666666'
   },
   part2: {
-    flex: 3,
+    flex: 2,
+    justifyContent: 'center',
   alignItems: 'center'
   },
   part3: {
-    flex: 2,
+    flex: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   part4: {
-    flex: 3,
+    flex: 2,
+    justifyContent: 'center',
+  },
+  circle: {
+    borderWidth: 2,
+    width: (Dimensions.get('window').width - 120) / 4,
+    height: (Dimensions.get('window').width - 120) / 4,
+    borderRadius: (Dimensions.get('window').width - 110) / 8,
+    borderColor: '#00cccc',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageHold: {
+    flex: 2.3,
+    alignSelf: 'stretch',
+    flexDirection: 'row'
+  },
+  image: {
+    resizeMode: 'contain',
+    flex: 1
+  },
+  SignUpButton: {
+    borderRadius: 20,
+    marginLeft: 50,
+    marginRight: 50,
+    backgroundColor: '#ffb434',
+  },
+  SignUpButtonText: {
+    alignSelf: 'center',
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 10,
+    paddingBottom: 10
   },
 });
 

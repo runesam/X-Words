@@ -43,7 +43,7 @@ class RouterComponent extends Component {
 
   }
   onPressMe() {
-    Actions.pop(); 
+    Actions.pop();
   }
   replaceColor(data) {
     globalTabColor = data;
@@ -124,6 +124,7 @@ class RouterComponent extends Component {
             <Scene
               key='main'
               tabs
+              initial
               tabBarStyle={styles.tabBarStyle}
               tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
               initial
@@ -151,6 +152,7 @@ class RouterComponent extends Component {
                   lang={this.props.lang}
                   hideNavBar={false}
                   hideTabBar
+                  initial
                   navigationBarStyle={styles.navigationBarStyle}
                   renderBackButton={this.backRender('white')}
                 />
