@@ -3,10 +3,9 @@ import {
   StyleSheet,
   Text,
   View,
-Image,
+  Image,
   // Alert,
-  ListView,
-  Alert,
+  ScrollView,
   // ScrollView,
   Dimensions,
   Animated,
@@ -20,38 +19,139 @@ import {
 } from '../common/';
 import generalUtils from '../../utils/generalUtils';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
 // const xOffset = new Animated.Value(0);
 // const onScroll = Animated.event([{ nativeEvent: { contentOffset: { x: xOffset } } }]);
 const Item = class Item extends Component {
   state= {
-clicked: false
+clicked: false,
+choosed: 10,
+left: 0
+  }
+  styles={
+    mainContainer: {
+      width: Dimensions.get('window').width - 40,
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop: 20,
+      alignSelf: 'stretch',
+      backgroundColor: 'white',
+      borderRadius: 5,
+      paddingTop: 30,
+      flexDirection: 'column'
+    },
+    part1: {
+      flex: 0.7,
+      alignItems: 'center'
+    },
+    headLine: {
+      fontWeight: '600'
+    },
+    wordEnglish: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      color: '#000'
+    },
+    wordTurkish: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      color: '#666666'
+    },
+    part2: {
+      flex: 2,
+      justifyContent: 'center',
+    alignItems: 'center'
+    },
+    part3: {
+      flex: 4,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    part4: {
+      flex: 2,
+      justifyContent: 'center',
+    },
+    circle: {
+      borderWidth: 2,
+      width: (Dimensions.get('window').width - 120) / 4,
+      height: (Dimensions.get('window').width - 120) / 4,
+      borderRadius: (Dimensions.get('window').width - 110) / 8,
+      borderColor: '#00cccc',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    imageHold: {
+      flex: 2.3,
+      alignSelf: 'stretch',
+      flexDirection: 'row'
+    },
+    image: {
+      resizeMode: 'contain',
+      flex: 1
+    }
   }
   iWant() {
     this.setState({ clicked: true });
-    this.props.handler(this.props.wordId);
+    this.props.handler(this.props.rowData.word_id);
+  }
+  call(chooseda, lefta) {
+    this.setState({
+choosed: chooseda,
+left: lefta
+     });
+  }
+  imageHolder(image) {
+    if (image !== '') {
+    return (
+      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch' }} >
+        <View style={{ flex: 1 }} />
+      <View style={this.styles.imageHold}>
+        <Image source={{ uri: image }} style={this.styles.image} />
+      </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={this.styles.circle}>
+          <Icon name='volume-2' size={28} color='#00cccc' />
+        </View>
+      </View>
+    </View>
+    );
+    }
+    return (<View />);
   }
   render() {
     return (
-      <Button
-        text={this.props.title}
-        style={{
-              borderRadius: 20,
-              marginLeft: 50,
-              marginRight: 50,
-              backgroundColor: '#ffb434', }}
-        textStyle={{
-          alignSelf: 'center',
-          color: 'white',
-          fontSize: 16,
-          fontWeight: '600',
-          paddingTop: 10,
-          paddingBottom: 10 }}
-        onPressMe={this.iWant.bind(this)}
-        disabled={this.state.clicked}
-      />
+
+      <View style={this.styles.mainContainer}>
+        <View style={this.styles.part1}>
+          <Text style={this.styles.headLine}>{this.props.lang.text.choosed} {this.props.choosed} {this.props.lang.text.left} {this.props.left}</Text>
+        </View>
+        <View style={this.styles.part2}>
+          <Text style={this.styles.wordEnglish}>{this.props.rowData.english}</Text>
+          <Text style={this.styles.wordTurkish}>{this.props.rowData.turkish}</Text>
+        </View>
+        <View style={this.styles.part3}>
+        {this.imageHolder(this.props.rowData.image)}
+        </View>
+        <View style={this.styles.part4}>
+          <Button
+            text={this.props.lang.title.iWantLearn}
+            style={{
+                  borderRadius: 20,
+                  marginLeft: 50,
+                  marginRight: 50,
+                  backgroundColor: '#ffb434', }}
+            textStyle={{
+              alignSelf: 'center',
+              color: 'white',
+              fontSize: 16,
+              fontWeight: '600',
+              paddingTop: 10,
+              paddingBottom: 10 }}
+            onPressMe={this.iWant.bind(this)}
+            disabled={this.state.clicked}
+          />
+        </View>
+      </View>
     );
   }
 
@@ -59,7 +159,7 @@ clicked: false
 class ChooseWordsHolder extends Component {
 
   state = {
-    dataSource: ds.cloneWithRows([['English', 'turkish', 5]]),
+    dataSource: [['English', 'turkish', 5]],
     marga: new Animated.Value(0),
     rows: [0],
     temper: -1 * (Dimensions.get('window').width - 50),
@@ -85,7 +185,7 @@ class ChooseWordsHolder extends Component {
     generalUtils.setDataFromApi(this.state.getLink, apiData)
     .then(data => {
       this.setState({
-      dataSource: ds.cloneWithRows(data),
+      dataSource: data,
       rows: data
      });
       for (let i = 0; i < data.length; i++) {
@@ -106,14 +206,12 @@ class ChooseWordsHolder extends Component {
     });
   }
   getMore() {
-    console.log('hello');
     const apiData = {};
     apiData.memberId = this.state.memberId;
     apiData.not = this.state.not;
     generalUtils.setDataFromApi(this.state.getLink, apiData)
     .then(data => {
       if (data.none) {
-        Alert.alert('end');
         this.setState({
           canGet: false,
         });
@@ -122,7 +220,7 @@ class ChooseWordsHolder extends Component {
         rows: this.state.rows.concat(data)
       });
       this.setState({
-        dataSource: ds.cloneWithRows(this.state.rows),
+        dataSource: this.state.rows,
         canGet: true
       });
       for (let i = 0; i < data.length; i++) {
@@ -139,7 +237,7 @@ class ChooseWordsHolder extends Component {
     this.setState({ offset: event.nativeEvent.contentOffset.x });
     const current = event.nativeEvent.contentOffset.x / Dimensions.get('window').width;
     const ah = width - current;
-    if (ah === 3 && this.state.canGet) {
+    if (ah === 7 && this.state.canGet) {
       this.setState({ canGet: false });
       this.getMore();
     }
@@ -148,20 +246,21 @@ class ChooseWordsHolder extends Component {
 
   }
   handler(wordId) {
+    console.log(wordId);
+    const ch = this.state.choosed + 1;
+    const le = this.state.left - 1;
     this.setState({
-      choosed: this.state.choosed + 1,
-      left: this.state.left - 1,
+      choosed: ch,
+      left: le,
       idsArray: this.state.idsArray.concat([wordId])
     }, function () {
-    if(this.state.left === 0){
-
+    if (this.state.left === 0) {
       const apiData = {};
       apiData.memberId = this.state.memberId;
       apiData.ids = this.state.idsArray;
       generalUtils.setDataFromApi(this.state.getWordsLinks, apiData)
       .then(data => {
         console.log(data);
-
       /*  this.setState({
         dataSource: ds.cloneWithRows(data),
         rows: data
@@ -185,62 +284,25 @@ class ChooseWordsHolder extends Component {
     if (ah > 1) {
       this.refs.wordsa.scrollTo({ x: this.state.offset + Dimensions.get('window').width, y: 0, animated: true });
     }
-
   }
-
-  renderMyRow(rowData, sectionID, rowID) {
-         return(
-           <View style={styles.mainContainer}>
-             <View style={styles.part1}>
-               <Text style={styles.headLine}>{this.props.lang.text.choosed} {this.state.choosed} {this.props.lang.text.left} {this.state.left}</Text>
-             </View>
-             <View style={styles.part2}>
-               <Text style={styles.wordEnglish}>{rowData.english}</Text>
-               <Text style={styles.wordTurkish}>{rowData.turkish}</Text>
-             </View>
-             <View style={styles.part3}>
-             {this.imageHolder(rowData.image)}
-             </View>
-             <View style={styles.part4}>
-             <Item title={this.props.lang.title.iWantLearn} handler={this.handler.bind(this)} wordId={rowData.word_id}/>
-             </View>
-           </View>
-         );
-     }
-
-  imageHolder(image) {
-    if ( image !== '') {
-    return (
-      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch' }} >
-        <View style={{ flex: 1 }} />
-      <View style={styles.imageHold}>
-        <Image source={{ uri: image }} style={styles.image} />
-      </View>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.circle}>
-          <Icon name='volume-2' size={28} color='#00cccc' />
-        </View>
-      </View>
-    </View>
+  renderMyRow() {
+  return this.state.dataSource.map((value, key) =>
+        <Item lang={this.props.lang} handler={this.handler.bind(this)} key={key} rowData={value} choosed={this.state.choosed} left={this.state.left} />
     );
-    }
-    return (<View />);
-  }
-
+     }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.swipContainer}>
-        <ListView
+        <ScrollView
           horizontal
           ref="wordsa"
           pagingEnabled
           onScroll={this.handleScroll.bind(this)}
-          showsHorizontalScrollIndicator={false}
-          dataSource={this.state.dataSource}
-          renderRow={this.renderMyRow.bind(this)}
-        />
+          showsHorizontalScrollIndicator={false}>
+          {this.renderMyRow()}
+        </ScrollView>
       </View>
         <View style={styles.downPart}>
           <View style={styles.downpart1}>
@@ -313,66 +375,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 5
   },
-  mainContainer: {
-    width: Dimensions.get('window').width - 40,
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    alignSelf: 'stretch',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    paddingTop: 30,
-    flexDirection: 'column'
-  },
-  part1: {
-    flex: 0.7,
-    alignItems: 'center'
-  },
-  headLine: {
-    fontWeight: '600'
-  },
-  wordEnglish: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: '#000'
-  },
-  wordTurkish: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#666666'
-  },
-  part2: {
-    flex: 2,
-    justifyContent: 'center',
-  alignItems: 'center'
-  },
-  part3: {
-    flex: 4,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  part4: {
-    flex: 2,
-    justifyContent: 'center',
-  },
-  circle: {
-    borderWidth: 2,
-    width: (Dimensions.get('window').width - 120) / 4,
-    height: (Dimensions.get('window').width - 120) / 4,
-    borderRadius: (Dimensions.get('window').width - 110) / 8,
-    borderColor: '#00cccc',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imageHold: {
-    flex: 2.3,
-    alignSelf: 'stretch',
-    flexDirection: 'row'
-  },
-  image: {
-    resizeMode: 'contain',
-    flex: 1
-  }
+
 });
 module.exports = ChooseWordsHolder;
