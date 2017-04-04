@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  // Image,
+  StatusBar,
   // Alert,
   // StatusBar,
   // Keyboard,
@@ -11,7 +11,6 @@ import {
   // TouchableWithoutFeedback
 } from 'react-native';
 import Header from './components/header';
-import Footer2 from './components/footer2';
 import LearnWithout from './components/LearnWithout';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,7 +21,9 @@ class LearnWithoutHolder extends Component {
 
   }
   componentWillMount() {
-
+    if (this.props.replaceColor) {
+      this.props.replaceColor('#00cccc');
+    }
   }
   onPressMe() {
 
@@ -32,20 +33,22 @@ class LearnWithoutHolder extends Component {
   }
   render() {
     return (
-      <View style={{ backgroundColor: '#f8f7f7', flex: 1, flexDirection: 'column' }}>
-      <Header headerText={'8/10'} />
-      <LearnWithout wordId={'5'} />
-      <Footer2 icon='2' />
-    </View>
+      <View style={styles.mainContainer}>
+        <StatusBar barStyle='light-content' />
+        <Header headerText={'8/10'} />
+        <LearnWithout lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} wordId={this.start} />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#f2fcfd',
+    flexDirection: 'column',
+    paddingBottom: 60
   }
-
 });
 
 module.exports = LearnWithoutHolder;

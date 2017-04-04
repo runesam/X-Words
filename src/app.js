@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 // import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
 import {
-StyleSheet,
-// Text,
-View,
+  StyleSheet,
+  // Text,
+  View,
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';

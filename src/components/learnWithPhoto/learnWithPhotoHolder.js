@@ -5,7 +5,7 @@ import {
   View,
   // Image,
   // Alert,
-  // StatusBar,
+  StatusBar,
   // Keyboard,
   // ScrollView,
   // TouchableWithoutFeedback
@@ -23,7 +23,7 @@ class LearnWithPhotoHolder extends Component {
   }
   componentWillMount() {
     if (this.props.replaceColor) {
-      this.props.replaceColor('#00cccc');      
+      this.props.replaceColor('#00cccc');
     }
   }
   onPressMe() {
@@ -35,8 +35,9 @@ class LearnWithPhotoHolder extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
+        <StatusBar barStyle='light-content' />
         <Header headerText={'8/10'} />
-        <LearnWithPhoto lang={this.props.lang} wordId={this.start} />
+        <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} wordId={this.start} />
       </View>
     );
   }
@@ -45,8 +46,9 @@ class LearnWithPhotoHolder extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#f8f7f7',
-    flexDirection: 'column'
+    backgroundColor: '#f2fcfd',
+    flexDirection: 'column',
+    paddingBottom: 60
   }
 });
 

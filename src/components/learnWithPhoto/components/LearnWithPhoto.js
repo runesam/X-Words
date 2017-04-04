@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Alert, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, Image, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import { Actions } from 'react-native-router-flux';
+import Tts from 'react-native-tts';
+import renderIf from 'render-if';
 import {
   Button,
   // CardSection,
@@ -9,13 +12,30 @@ import {
 } from '../../common/';
 import images from '../../../json/images.json';
 
-const onButtonPress = () => {
-  Alert.alert('Button has been pressed!');
-};
-
 class LearnWithPhoto extends Component {
+  state = {
+    word: 'shoes',
+    sentence: 'I bought new shoes from the store next to our home',
+    disabled: false
+  }
+  componentWillMount() {
+    Tts.setDefaultRate(0.4);
+  }
+  componentDidMount() {
+    // Tts.voices().then(voices => console.log(voices));
+    Tts.addEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
+    Tts.addEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+  }
+  componentWillUnmount() {
+    Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
+    Tts.removeEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+  }
   onPressMe() {
-
+    Actions.LearnWithoutHolder();
+  }
+  textToSpeech(text) {
+    Tts.setDefaultVoice('com.apple.ttsbundle.Karen-compact');
+    Tts.speak(text);
   }
   renderButton() {
     if (this.props.loading) {
@@ -34,41 +54,47 @@ class LearnWithPhoto extends Component {
     return (
       <View style={styles.holder}>
         <ScrollView style={styles.ScrollView}>
-
           <View style={styles.translateHolder}>
             <View style={{ flex: 1 }}>
-              <TouchableOpacity onPress={onButtonPress} style={styles.translateHolderButton}>
+              <TouchableOpacity onPress={this.textToSpeech.bind(this, this.state.word)} style={styles.translateHolderButton}>
                 <View style={styles.translateHolderIcon}>
-                  <Icon name='volume-2' size={35} color='white' />
+                  {renderIf(!this.state.disabled)(
+                    <Icon name='volume-2' size={35} color='white' />
+                  )}
+                  {renderIf(this.state.disabled)(
+                    <Spinner size='large' colors='white' />
+                  )}
                 </View>
               </TouchableOpacity>
             </View>
             <View style={styles.translateWorder}>
-              <Text style={styles.wordEnglish}>{'Sample En'}</Text>
+              <Text style={styles.wordEnglish}>{this.state.word}</Text>
               <Text style={styles.wordTurkish}>{'Sample Tr'}</Text>
             </View>
             <View style={{ flex: 1 }}><Text>{''}</Text></View>
           </View>
-
           <View style={styles.imageWrapper}>
             <Image source={{ uri: images.sampleShoes.data }} style={styles.imageStyle} />
           </View>
-
           <View style={styles.sentenceHolder}>
-            <TouchableOpacity onPress={onButtonPress}>
+            <TouchableOpacity onPress={this.textToSpeech.bind(this, this.state.sentence)}>
               <View style={styles.sentenceHolderIcon}>
-                <Icon name='volume-2' size={20} color='white' />
+                {renderIf(!this.state.disabled)(
+                  <Icon name='volume-2' size={20} color='white' />
+                )}
+                {renderIf(this.state.disabled)(
+                  <Spinner size='small' colors='white' />
+                )}
               </View>
             </TouchableOpacity>
-            <Text style={styles.sentence}>{'I bought New Shoes from the shoppi mall'}</Text>
+            <Text style={styles.sentence}>{this.state.sentence}</Text>
           </View>
-
           <View style={styles.explainHolder}>
             <Text style={styles.explain}>{'it is just a placeholder this data should come from the local storage, but did u learn what to doI bought New Shoes from the shoppi mall and I like it but did u learn what to do'}</Text>
           </View>
-
-          {this.renderButton()}
-
+          <View style={{ flex: 2, paddingBottom: 10 }}>
+            {this.renderButton()}
+          </View>
         </ScrollView>
       </View>
     );
@@ -78,6 +104,7 @@ class LearnWithPhoto extends Component {
 const styles = {
   holder: {
     flex: 9,
+    backgroundColor: '#f2fcfd'
   },
   ScrollView: {
     backgroundColor: '#f2fcfd'
@@ -156,7 +183,6 @@ const styles = {
     textAlign: 'justify',
   },
   submitButton: {
-    flex: 1,
     backgroundColor: '#8CDD00',
     justifyContent: 'center',
     alignItems: 'center',
