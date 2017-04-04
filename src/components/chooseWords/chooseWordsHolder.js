@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  // Image,
+Image,
   // Alert,
   ListView,
   Alert,
@@ -19,13 +19,43 @@ import {
   //  Spinner,
 } from '../common/';
 import generalUtils from '../../utils/generalUtils';
-import OneWord from './components/oneWord';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 // const xOffset = new Animated.Value(0);
 // const onScroll = Animated.event([{ nativeEvent: { contentOffset: { x: xOffset } } }]);
+const Item = class Item extends Component {
+  state= {
+clicked: false
+  }
+  iWant() {
+    this.setState({ clicked: true });
+    this.props.handler(this.props.wordId);
+  }
+  render() {
+    return (
+      <Button
+        text={this.props.title}
+        style={{
+              borderRadius: 20,
+              marginLeft: 50,
+              marginRight: 50,
+              backgroundColor: '#ffb434', }}
+        textStyle={{
+          alignSelf: 'center',
+          color: 'white',
+          fontSize: 16,
+          fontWeight: '600',
+          paddingTop: 10,
+          paddingBottom: 10 }}
+        onPressMe={this.iWant.bind(this)}
+        disabled={this.state.clicked}
+      />
+    );
+  }
 
+};
 class ChooseWordsHolder extends Component {
 
   state = {
@@ -44,7 +74,9 @@ class ChooseWordsHolder extends Component {
     interestsNumber: 8,
     getLink: 'get_new_words',
     canGet: true,
-    offset: 0
+    offset: 0,
+    clicked: false,
+    getWordsLinks: 'get_words_data'
   };
   componentWillMount() {
     const apiData = {};
@@ -107,7 +139,6 @@ class ChooseWordsHolder extends Component {
     this.setState({ offset: event.nativeEvent.contentOffset.x });
     const current = event.nativeEvent.contentOffset.x / Dimensions.get('window').width;
     const ah = width - current;
-    console.log(`width ${ah}`);
     if (ah === 3 && this.state.canGet) {
       this.setState({ canGet: false });
       this.getMore();
@@ -122,14 +153,81 @@ class ChooseWordsHolder extends Component {
       left: this.state.left - 1,
       idsArray: this.state.idsArray.concat([wordId])
     }, function () {
-    console.log(this.state.idsArray);
+    if(this.state.left === 0){
+
+      const apiData = {};
+      apiData.memberId = this.state.memberId;
+      apiData.ids = this.state.idsArray;
+      generalUtils.setDataFromApi(this.state.getWordsLinks, apiData)
+      .then(data => {
+        console.log(data);
+
+      /*  this.setState({
+        dataSource: ds.cloneWithRows(data),
+        rows: data
+       });
+        for (let i = 0; i < data.length; i++) {
+          this.setState({
+            not: this.state.not.concat([data[i].word_id]),
+           });
+        }*/
+
+      })
+      .catch(reason => console.log(reason));
+
+
+    }
     });
 
-    this.refs.wordsa.scrollTo({ x: this.state.offset + Dimensions.get('window').width, y: 0, animated: true });
+    const width = this.state.not.length;
+    const current = this.state.offset / Dimensions.get('window').width;
+    const ah = width - current;
+    if (ah > 1) {
+      this.refs.wordsa.scrollTo({ x: this.state.offset + Dimensions.get('window').width, y: 0, animated: true });
+    }
+
   }
-  renderRow() {
-    return (data, sectionID, rowID) => <OneWord data={data} key={rowID} lang={this.props.lang} handler={this.handler.bind(this)} choosed={this.state.choosed} left={this.state.left} />;
+
+  renderMyRow(rowData, sectionID, rowID) {
+         return(
+           <View style={styles.mainContainer}>
+             <View style={styles.part1}>
+               <Text style={styles.headLine}>{this.props.lang.text.choosed} {this.state.choosed} {this.props.lang.text.left} {this.state.left}</Text>
+             </View>
+             <View style={styles.part2}>
+               <Text style={styles.wordEnglish}>{rowData.english}</Text>
+               <Text style={styles.wordTurkish}>{rowData.turkish}</Text>
+             </View>
+             <View style={styles.part3}>
+             {this.imageHolder(rowData.image)}
+             </View>
+             <View style={styles.part4}>
+             <Item title={this.props.lang.title.iWantLearn} handler={this.handler.bind(this)} wordId={rowData.word_id}/>
+             </View>
+           </View>
+         );
+     }
+
+  imageHolder(image) {
+    if ( image !== '') {
+    return (
+      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch' }} >
+        <View style={{ flex: 1 }} />
+      <View style={styles.imageHold}>
+        <Image source={{ uri: image }} style={styles.image} />
+      </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.circle}>
+          <Icon name='volume-2' size={28} color='#00cccc' />
+        </View>
+      </View>
+    </View>
+    );
+    }
+    return (<View />);
   }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -141,7 +239,7 @@ class ChooseWordsHolder extends Component {
           onScroll={this.handleScroll.bind(this)}
           showsHorizontalScrollIndicator={false}
           dataSource={this.state.dataSource}
-          renderRow={this.renderRow()}
+          renderRow={this.renderMyRow.bind(this)}
         />
       </View>
         <View style={styles.downPart}>
@@ -214,6 +312,67 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     borderWidth: 1,
     padding: 5
+  },
+  mainContainer: {
+    width: Dimensions.get('window').width - 40,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    alignSelf: 'stretch',
+    backgroundColor: 'white',
+    borderRadius: 5,
+    paddingTop: 30,
+    flexDirection: 'column'
+  },
+  part1: {
+    flex: 0.7,
+    alignItems: 'center'
+  },
+  headLine: {
+    fontWeight: '600'
+  },
+  wordEnglish: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#000'
+  },
+  wordTurkish: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#666666'
+  },
+  part2: {
+    flex: 2,
+    justifyContent: 'center',
+  alignItems: 'center'
+  },
+  part3: {
+    flex: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  part4: {
+    flex: 2,
+    justifyContent: 'center',
+  },
+  circle: {
+    borderWidth: 2,
+    width: (Dimensions.get('window').width - 120) / 4,
+    height: (Dimensions.get('window').width - 120) / 4,
+    borderRadius: (Dimensions.get('window').width - 110) / 8,
+    borderColor: '#00cccc',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageHold: {
+    flex: 2.3,
+    alignSelf: 'stretch',
+    flexDirection: 'row'
+  },
+  image: {
+    resizeMode: 'contain',
+    flex: 1
   }
 });
 module.exports = ChooseWordsHolder;
