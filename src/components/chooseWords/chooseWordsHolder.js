@@ -37,10 +37,14 @@ class ChooseWordsHolder extends Component {
     currentX: null,
     level: 'orta',
     not: [],
+    idsArray: [],
+    choosed: 0,
+    left: 10, // how many words
     memberId: 4,
     interestsNumber: 8,
     getLink: 'get_new_words',
-    canGet: true
+    canGet: true,
+    offset: 0
   };
   componentWillMount() {
     const apiData = {};
@@ -100,6 +104,7 @@ class ChooseWordsHolder extends Component {
   }
   handleScroll(event) {
     const width = this.state.not.length;
+    this.setState({ offset: event.nativeEvent.contentOffset.x });
     const current = event.nativeEvent.contentOffset.x / Dimensions.get('window').width;
     const ah = width - current;
     console.log(`width ${ah}`);
@@ -111,8 +116,19 @@ class ChooseWordsHolder extends Component {
   ComponentDidMount() {
 
   }
+  handler(wordId) {
+    this.setState({
+      choosed: this.state.choosed + 1,
+      left: this.state.left - 1,
+      idsArray: this.state.idsArray.concat([wordId])
+    }, function () {
+    console.log(this.state.idsArray);
+    });
+
+    this.refs.wordsa.scrollTo({ x: this.state.offset + Dimensions.get('window').width, y: 0, animated: true });
+  }
   renderRow() {
-    return (data, sectionID, rowID) => <OneWord data={data} key={rowID} lang={this.props.lang} choosed={0} left={10} />;
+    return (data, sectionID, rowID) => <OneWord data={data} key={rowID} lang={this.props.lang} handler={this.handler.bind(this)} choosed={this.state.choosed} left={this.state.left} />;
   }
   render() {
     return (
@@ -120,6 +136,7 @@ class ChooseWordsHolder extends Component {
         <View style={styles.swipContainer}>
         <ListView
           horizontal
+          ref="wordsa"
           pagingEnabled
           onScroll={this.handleScroll.bind(this)}
           showsHorizontalScrollIndicator={false}
@@ -156,7 +173,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#00cccc'
+    backgroundColor: '#00cccc',
+    paddingTop: 50
   },
   swipContainer: {
     flex: Dimensions.get('window').height - 100,

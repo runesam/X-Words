@@ -1,184 +1,186 @@
-import React from 'react';
-import { Text, View, Image, Button, Alert, TextInput, ScrollView, TouchableHighlight} from 'react-native';
+import React, { Component } from 'react';
+import { Text, View, Image, Alert, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import {
+  Button,
+  // CardSection,
+  // ShapedTextInput,
+  Spinner,
+} from '../../common/';
+import images from '../../../json/images.json';
+
 const onButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
-const LearnWithPhoto = (props) => {
-const exampleText = 'I bought New Shoes from the shoppi mall';
-const englishWord = 'extra ordinary';
-const turkishWord = 'Ailde new da';
-const grammerExplaination = ' but did u learn what to doI bought New Shoes from the shoppi mall and I like it but did u learn what to do';
-  return (
-  <View style={styles.holder} >
-    <ScrollView style={{ backgroundColor: '#f2fcfd' }}>
-    <View style={styles.outerContainer}>
-      <View style={styles.translateHolder}>
-        <View style={styles.translateWorder}>
-        <Text style={styles.wordEnglish}>{englishWord}</Text>
-        <Text style={styles.wordTurkish}>{turkishWord}</Text>
-      </View>
-      </View>
-      <View style={styles.translateWorder2}>
-        <View style={styles.abImageHolder}>
-          <TouchableHighlight onPress={onButtonPress}>
-            <Image source={require('../../../img/sound.png')} style={styles.abImage} />
-        </TouchableHighlight>
+
+class LearnWithPhoto extends Component {
+  onPressMe() {
+
+  }
+  renderButton() {
+    if (this.props.loading) {
+      return <Spinner size='large' />;
+    }
+    return (
+      <Button
+        text={this.props.lang.title.submit}
+        style={styles.submitButton}
+        textStyle={styles.submitButtonText}
+        onPressMe={this.onPressMe.bind(this)}
+      />
+    );
+  }
+  render() {
+    return (
+      <View style={styles.holder}>
+        <ScrollView style={styles.ScrollView}>
+
+          <View style={styles.translateHolder}>
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity onPress={onButtonPress} style={styles.translateHolderButton}>
+                <View style={styles.translateHolderIcon}>
+                  <Icon name='volume-2' size={35} color='white' />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.translateWorder}>
+              <Text style={styles.wordEnglish}>{'Sample En'}</Text>
+              <Text style={styles.wordTurkish}>{'Sample Tr'}</Text>
+            </View>
+            <View style={{ flex: 1 }}><Text>{''}</Text></View>
           </View>
-            <Image source={require('../../../img/show1.png')}  style={styles.imageStyle} />
-        </View>
-        <View style={styles.exampleSentence}>
-        <View style={styles.sentenceHolder}>
-          <TouchableHighlight onPress={onButtonPress}>
-            <Image source={require('../../../img/sound.png')} style={styles.exampleSoundImage} />
-        </TouchableHighlight>
-        <Text style={styles.sentence}>{exampleText}</Text>
-        </View>
-        </View>
-      <View style={styles.explainHolder}>
-<Text style={styles.explain}>{grammerExplaination}</Text>
-<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-  <View style={styles.empty} />
-  <TouchableHighlight style={styles.button} onPress={onButtonPress}>
-    <Text style={styles.buttonText}>İleri</Text>
-</TouchableHighlight>
-        <View style={styles.empty} />
-</View>
-</View>
-    </View>
-  </ScrollView>
-    </View>
-        );
-          };
-          const styles = {
-              holder: {
-              flex: 9,
-              flexDirection: 'column',
-              backgroundColor: '#f2fcfd'
-            },
-              outerContainer: {
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#f0f0f0',
-              flex: 1
-            },
-              imageStyle: {
-              width: 140,
-              height: 140
-            },
-            imageHolder: {
-              flex: 4,
-              position: 'relative',
-              alignSelf: 'stretch',
-              alignItems: 'center'
-            },
-            abImageHolder: {
-              position: 'absolute',
-              height: 70,
-              width: 70,
-              top: 60,
-              right: 0,
-            },
-            abImage: {
-              width: 50,
-              height: 50
-            },
-            exampleSentence: {
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              flexDirection: 'row',
-            },
-            explainHolder: {
-              flex: 1,
-              padding: 25,
-              paddingTop: 10,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              backgroundColor: '#f2fcfd'
-            },
-              translateHolder: {
-            flex: 2,
-            width: null,
-            justifyContent: 'center',
-            flexDirection: 'row'
-          },
-          explain: {
-            color: '#038b9b',
-            fontSize: 16
-          },
-            exampleSoundImage: {
-              width: 30,
-              height: 30,
-            },
-          soundImageStyle: {
-              width: 50,
-              height: 50
-            },
-            translateWorder2: {
-              flex: 2,
-              paddingTop: 15,
-              paddingLeft: 5,
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              alignSelf: 'stretch'
-            },
-            translateWorder: {
-              flexDirection: 'column',
-              flex: 3,
-              paddingTop: 10,
-              alignItems: 'center'
-            },
-            wordEnglish: {
-              fontSize: 30,
-              fontWeight: 'bold',
-              color: '#000'
-            },
-            wordTurkish: {
-              fontSize: 25,
-              fontWeight: 'bold',
-              color: '#666666'
-            },
-            sentenceHolder: {
-              flexDirection: 'row',
-              margin: 15,
-              padding: 15,
-              borderWidth: 1,
-              borderRadius: 2,
-              backgroundColor: 'white',
-              borderColor: '#00cccc',
-              alignItems: 'center'
-            },
-            exSound: {
-              flex: 1,
-              alignItems: 'center'
-            },
-            sentence: {
-              fontSize: 16,
-              marginRight: 30,
-              marginLeft: 10
-            },
-            button: {
-              flex: 2,
-              paddingTop: 8,
-              paddingBottom: 8,
-              borderRadius: 15,
-              backgroundColor: '#feab35',
-              justifyContent: 'center',
-              marginTop: 15
-            },
-            empty: {
-              flex: 1.8,
-            },
-            buttonText: {
-            fontSize: 18,
-            fontWeight: '400',
-            color: '#fff',
-            textAlign: 'center'
-          },
-          soundHolder: {
-          paddingRight: 10,
-          alignItems: 'flex-end'
-          },
-              };
+
+          <View style={styles.imageWrapper}>
+            <Image source={{ uri: images.sampleShoes.data }} style={styles.imageStyle} />
+          </View>
+
+          <View style={styles.sentenceHolder}>
+            <TouchableOpacity onPress={onButtonPress}>
+              <View style={styles.sentenceHolderIcon}>
+                <Icon name='volume-2' size={20} color='white' />
+              </View>
+            </TouchableOpacity>
+            <Text style={styles.sentence}>{'I bought New Shoes from the shoppi mall'}</Text>
+          </View>
+
+          <View style={styles.explainHolder}>
+            <Text style={styles.explain}>{'it is just a placeholder this data should come from the local storage, but did u learn what to doI bought New Shoes from the shoppi mall and I like it but did u learn what to do'}</Text>
+          </View>
+
+          {this.renderButton()}
+
+        </ScrollView>
+      </View>
+    );
+  }
+}
+
+const styles = {
+  holder: {
+    flex: 9,
+  },
+  ScrollView: {
+    backgroundColor: '#f2fcfd'
+  },
+  translateHolder: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 15
+  },
+  translateHolderButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  translateHolderIcon: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00cccc',
+    width: (Dimensions.get('window').width - 100) / 4,
+    height: (Dimensions.get('window').width - 100) / 4,
+    borderRadius: (Dimensions.get('window').width - 100) / 8
+  },
+  translateWorder: {
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  imageWrapper: {
+    flex: 1,
+    paddingTop: 5,
+    alignItems: 'center'
+  },
+  imageStyle: {
+    flex: 1,
+    width: (Dimensions.get('window').width - 50) / 2,
+    height: (Dimensions.get('window').width - 50) / 2,
+    resizeMode: 'contain',
+    borderWidth: 1,
+    borderColor: '#00cccc'
+  },
+  sentenceHolder: {
+    flexDirection: 'row',
+    margin: 15,
+    padding: 15,
+    borderWidth: 1,
+    borderRadius: 2,
+    backgroundColor: 'rgba(255,250,0,0.1)',
+    borderColor: '#00cccc',
+    alignItems: 'center'
+  },
+  sentenceHolderIcon: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00cccc',
+    width: (Dimensions.get('window').width - 100) / 8,
+    height: (Dimensions.get('window').width - 100) / 8,
+    borderRadius: (Dimensions.get('window').width - 100) / 16
+  },
+  sentence: {
+    fontSize: 16,
+    marginRight: 30,
+    marginLeft: 10
+  },
+  explainHolder: {
+    flex: 1,
+    padding: 25,
+    paddingTop: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#f2fcfd'
+  },
+  explain: {
+    color: '#038b9b',
+    fontSize: 16,
+    textAlign: 'justify',
+  },
+  submitButton: {
+    flex: 1,
+    backgroundColor: '#8CDD00',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: Dimensions.get('window').width / 3,
+    marginLeft: Dimensions.get('window').width / 3,
+    borderRadius: 250
+  },
+  submitButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 17,
+    fontWeight: '600',
+    padding: 10
+  },
+  wordEnglish: {
+    fontSize: 30,
+    fontWeight: '600',
+    color: '#000'
+  },
+  wordTurkish: {
+    fontSize: 25,
+    fontWeight: '400',
+    color: '#666666'
+  }
+};
+
 export default LearnWithPhoto;

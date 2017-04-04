@@ -11,18 +11,20 @@ import {
   // TouchableWithoutFeedback
 } from 'react-native';
 import Header from './components/header';
-import Footer2 from './components/footer2';
 import LearnWithPhoto from './components/LearnWithPhoto';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 // import generalUtils from '../utils/generalUtils';
 // const _ = require('lodash');
+
 class LearnWithPhotoHolder extends Component {
   state= {
 
   }
   componentWillMount() {
-
+    if (this.props.replaceColor) {
+      this.props.replaceColor('#00cccc');      
+    }
   }
   onPressMe() {
 
@@ -32,20 +34,20 @@ class LearnWithPhotoHolder extends Component {
   }
   render() {
     return (
-      <View style={{ backgroundColor: '#f8f7f7', flex: 1, flexDirection: 'column' }}>
-      <Header headerText={'8/10'} />
-      <LearnWithPhoto wordId={this.start} />
-      <Footer2 icon='2' />
-    </View>
+      <View style={styles.mainContainer}>
+        <Header headerText={'8/10'} />
+        <LearnWithPhoto lang={this.props.lang} wordId={this.start} />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#f8f7f7',
+    flexDirection: 'column'
   }
-
 });
 
 module.exports = LearnWithPhotoHolder;

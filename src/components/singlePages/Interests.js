@@ -22,8 +22,8 @@ import {
   // PickerView,
   // PickerButton,
   // HscrollView
-} from './common/';
-import generalUtils from '../utils/generalUtils';
+} from '../common/';
+import generalUtils from '../../utils/generalUtils';
 // import interestsDataOrigin from '../json/interestsData.json';
 
 const _ = require('lodash');

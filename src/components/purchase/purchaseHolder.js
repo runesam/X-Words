@@ -34,7 +34,7 @@ class PurchaseHolder extends Component {
 
   }
   onPressMe() {
-    Actions.HomePageHolder();
+    Actions.main();
   }
   ComponentDidUpdate() {
 

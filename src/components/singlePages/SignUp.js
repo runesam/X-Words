@@ -19,8 +19,8 @@ import {
   CardSection,
   ShapedTextInput,
   Spinner,
-} from './common/';
-import generalUtils from '../utils/generalUtils';
+} from '../common/';
+import generalUtils from '../../utils/generalUtils';
 
 const _ = require('lodash');
 
@@ -32,7 +32,7 @@ class SignUpForm extends Component {
     password: null,
     interests: null,
     level: null,
-    error: ['name', 'phone', 'email'],
+    error: ['name', 'phone', 'email', 'password'],
     submitted: false
   }
   componentWillMount() {
