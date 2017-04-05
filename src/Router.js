@@ -13,7 +13,7 @@ import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import PurchaseHolder from './components/purchase/purchaseHolder';
 import HomePageHolder from './components/singlePages/home';
-import ChooseWordsHolder from './components/chooseWords/chooseWordsHolder';
+import ChooseWordsHolder from './components/singlePages/chooseWords';
 
 let globalTabColor = null;
 
@@ -154,6 +154,7 @@ class RouterComponent extends Component {
                   hideTabBar
                   navigationBarStyle={styles.navigationBarStyle}
                   renderBackButton={this.backRender('white')}
+                  initial
                 />
                 <Scene
                   key='LearnWithPhotoHolder'

@@ -9,25 +9,28 @@ import {
   // ScrollView,
   Dimensions,
   Animated,
-  // LayoutAnimation
+  TouchableOpacity
 } from 'react-native';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import { Actions } from 'react-native-router-flux';
+import Tts from 'react-native-tts';
+import renderIf from 'render-if';
 
 import {
   // Header,
   Button,
-  //  Spinner,
+  Spinner,
 } from '../common/';
+
 import generalUtils from '../../utils/generalUtils';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
-// const xOffset = new Animated.Value(0);
-// const onScroll = Animated.event([{ nativeEvent: { contentOffset: { x: xOffset } } }]);
+
 const Item = class Item extends Component {
   state= {
-clicked: false,
-choosed: 10,
-left: 0
+    clicked: false,
+    choosed: 10,
+    left: 0
   }
-  styles={
+  styles= {
     mainContainer: {
       width: Dimensions.get('window').width - 40,
       marginLeft: 20,
@@ -59,7 +62,7 @@ left: 0
     part2: {
       flex: 2,
       justifyContent: 'center',
-    alignItems: 'center'
+      alignItems: 'center'
     },
     part3: {
       flex: 4,
@@ -96,31 +99,56 @@ left: 0
   }
   call(chooseda, lefta) {
     this.setState({
-choosed: chooseda,
-left: lefta
-     });
+      choosed: chooseda,
+      left: lefta
+    });
+  }
+  componentWillMount() {
+    Tts.setDefaultRate(0.45);
+  }
+  componentDidMount() {
+    // Tts.voices().then(voices => console.log(voices));
+    Tts.addEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
+    Tts.addEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+  }
+  componentWillUnmount() {
+    Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
+    Tts.removeEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+  }
+  onPressMe() {
+    Actions.LearnWithPhotoHolder();
+  }
+  textToSpeech(text) {
+    Tts.setDefaultVoice('com.apple.ttsbundle.Daniel-compact');
+    Tts.speak(text).then((res) => { console.log(res); }).catch((res) => { console.log(res); });
   }
   imageHolder(image) {
-    if (image !== '') {
-    return (
-      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch' }} >
-        <View style={{ flex: 1 }} />
-      <View style={this.styles.imageHold}>
-        <Image source={{ uri: image }} style={this.styles.image} />
-      </View>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <View style={this.styles.circle}>
-          <Icon name='volume-2' size={28} color='#00cccc' />
+    if (image) {
+      return (
+        <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch' }} >
+          <View style={{ flex: 1 }} />
+          <View style={this.styles.imageHold}>
+            <Image source={{ uri: image }} style={this.styles.image} />
+          </View>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.rowData.english)} disabled={this.state.disabled}>
+              <View style={this.styles.circle}>
+                {renderIf(!this.state.disabled)(
+                  <Icon name='volume-2' size={28} color='#00cccc' />
+                )}
+                {renderIf(this.state.disabled)(
+                  <Spinner size='small' colors='black' />
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </View>
-    );
+      );
     }
-    return (<View />);
+    return <Spinner size='large' color='black' />;
   }
   render() {
     return (
-
       <View style={this.styles.mainContainer}>
         <View style={this.styles.part1}>
           <Text style={this.styles.headLine}>{this.props.lang.text.choosed} {this.props.choosed} {this.props.lang.text.left} {this.props.left}</Text>
@@ -130,23 +158,25 @@ left: lefta
           <Text style={this.styles.wordTurkish}>{this.props.rowData.turkish}</Text>
         </View>
         <View style={this.styles.part3}>
-        {this.imageHolder(this.props.rowData.image)}
+          {this.imageHolder(this.props.rowData.image)}
         </View>
         <View style={this.styles.part4}>
           <Button
             text={this.props.lang.title.iWantLearn}
             style={{
-                  borderRadius: 20,
-                  marginLeft: 50,
-                  marginRight: 50,
-                  backgroundColor: '#ffb434', }}
+              borderRadius: 20,
+              marginLeft: 50,
+              marginRight: 50,
+              backgroundColor: '#ffb434'
+            }}
             textStyle={{
               alignSelf: 'center',
               color: 'white',
               fontSize: 16,
               fontWeight: '600',
               paddingTop: 10,
-              paddingBottom: 10 }}
+              paddingBottom: 10
+            }}
             onPressMe={this.iWant.bind(this)}
             disabled={this.state.clicked}
           />
@@ -154,10 +184,9 @@ left: lefta
       </View>
     );
   }
-
 };
-class ChooseWordsHolder extends Component {
 
+class ChooseWordsHolder extends Component {
   state = {
     dataSource: [['English', 'turkish', 5]],
     marga: new Animated.Value(0),
@@ -182,19 +211,17 @@ class ChooseWordsHolder extends Component {
     const apiData = {};
     apiData.memberId = this.state.memberId;
     apiData.not = this.state.not;
-    generalUtils.setDataFromApi(this.state.getLink, apiData)
-    .then(data => {
+    generalUtils.setDataFromApi(this.state.getLink, apiData).then(data => {
       this.setState({
-      dataSource: data,
-      rows: data
-     });
+        dataSource: data,
+        rows: data
+      });
       for (let i = 0; i < data.length; i++) {
         this.setState({
           not: this.state.not.concat([data[i].word_id]),
-         });
+        });
       }
-    })
-    .catch(reason => console.log(reason));
+    }).catch(reason => console.log(reason));
   }
   onPressMe() {
     Animated.timing(
@@ -209,28 +236,24 @@ class ChooseWordsHolder extends Component {
     const apiData = {};
     apiData.memberId = this.state.memberId;
     apiData.not = this.state.not;
-    generalUtils.setDataFromApi(this.state.getLink, apiData)
-    .then(data => {
+    generalUtils.setDataFromApi(this.state.getLink, apiData).then(data => {
       if (data.none) {
         this.setState({
           canGet: false,
         });
-    } else {
-      this.setState({
-        rows: this.state.rows.concat(data)
-      });
-      this.setState({
-        dataSource: this.state.rows,
-        canGet: true
-      });
-      for (let i = 0; i < data.length; i++) {
+      } else {
         this.setState({
-          not: this.state.not.concat([data[i].word_id]),
+          rows: this.state.rows.concat(data),
+          dataSource: this.state.rows,
+          canGet: true
         });
+        for (let i = 0; i < data.length; i++) {
+          this.setState({
+            not: this.state.not.concat([data[i].word_id]),
+          });
+        }
       }
-    }
-    })
-    .catch(reason => console.log(reason));
+    }).catch(reason => console.log(reason));
   }
   handleScroll(event) {
     const width = this.state.not.length;
@@ -254,77 +277,63 @@ class ChooseWordsHolder extends Component {
       left: le,
       idsArray: this.state.idsArray.concat([wordId])
     }, function () {
-    if (this.state.left === 0) {
-      const apiData = {};
-      apiData.memberId = this.state.memberId;
-      apiData.ids = this.state.idsArray;
-      generalUtils.setDataFromApi(this.state.getWordsLinks, apiData)
-      .then(data => {
-        console.log(data);
-      /*  this.setState({
-        dataSource: ds.cloneWithRows(data),
-        rows: data
-       });
-        for (let i = 0; i < data.length; i++) {
-          this.setState({
-            not: this.state.not.concat([data[i].word_id]),
-           });
-        }*/
-
-      })
-      .catch(reason => console.log(reason));
-
-
-    }
+      if (this.state.left === 0) {
+        const apiData = {};
+        apiData.memberId = this.state.memberId;
+        apiData.ids = this.state.idsArray;
+        generalUtils.setDataFromApi(this.state.getWordsLinks, apiData).then(data => {
+          console.log(data);
+        }).catch(reason => console.log(reason));
+      }
     });
-
     const width = this.state.not.length;
     const current = this.state.offset / Dimensions.get('window').width;
     const ah = width - current;
     if (ah > 1) {
       this.refs.wordsa.scrollTo({ x: this.state.offset + Dimensions.get('window').width, y: 0, animated: true });
     }
-  }
-  renderMyRow() {
+}
+renderMyRow() {
   return this.state.dataSource.map((value, key) =>
-        <Item lang={this.props.lang} handler={this.handler.bind(this)} key={key} rowData={value} choosed={this.state.choosed} left={this.state.left} />
-    );
-     }
+    <Item lang={this.props.lang} handler={this.handler.bind(this)} key={key} rowData={value} choosed={this.state.choosed} left={this.state.left} />
+  );
+}
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.swipContainer}>
+render() {
+  return (
+    <View style={styles.container}>
+      <View style={styles.swipContainer}>
         <ScrollView
           horizontal
           ref="wordsa"
           pagingEnabled
           onScroll={this.handleScroll.bind(this)}
-          showsHorizontalScrollIndicator={false}>
-          {this.renderMyRow()}
+          showsHorizontalScrollIndicator={false}
+        >
+        {this.renderMyRow()}
         </ScrollView>
       </View>
-        <View style={styles.downPart}>
-          <View style={styles.downpart1}>
-            <Text style={styles.text}>{this.props.lang.text.custom}{this.state.level}, {this.state.interestsNumber}{this.props.lang.text.topic}</Text>
-          </View>
-          <View style={styles.downpart2}>
-            <View style={{ flex: 1 }}></View>
-            <View style={styles.buttonHolder}>
-              <Button
-                text={this.props.lang.text.change}
-                style={styles.SignUpButton}
-                textStyle={styles.SignUpButtonText}
-                onPressMe={this.onPressMe.bind(this)}
-              />
-            </View>
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <View style={styles.downpart3}></View>
+      <View style={styles.downPart}>
+        <View style={styles.downpart1}>
+          <Text style={styles.text}>{this.props.lang.text.custom}{this.state.level}, {this.state.interestsNumber}{this.props.lang.text.topic}</Text>
         </View>
+        <View style={styles.downpart2}>
+          <View style={{ flex: 1 }}><Text>{''}</Text></View>
+          <View style={styles.buttonHolder}>
+            <Button
+              text={this.props.lang.text.change}
+              style={styles.SignUpButton}
+              textStyle={styles.SignUpButtonText}
+              onPressMe={this.onPressMe.bind(this)}
+            />
+          </View>
+          <View style={{ flex: 1 }}><Text>{''}</Text></View>
+        </View>
+        <View style={styles.downpart3}><Text>{''}</Text></View>
       </View>
-    );
-  }
+    </View>
+  );
+}
 }
 const styles = StyleSheet.create({
   text: {
