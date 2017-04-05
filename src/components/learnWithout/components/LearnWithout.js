@@ -19,7 +19,7 @@ class LearnWithout extends Component {
     disabled: false
   }
   componentWillMount() {
-    Tts.setDefaultRate(0.4);
+    Tts.setDefaultRate(0.45);
   }
   componentDidMount() {
     // Tts.voices().then(voices => console.log(voices));
@@ -34,7 +34,7 @@ class LearnWithout extends Component {
     Actions.LearnWithPhotoHolder();
   }
   textToSpeech(text) {
-    Tts.setDefaultVoice('com.apple.ttsbundle.Karen-compact');
+    Tts.setDefaultVoice('com.apple.ttsbundle.Daniel-compact');
     Tts.speak(text).then((res) => { console.log(res); }).catch((res) => { console.log(res); });
   }
   renderButton() {
