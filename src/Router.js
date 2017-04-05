@@ -127,7 +127,6 @@ class RouterComponent extends Component {
               initial
               tabBarStyle={styles.tabBarStyle}
               tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
-              initial
             >
               <Scene
                 key='Home'
@@ -142,6 +141,7 @@ class RouterComponent extends Component {
                   lang={this.props.lang}
                   hideNavBar
                   sceneStyle={styles.tabSceneStyle}
+                  deviceAndroid={this.props.deviceAndroid}
                   renderBackButton={this.backRender('white')}
                   replaceColor={this.replaceColor.bind(this)}
                 />
@@ -152,7 +152,6 @@ class RouterComponent extends Component {
                   lang={this.props.lang}
                   hideNavBar={false}
                   hideTabBar
-                  initial
                   navigationBarStyle={styles.navigationBarStyle}
                   renderBackButton={this.backRender('white')}
                 />
@@ -173,7 +172,6 @@ class RouterComponent extends Component {
                   navigationBarStyle={styles.navigationBarStyle}
                   renderBackButton={this.backRender('white')}
                   replaceColor={this.replaceColor.bind(this)}
-                  initial
                 />
               </Scene>
               <Scene

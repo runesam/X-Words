@@ -1,7 +1,7 @@
 package com.xwords;
 
 import com.facebook.react.ReactActivity;
-import com.mihir.react.tts.*;
+//import com.mihir.react.tts.*;
 public class MainActivity extends ReactActivity {
 
     /**
