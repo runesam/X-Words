@@ -282,7 +282,8 @@ class ChooseWordsHolder extends Component {
         apiData.memberId = this.state.memberId;
         apiData.ids = this.state.idsArray;
         generalUtils.setDataFromApi(this.state.getWordsLinks, apiData).then(data => {
-          console.log(data);
+          generalUtils.storageSetItem('todayWords', data);
+          generalUtils.storageSetItem('status', 'choosed');
         }).catch(reason => console.log(reason));
       }
     });

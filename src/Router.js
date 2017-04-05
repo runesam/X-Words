@@ -14,6 +14,7 @@ import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import PurchaseHolder from './components/purchase/purchaseHolder';
 import HomePageHolder from './components/singlePages/home';
 import ChooseWordsHolder from './components/singlePages/chooseWords';
+import ConfirmWords from './components/singlePages/confirmWords';
 
 let globalTabColor = null;
 
@@ -154,7 +155,17 @@ class RouterComponent extends Component {
                   hideTabBar
                   navigationBarStyle={styles.navigationBarStyle}
                   renderBackButton={this.backRender('white')}
+                />
+                <Scene
+                  key='ConfirmWords'
+                  title={this.props.lang.title.chooseWords_pageTitle}
+                  component={ConfirmWords}
+                  lang={this.props.lang}
+                  hideNavBar={false}
                   initial
+                  hideTabBar
+                  navigationBarStyle={styles.navigationBarStyle}
+                  renderBackButton={this.backRender('white')}
                 />
                 <Scene
                   key='LearnWithPhotoHolder'
