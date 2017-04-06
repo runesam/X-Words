@@ -28,7 +28,7 @@ const Item = class Item extends Component {
   state= {
     clicked: false,
     choosed: 10,
-    left: 0
+    left: 0,
   }
   styles= {
     mainContainer: {
@@ -196,6 +196,7 @@ class ChooseWordsHolder extends Component {
     currentX: null,
     level: 'orta',
     not: [],
+    wida: Dimensions.get('window').width,
     idsArray: [],
     choosed: 0,
     left: 10, // how many words
@@ -282,15 +283,16 @@ class ChooseWordsHolder extends Component {
         apiData.memberId = this.state.memberId;
         apiData.ids = this.state.idsArray;
         generalUtils.setDataFromApi(this.state.getWordsLinks, apiData).then(data => {
-          console.log(data);
+          generalUtils.storageSetItem('todayWords', data);
+          generalUtils.storageSetItem('status', 'choosed');
         }).catch(reason => console.log(reason));
       }
     });
     const width = this.state.not.length;
-    const current = this.state.offset / Dimensions.get('window').width;
+    const current = this.state.offset / this.state.wida;
     const ah = width - current;
     if (ah > 1) {
-      this.refs.wordsa.scrollTo({ x: this.state.offset + Dimensions.get('window').width, y: 0, animated: true });
+      this.refs.wordsa.scrollTo({ x: this.state.offset + this.state.wida, animated: false });
     }
 }
 renderMyRow() {
