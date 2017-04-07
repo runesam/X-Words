@@ -26,7 +26,8 @@
     "profile_tab": "Profile",
     "settings_tab": "Settings",
     "iWantLearn": "öğrenmek istiyorum",
-    "chooseWords_pageTitle": "Choose some words"
+    "chooseWords_pageTitle": "Choose some words",
+    "confirmWords_pageTitle": "Confirm words",
   },
   "text": {
     "choosed": "SEÇILMIŞ",
@@ -51,6 +52,6 @@
     "starter": "Ready to choose today",
     "choosedAlready": "You have choosed words",
     "learnAlready": "You have learned words",
-    "welcome": "Have a good day, Here are sum results",
+    "welcome": "Have a good day, Here are sum ",
   }
 }

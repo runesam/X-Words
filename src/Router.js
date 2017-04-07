@@ -158,7 +158,7 @@ class RouterComponent extends Component {
                 />
                 <Scene
                   key='ConfirmWords'
-                  title={this.props.lang.title.chooseWords_pageTitle}
+                  title={this.props.lang.title.confirmWords_pageTitle}
                   component={ConfirmWords}
                   lang={this.props.lang}
                   hideNavBar={false}

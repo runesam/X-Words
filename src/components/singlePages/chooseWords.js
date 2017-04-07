@@ -209,20 +209,31 @@ class ChooseWordsHolder extends Component {
     getWordsLinks: 'get_words_data'
   };
   componentWillMount() {
-    const apiData = {};
-    apiData.memberId = this.state.memberId;
-    apiData.not = this.state.not;
-    generalUtils.setDataFromApi(this.state.getLink, apiData).then(data => {
-      this.setState({
-        dataSource: data,
-        rows: data
-      });
-      for (let i = 0; i < data.length; i++) {
-        this.setState({
-          not: this.state.not.concat([data[i].word_id]),
-        });
+    generalUtils.storageGetItem('status').then((data) => {
+      if (data === 'choosed') {
+        Actions.HomePageHolder({ direct: 'confirm' });
+      } else {
+        console.log(1);
+        const apiData = {};
+        apiData.memberId = this.state.memberId;
+        apiData.not = this.state.not;
+        console.log(2);
+        generalUtils.setDataFromApi(this.state.getLink, apiData).then(data => {
+          console.log('3');
+          this.setState({
+            dataSource: data,
+            rows: data
+          });
+          console.log('4');
+          for (let i = 0; i < data.length; i++) {
+            this.setState({
+              not: this.state.not.concat([data[i].word_id]),
+            });
+          }
+          console.log('5');
+        }).catch(reason => console.log(reason));
       }
-    }).catch(reason => console.log(reason));
+    });
   }
   onPressMe() {
     Animated.timing(
@@ -234,6 +245,7 @@ class ChooseWordsHolder extends Component {
     });
   }
   getMore() {
+    console.log('state');
     const apiData = {};
     apiData.memberId = this.state.memberId;
     apiData.not = this.state.not;
@@ -242,27 +254,36 @@ class ChooseWordsHolder extends Component {
         this.setState({
           canGet: false,
         });
+        console.log('no more');
+        // update the level
       } else {
+        const all = this.state.rows.concat(data);
         this.setState({
-          rows: this.state.rows.concat(data),
-          dataSource: this.state.rows,
+          rows: all,
+          dataSource: all,
           canGet: true
         });
+          console.log('added');
         for (let i = 0; i < data.length; i++) {
           this.setState({
             not: this.state.not.concat([data[i].word_id]),
           });
         }
       }
-    }).catch(reason => console.log(reason));
+    }).catch(reason => {
+      console.log(reason);
+    });
   }
   handleScroll(event) {
+    console.log('start scroll');
     const width = this.state.not.length;
     this.setState({ offset: event.nativeEvent.contentOffset.x });
     const current = event.nativeEvent.contentOffset.x / Dimensions.get('window').width;
     const ah = width - current;
-    if (ah === 7 && this.state.canGet) {
+    const can = this.state.canGet;
+    if (ah < 7 && can) {
       this.setState({ canGet: false });
+      console.log('geting more');
       this.getMore();
     }
   }
@@ -270,6 +291,7 @@ class ChooseWordsHolder extends Component {
 
   }
   handler(wordId) {
+        if (this.state.left > 0) {
     console.log(wordId);
     const ch = this.state.choosed + 1;
     const le = this.state.left - 1;
@@ -285,17 +307,25 @@ class ChooseWordsHolder extends Component {
         generalUtils.setDataFromApi(this.state.getWordsLinks, apiData).then(data => {
           generalUtils.storageSetItem('todayWords', data);
           generalUtils.storageSetItem('status', 'choosed');
+          Actions.ConfirmWords();
         }).catch(reason => console.log(reason));
       }
     });
+
     const width = this.state.not.length;
     const current = this.state.offset / this.state.wida;
     const ah = width - current;
     if (ah > 1) {
-      this.refs.wordsa.scrollTo({ x: this.state.offset + this.state.wida, animated: false });
+      this.refs.wordsa.scrollTo({ x: this.state.offset + this.state.wida, animated: true });
     }
+  }
 }
 renderMyRow() {
+  if (this.state.dataSource === [['English', 'turkish', 5]]) {
+  return this.state.dataSource.map((value, key) =>
+    <Text key={key}>Loading...</Text>
+  );
+}
   return this.state.dataSource.map((value, key) =>
     <Item lang={this.props.lang} handler={this.handler.bind(this)} key={key} rowData={value} choosed={this.state.choosed} left={this.state.left} />
   );
@@ -311,6 +341,7 @@ render() {
           pagingEnabled
           onScroll={this.handleScroll.bind(this)}
           showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={200}
         >
         {this.renderMyRow()}
         </ScrollView>
