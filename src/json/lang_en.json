@@ -15,7 +15,9 @@
     "submit": "Submit",
     "days": "Days",
     "words": "Words",
-    "startLearn": "Start Learning",
+    "chooseWords": "choose words",
+    "startLearn": "Start Learn",
+    "takeQuize": "Take Quiz",
     "offer" : "Only 19 TRY",
     "buy_now": "Buy Now!",
     "phone": "0 (212) 988 - 19 88",
@@ -24,7 +26,8 @@
     "profile_tab": "Profile",
     "settings_tab": "Settings",
     "iWantLearn": "öğrenmek istiyorum",
-    "chooseWords_pageTitle": "Choose some words"
+    "chooseWords_pageTitle": "Choose some words",
+    "confirmWords_pageTitle": "Confirm words",
   },
   "text": {
     "choosed": "SEÇILMIŞ",
@@ -47,6 +50,8 @@
     "more_info": "More info and offers click to call",
     "trouble": "Having troubles please call us on",
     "starter": "Ready to choose today",
-    "welcome": "Have a good day, Here are sum results",
+    "choosedAlready": "You have choosed words",
+    "learnAlready": "You have learned words",
+    "welcome": "Have a good day, Here are sum ",
   }
 }

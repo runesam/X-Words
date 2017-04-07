@@ -14,7 +14,6 @@ module.exports = {
   storageGetItem: async (key) => {
     try {
       const value = await AsyncStorage.getItem(key);
-      console.log(value);
       return JSON.parse(value);
     } catch (error) {
       console.log(error);

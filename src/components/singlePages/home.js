@@ -30,16 +30,48 @@
   class HomePageHolder extends Component {
     state= {
       days: 10,
-      words: 130
+      words: 130,
+      status: '',
+      starter: this.props.lang.text.starter,
+      startLearn: this.props.lang.title.startLearn,
     }
     componentWillMount() {
-
+//     generalUtils.storageSetItem('data', null);
+// generalUtils.storageSetItem('status', 'ready');
       console.log(this.props);
       if (this.props.replaceColor) {
         this.props.replaceColor('white');
       }
       generalUtils.storageGetItem('status').then((data) => {
-      this.setState({ status: data });
+
+        /*
+        "chooseWords": "choose words",
+        "takeQuize": "Take Quiz",
+
+
+        "starter": "Ready to choose today",
+
+        */
+        let buttonT = '';
+        let textT = '';
+        switch (data) {
+          case 'choosed':
+          buttonT = this.props.lang.title.startLearn;
+          textT = this.props.lang.text.choosedAlready;
+            break;
+          case 'learned':
+          buttonT = this.props.lang.title.takeQuize;
+          textT = this.props.lang.text.learnAlready;
+            break;
+          default:
+          buttonT = this.props.lang.title.chooseWords;
+          textT = this.props.lang.text.starter;
+        }
+      this.setState({
+        status: data,
+        starter: textT,
+        startLearn: buttonT,
+      });
       });
     }
     ComponentDidUpdate() {
@@ -69,9 +101,9 @@
                   </View>
                 </View>
                 <View style={styles.startHolder}>
-                  <Text style={styles.headerText}>{this.props.lang.text.starter}</Text>
+                  <Text style={styles.headerText}>{this.state.starter}</Text>
                   <Button
-                    text={this.props.lang.title.startLearn}
+                    text={this.state.startLearn}
                     style={styles.SignUpButton}
                     textStyle={styles.SignUpButtonText}
                     onPressMe={Actions.ChooseWordsHolder}
