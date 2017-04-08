@@ -83,7 +83,7 @@ class ConfirmWords extends Component {
   }
   readyTogo() {
     generalUtils.storageSetItem('status', 'confirmed');
-    Actions.LearnWithPhotoHolder();
+    Actions.LearnWithPhotoHolder({ action: 'newDay' });
   }
   emptyTogo() {
     Alert.alert(

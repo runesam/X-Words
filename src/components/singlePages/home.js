@@ -99,7 +99,7 @@ const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 1
         if (this.state.status === 'choosed') {
           Actions.ConfirmWords();
         } else if (this.state.status === 'confirmed') {
-          Actions.LearnWithPhotoHolder();
+          Actions.LearnWithPhotoHolder({ action: 'newDay' });
         } else if (this.state.status === 'ready') {
           Actions.ChooseWordsHolder();
         } else if (this.state.status === 'passed' || this.state.status === 'finished') {

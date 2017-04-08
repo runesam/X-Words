@@ -19,11 +19,18 @@ import LearnWithPhoto from './components/LearnWithPhoto';
 
 class LearnWithPhotoHolder extends Component {
   state= {
-
+    headline: '1/10',
   }
   componentWillMount() {
     if (this.props.replaceColor) {
       this.props.replaceColor('#00cccc');
+    }
+    switch (this.props.action) {
+      case 'newDay':
+      this.setState({ headline: '8/10' });
+        break;
+      default:
+
     }
   }
   onPressMe() {
@@ -36,7 +43,7 @@ class LearnWithPhotoHolder extends Component {
     return (
       <View style={styles.mainContainer}>
         <StatusBar barStyle='light-content' />
-        <Header headerText={'8/10'} />
+        <Header headerText={this.state.headline} />
         <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} wordId={this.start} />
       </View>
     );
