@@ -48,11 +48,11 @@ const Item = class Item extends Component {
   componentDidMount() {
     // Tts.voices().then(voices => console.log(voices));
     // Tts.addEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
-    Tts.addEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+    Tts.addEventListener('tts-finish', () => this.setState({ disabled: false }));
   }
   componentWillUnmount() {
     // Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
-    Tts.removeEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+    // Tts.removeEventListener('tts-finish', () => this.setState({ disabled: false }));
   }
   onPressMe() {
     Actions.LearnWithPhotoHolder();
@@ -243,29 +243,31 @@ class ChooseWordsHolder extends Component {
   }
   handler(wordId) {
     if (this.state.left > 0) {
-      console.log(wordId);
       const ch = this.state.choosed + 1;
       const le = this.state.left - 1;
       this.setState({
         choosed: ch,
         left: le,
         idsArray: this.state.idsArray.concat([wordId])
-      }, function () {
-        if (this.state.left === 0) {
+      }, () => {
+       if (this.state.left === 0) {
           const apiData = {};
           apiData.memberId = this.state.memberId;
           apiData.ids = this.state.idsArray;
           generalUtils.setDataFromApi(this.state.getWordsLinks, apiData).then(data => {
             generalUtils.storageSetItem('todayWords', data);
             generalUtils.storageSetItem('status', 'choosed');
+            const date = new Date();
+            const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
+            generalUtils.storageSetItem('day', newDate);
             Actions.ConfirmWords();
           }).catch(reason => console.log(reason));
         }
       });
       const width = this.state.not.length;
       const current = this.state.offset / this.state.wida;
-      const currentPage = width - current;
-      if (currentPage > 1) {
+      const ah = width - current;
+      if (ah > 1) {
         this.refs.wordsa.scrollTo({ x: this.state.offset + this.state.wida, animated: true });
       }
     }

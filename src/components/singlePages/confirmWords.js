@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Alert,
   ListView,
   //Image,
   // Alert,
@@ -82,7 +83,23 @@ class ConfirmWords extends Component {
   }
   readyTogo() {
     generalUtils.storageSetItem('status', 'confirmed');
-    Actions.ChooseWordsHolder();
+    Actions.LearnWithPhotoHolder({ action: 'newDay' });
+  }
+  emptyTogo() {
+    Alert.alert(
+  this.props.lang.title.cancelBox,
+  this.props.lang.title.cancelBoxText,
+  [
+    { text: this.props.lang.title.cancelBoxbutton, onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+    { text: this.props.lang.title.okBox,
+    onPress: () => {
+      generalUtils.storageSetItem('status', 'ready');
+      generalUtils.storageSetItem('todayWords', null);
+      Actions.ChooseWordsHolder();
+    } },
+  ],
+  { cancelable: false }
+);
   }
   renderRow() {
       return (data) =>
@@ -116,7 +133,7 @@ render() {
       text={this.props.lang.text.change}
       style={styles.SignUpButton2}
       textStyle={styles.SignUpButtonText2}
-      onPressMe={Actions.ChooseWordsHolder}
+      onPressMe={this.emptyTogo.bind(this)}
     />
     </View>
     </View>
