@@ -210,27 +210,27 @@ class ChooseWordsHolder extends Component {
   };
   componentWillMount() {
     generalUtils.storageGetItem('status').then((data) => {
-      if (data === 'choosed') {
-        Actions.HomePageHolder({ direct: 'confirm' });
-      } else {
-        console.log(1);
+      if(data === "choosed"){
+        Actions.ConfirmWords();
+      }else{
+        console.log("1");
         const apiData = {};
         apiData.memberId = this.state.memberId;
         apiData.not = this.state.not;
-        console.log(2);
+        console.log("2");
         generalUtils.setDataFromApi(this.state.getLink, apiData).then(data => {
-          console.log('3');
+          console.log("3");
           this.setState({
             dataSource: data,
             rows: data
           });
-          console.log('4');
+          console.log("4");
           for (let i = 0; i < data.length; i++) {
             this.setState({
               not: this.state.not.concat([data[i].word_id]),
             });
           }
-          console.log('5');
+          console.log("5");
         }).catch(reason => console.log(reason));
       }
     });
@@ -257,7 +257,7 @@ class ChooseWordsHolder extends Component {
         console.log('no more');
         // update the level
       } else {
-        const all = this.state.rows.concat(data);
+        let all = this.state.rows.concat(data);
         this.setState({
           rows: all,
           dataSource: all,
@@ -271,7 +271,7 @@ class ChooseWordsHolder extends Component {
         }
       }
     }).catch(reason => {
-      console.log(reason);
+      console.log('s');
     });
   }
   handleScroll(event) {
@@ -280,8 +280,8 @@ class ChooseWordsHolder extends Component {
     this.setState({ offset: event.nativeEvent.contentOffset.x });
     const current = event.nativeEvent.contentOffset.x / Dimensions.get('window').width;
     const ah = width - current;
-    const can = this.state.canGet;
-    if (ah < 7 && can) {
+    let can =this.state.canGet;
+    if ( ah < 7 && can) {
       this.setState({ canGet: false });
       console.log('geting more');
       this.getMore();
@@ -291,7 +291,7 @@ class ChooseWordsHolder extends Component {
 
   }
   handler(wordId) {
-        if (this.state.left > 0) {
+        if(this.state.left>0){
     console.log(wordId);
     const ch = this.state.choosed + 1;
     const le = this.state.left - 1;
@@ -321,14 +321,15 @@ class ChooseWordsHolder extends Component {
   }
 }
 renderMyRow() {
-  if (this.state.dataSource === [['English', 'turkish', 5]]) {
+  if(  this.state.dataSource === [['English', 'turkish', 5]]){
   return this.state.dataSource.map((value, key) =>
-    <Text key={key}>Loading...</Text>
+    <Text>Loading...</Text>
   );
-}
+}else{
   return this.state.dataSource.map((value, key) =>
     <Item lang={this.props.lang} handler={this.handler.bind(this)} key={key} rowData={value} choosed={this.state.choosed} left={this.state.left} />
   );
+}
 }
 
 render() {
