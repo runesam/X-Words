@@ -12,7 +12,7 @@ class Xwords extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <App />
+          <App deviceIOS />
       </View>
     );
   }

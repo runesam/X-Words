@@ -196,4 +196,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = Interests;
+export { Interests };

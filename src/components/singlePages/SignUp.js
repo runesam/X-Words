@@ -392,4 +392,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = SignUpForm;
+export { SignUpForm };

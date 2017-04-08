@@ -195,4 +195,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = Levels;
+export { Levels };

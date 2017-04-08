@@ -156,4 +156,4 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   }
 });
-module.exports = Slider;
+export { Slider };

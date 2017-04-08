@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+// import generalUtils from './utils/generalUtils';
 import reducers from './reducers';
 import {
   // Header,
@@ -15,15 +16,14 @@ import {
   // Spinner,
   // CardSection
 } from './components/common/';
-// import LoginForm from './components/LoginForm';
 import Router from './Router';
-// import LibraryList from './components/LibraryList';
 import lang from './json/lang_en.json';
 import api from './json/apiKeys.json';
 
 class App extends Component {
   state = {
     store: createStore(reducers, {}, applyMiddleware(ReduxThunk)),
+    accent: null,
     lang,
     api
   }
@@ -44,7 +44,7 @@ class App extends Component {
     return (
       <Provider store={this.state.store}>
         <View style={styles.view_style}>
-          <Router deviceAndroid={this.props.deviceAndroid} lang={this.state.lang} api={this.state.api} />
+          <Router deviceAndroid={this.props.deviceAndroid} lang={this.state.lang} api={this.state.api} accent={this.state.accent} />
         </View>
       </Provider>
     );

@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
 });
-module.exports = ConfirmWords;
+export { ConfirmWords };

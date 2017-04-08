@@ -38,6 +38,7 @@
 		522BA134E46C4575A75C28E1 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4AC16F438F34BB081D5EFE4 /* Octicons.ttf */; };
 		59FC94C5E6AE48F385A20559 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1E0B9A28054F719D66E232 /* libRNVectorIcons.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		65F7F31186E04D8382FE441B /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F6E1AFCBE4C49D9BFB7DCD6 /* libRNDeviceInfo.a */; };
 		6EAB97BF683345789D48CFD4 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EED652FCE50419B83D91607 /* Entypo.ttf */; };
 		72321D6205DE4AF8B78C6FBA /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7997547EA6CE428498695F59 /* Foundation.ttf */; };
 		7C0D653C3386454EBBB2FE60 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D9614B9D1A14EF7B0121814 /* EvilIcons.ttf */; };
@@ -270,6 +271,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = SpeechSynthesizer;
 		};
+		87DE97D41E98E8D2005E5FE2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B01AB47E7D6640C49DB45F38 /* RNDeviceInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
+			remoteInfo = RNDeviceInfo;
+		};
 		C9A48B4C1E94F1BB00DF5C95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C9A48B471E94F1BB00DF5C95 /* RCTPushNotification.xcodeproj */;
@@ -311,6 +319,7 @@
 		2D02E4901E0B4A5D006451C7 /* Xwords-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Xwords-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36B03B777E3942168EAAD802 /* TextToSpeech.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = TextToSpeech.xcodeproj; path = "../node_modules/react-native-tts/ios/TextToSpeech.xcodeproj"; sourceTree = "<group>"; };
 		39E3E97CC9404E3AAC06C4EA /* libSpeechSynthesizer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSpeechSynthesizer.a; sourceTree = "<group>"; };
+		3F6E1AFCBE4C49D9BFB7DCD6 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6AEBC35BFAE5421391FBBA7D /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -322,6 +331,7 @@
 		9C7644B1C753456A87D0069C /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		9D9614B9D1A14EF7B0121814 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		A865333730B04C21AC86B3ED /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		B01AB47E7D6640C49DB45F38 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		BD9679C75E524265A583B70B /* libTextToSpeech.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libTextToSpeech.a; sourceTree = "<group>"; };
 		C7DC2F46F5E44C21B5493137 /* SpeechSynthesizer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SpeechSynthesizer.xcodeproj; path = "../node_modules/react-native-speech/SpeechSynthesizer.xcodeproj"; sourceTree = "<group>"; };
 		C9A48B471E94F1BB00DF5C95 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
@@ -359,6 +369,7 @@
 				59FC94C5E6AE48F385A20559 /* libRNVectorIcons.a in Frameworks */,
 				D907C33A07DB4677AD9D3559 /* libSpeechSynthesizer.a in Frameworks */,
 				9279E3F9A32A455D97C1F4A3 /* libTextToSpeech.a in Frameworks */,
+				65F7F31186E04D8382FE441B /* libRNDeviceInfo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,6 +558,7 @@
 				2898E85C2F8D41BAAF745474 /* RNVectorIcons.xcodeproj */,
 				C7DC2F46F5E44C21B5493137 /* SpeechSynthesizer.xcodeproj */,
 				36B03B777E3942168EAAD802 /* TextToSpeech.xcodeproj */,
+				B01AB47E7D6640C49DB45F38 /* RNDeviceInfo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -612,6 +624,14 @@
 			isa = PBXGroup;
 			children = (
 				8783ED851E8671EE006F49BA /* libSpeechSynthesizer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		87DE97B51E98E8D2005E5FE2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				87DE97D51E98E8D2005E5FE2 /* libRNDeviceInfo.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -728,7 +748,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "xwords" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Xwords" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -791,6 +811,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 87DE97B51E98E8D2005E5FE2 /* Products */;
+					ProjectRef = B01AB47E7D6640C49DB45F38 /* RNDeviceInfo.xcodeproj */;
 				},
 				{
 					ProductGroup = 876242631E7D282E00BD89C1 /* Products */;
@@ -1019,6 +1043,13 @@
 			remoteRef = 8783ED841E8671EE006F49BA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		87DE97D51E98E8D2005E5FE2 /* libRNDeviceInfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNDeviceInfo.a;
+			remoteRef = 87DE97D41E98E8D2005E5FE2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C9A48B4D1E94F1BB00DF5C95 /* libRCTPushNotification.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1186,12 +1217,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-speech",
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 				);
 				INFOPLIST_FILE = XwordsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1216,12 +1249,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-speech",
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 				);
 				INFOPLIST_FILE = XwordsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1251,6 +1286,7 @@
 					"$(SRCROOT)/../node_modules/react-native-speech",
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 				);
 				INFOPLIST_FILE = Xwords/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1280,6 +1316,7 @@
 					"$(SRCROOT)/../node_modules/react-native-speech",
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 				);
 				INFOPLIST_FILE = Xwords/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1312,11 +1349,13 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-speech",
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 				);
 				INFOPLIST_FILE = "Xwords-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1350,11 +1389,13 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-speech",
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 				);
 				INFOPLIST_FILE = "Xwords-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1389,6 +1430,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Xwords-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1413,6 +1455,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1549,7 +1592,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "xwords" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Xwords" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
