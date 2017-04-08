@@ -40,6 +40,7 @@ class HomePageHolder extends Component {
 // generalUtils.storageSetItem('status', 'ready');
   if (this.props.direct === 'confirm') {
       Actions.ConfirmWords();
+      console.log('directed');
   }
     if (this.props.replaceColor) {
       this.props.replaceColor('white');

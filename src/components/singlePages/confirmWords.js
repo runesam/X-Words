@@ -12,16 +12,14 @@ import {
   //Animated,
   //TouchableOpacity
 } from 'react-native';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { Actions } from 'react-native-router-flux';
 //import renderIf from 'render-if';
-
+import generalUtils from '../../utils/generalUtils';
 import {
   // Header,
   Button,
 } from '../common/';
 
-import generalUtils from '../../utils/generalUtils';
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 const Level = class Level extends Component {
@@ -68,9 +66,9 @@ class ConfirmWords extends Component {
   };
   componentWillMount() {
     generalUtils.storageGetItem('status').then((data) => {
-      if(data !== "choosed"){
+      if (data !== 'choosed') {
         Actions.HomePageHolder();
-      }else{
+      } else {
         generalUtils.storageGetItem('todayWords').then((data) => {
         this.setState({ dataSource: ds.cloneWithRows(data) });
     });
