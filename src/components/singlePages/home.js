@@ -36,10 +36,10 @@
       startLearn: this.props.lang.title.startLearn,
     }
     componentWillMount() {
-const formattedDate = new Date();
-const newDate = formattedDate.getDay() + "-" + formattedDate.getMonth() + "-" + formattedDate.getFullYear();
+const date = new Date();
+const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
 //generalUtils.storageSetItem('todaywords', null);
-//generalUtils.storageSetItem('status', 'ready');
+//generalUtils.storageSetItem('status', 'choosed');
       if (this.props.replaceColor) {
         this.props.replaceColor('white');
       }

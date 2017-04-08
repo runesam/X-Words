@@ -87,14 +87,13 @@ class ConfirmWords extends Component {
   }
   emptyTogo() {
     Alert.alert(
-  'Alert Title',
-  'My Alert Msg',
+  this.props.lang.title.cancelBox,
+  this.props.lang.title.cancelBoxText,
   [
-    { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
-    { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-    { text: 'OK',
+    { text: this.props.lang.title.cancelBoxbutton, onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+    { text: this.props.lang.title.okBox,
     onPress: () => {
-      generalUtils.storageSetItem('status', 'confirmed');
+      generalUtils.storageSetItem('status', 'ready');
       generalUtils.storageSetItem('todayWords', null);
       Actions.ChooseWordsHolder();
     } },
@@ -134,7 +133,7 @@ render() {
       text={this.props.lang.text.change}
       style={styles.SignUpButton2}
       textStyle={styles.SignUpButtonText2}
-      onPressMe={this.emptyTogo}
+      onPressMe={this.emptyTogo.bind(this)}
     />
     </View>
     </View>

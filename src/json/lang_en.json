@@ -28,6 +28,11 @@
     "iWantLearn": "öğrenmek istiyorum",
     "chooseWords_pageTitle": "Choose some words",
     "confirmWords_pageTitle": "Confirm words",
+    "cancelBox": "title of it",
+    "cancelBoxText": "are you sure to cancle",
+    "cancelBoxbutton": "cancel",
+    "okBox": "ok",
+
   },
   "text": {
     "choosed": "SEÇILMIŞ",

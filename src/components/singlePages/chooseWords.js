@@ -307,8 +307,8 @@ class ChooseWordsHolder extends Component {
         generalUtils.setDataFromApi(this.state.getWordsLinks, apiData).then(data => {
           generalUtils.storageSetItem('todayWords', data);
           generalUtils.storageSetItem('status', 'choosed');
-          const formattedDate = new Date();
-          const newDate = formattedDate.getDay() + "-" + formattedDate.getMonth() + "-" + formattedDate.getFullYear();
+          const date = new Date();
+          const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
           generalUtils.storageSetItem('day', newDate);
           Actions.ConfirmWords();
         }).catch(reason => console.log(reason));
