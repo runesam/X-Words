@@ -36,49 +36,75 @@
       startLearn: this.props.lang.title.startLearn,
     }
     componentWillMount() {
-// generalUtils.storageSetItem('data', null);
+const formattedDate = new Date();
+const newDate = formattedDate.getDay() + "-" + formattedDate.getMonth() + "-" + formattedDate.getFullYear();
+//generalUtils.storageSetItem('todaywords', null);
 //generalUtils.storageSetItem('status', 'ready');
-      console.log(this.props);
       if (this.props.replaceColor) {
         this.props.replaceColor('white');
       }
       generalUtils.storageGetItem('status').then((data) => {
+        this.setState({ status: data });
         let buttonT = '';
         let textT = '';
-        switch (data) {
-          case 'choosed':
-          buttonT = this.props.lang.title.startLearn;
-          textT = this.props.lang.text.choosedAlready;
-            break;
-          case 'learned':
-          buttonT = this.props.lang.title.takeQuize;
-          textT = this.props.lang.text.learnAlready;
-            break;
-          default:
-          buttonT = this.props.lang.title.chooseWords;
-          textT = this.props.lang.text.starter;
-        }
-      this.setState({
-        status: data,
-        starter: textT,
-        startLearn: buttonT,
-      });
+          generalUtils.storageGetItem('day').then((day) => {
+            switch (data) {
+              case 'confirmed':
+              buttonT = this.props.lang.title.startLearn;
+              textT = this.props.lang.text.choosedAlready;
+              break;
+              case 'choosed':
+              buttonT = this.props.lang.title.startLearn;
+              textT = this.props.lang.text.choosedAlready;
+              break;
+              case 'finished':
+              buttonT = this.props.lang.title.takeQuize;
+              textT = this.props.lang.text.learnAlready;
+              break;
+              case 'passed':
+                if (day === newDate) {
+                  buttonT = this.props.lang.title.takeQuize;
+                  textT = this.props.lang.text.learnAlready;
+                } else {
+                  buttonT = this.props.lang.title.chooseWords;
+                  textT = this.props.lang.text.starter;
+                  generalUtils.storageSetItem('todaywords', null);
+                  generalUtils.storageSetItem('status', 'ready');
+                }
+              break;
+              case 'null':
+              generalUtils.storageSetItem('data', null);
+              generalUtils.storageSetItem('status', 'ready');
+              buttonT = this.props.lang.title.chooseWords;
+              this.setState({ status: 'ready' });
+              textT = this.props.lang.text.starter;
+              break;
+              default:
+              buttonT = this.props.lang.title.chooseWords;
+              textT = this.props.lang.text.starter;
+              this.setState({ status: 'ready' });
+            }
+            this.setState({
+              starter: textT,
+              startLearn: buttonT,
+            });
+          });
       });
     }
     ComponentDidUpdate() {
 
     }
     goSomewhere() {
-      generalUtils.storageGetItem('status').then((data) => {
-        if (data === 'choosed') {
+      console.log(this.state.status);
+        if (this.state.status === 'choosed') {
           Actions.ConfirmWords();
-        } else if (data === 'learnerd') {
-          // check time of if same day go to practice if one day before empty data and choose
-          //Actions.ConfirmWords();
-        } else {
+        } else if (this.state.status === 'confirmed') {
+          Actions.LearnWithPhotoHolder();
+        } else if (this.state.status === 'ready') {
           Actions.ChooseWordsHolder();
+        } else if (this.state.status === 'passed' || this.state.status === 'finished') {
+          //Actions.(open quiz);
         }
-      });
     }
     render() {
       return (
@@ -109,7 +135,7 @@
                     text={this.state.startLearn}
                     style={styles.SignUpButton}
                     textStyle={styles.SignUpButtonText}
-                    onPressMe={this.goSomewhere}
+                    onPressMe={this.goSomewhere.bind(this)}
                   />
                 </View>
               </View>
