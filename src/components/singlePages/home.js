@@ -36,22 +36,13 @@
       startLearn: this.props.lang.title.startLearn,
     }
     componentWillMount() {
-//     generalUtils.storageSetItem('data', null);
-// generalUtils.storageSetItem('status', 'ready');
+// generalUtils.storageSetItem('data', null);
+//generalUtils.storageSetItem('status', 'ready');
       console.log(this.props);
       if (this.props.replaceColor) {
         this.props.replaceColor('white');
       }
       generalUtils.storageGetItem('status').then((data) => {
-
-        /*
-        "chooseWords": "choose words",
-        "takeQuize": "Take Quiz",
-
-
-        "starter": "Ready to choose today",
-
-        */
         let buttonT = '';
         let textT = '';
         switch (data) {
@@ -76,6 +67,18 @@
     }
     ComponentDidUpdate() {
 
+    }
+    goSomewhere() {
+      generalUtils.storageGetItem('status').then((data) => {
+        if (data === 'choosed') {
+          Actions.ConfirmWords();
+        } else if (data === 'learnerd') {
+          // check time of if same day go to practice if one day before empty data and choose
+          //Actions.ConfirmWords();
+        } else {
+          Actions.ChooseWordsHolder();
+        }
+      });
     }
     render() {
       return (
@@ -106,7 +109,7 @@
                     text={this.state.startLearn}
                     style={styles.SignUpButton}
                     textStyle={styles.SignUpButtonText}
-                    onPressMe={Actions.ChooseWordsHolder}
+                    onPressMe={this.goSomewhere}
                   />
                 </View>
               </View>

@@ -12,7 +12,7 @@ import {
   //Animated,
   //TouchableOpacity
 } from 'react-native';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+//import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { Actions } from 'react-native-router-flux';
 //import renderIf from 'render-if';
 
@@ -20,8 +20,8 @@ import {
   // Header,
   Button,
 } from '../common/';
-
 import generalUtils from '../../utils/generalUtils';
+
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 const Level = class Level extends Component {
@@ -32,7 +32,7 @@ const Level = class Level extends Component {
   onPressMe() {
   }
   render() {
-    styles = {
+    const styles = {
       itemStyle: {
         paddingTop: 18,
         paddingBottom: 18,
@@ -51,7 +51,7 @@ const Level = class Level extends Component {
         fontWeight: 'bold',
         color: '#666666'
       },
-    }
+    };
     console.log(this.props.data);
     return (
         <View style={styles.itemStyle}>
@@ -68,11 +68,11 @@ class ConfirmWords extends Component {
   };
   componentWillMount() {
     generalUtils.storageGetItem('status').then((data) => {
-      if(data !== "choosed"){
+      if (data !== 'choosed') {
         Actions.HomePageHolder();
-      }else{
-        generalUtils.storageGetItem('todayWords').then((data) => {
-        this.setState({ dataSource: ds.cloneWithRows(data) });
+      } else {
+        generalUtils.storageGetItem('todayWords').then((data2) => {
+        this.setState({ dataSource: ds.cloneWithRows(data2) });
     });
   }
     });
@@ -80,12 +80,15 @@ class ConfirmWords extends Component {
   ComponentDidMount() {
 
   }
-
-  renderRow() {
-    return (data) =>
-    <Level data={data} />
-    ;
+  readyTogo() {
+    generalUtils.storageSetItem('status', 'confirmed');
+    Actions.ChooseWordsHolder();
   }
+  renderRow() {
+      return (data) =>
+      <Level data={data} />
+      ;
+    }
 render() {
   return (
     <View style={styles.container}>
@@ -94,16 +97,17 @@ render() {
       style={{ flex: 1 }}
       dataSource={this.state.dataSource}
       renderRow={this.renderRow()}
-      enableEmptySections={true}
+      enableEmptySections
     />
     </View>
+
     <View style={styles.buttonHolder}>
     <View style={styles.buttonH1}>
     <Button
       text={this.props.lang.title.startLearn}
       style={styles.SignUpButton}
       textStyle={styles.SignUpButtonText}
-      onPressMe={Actions.ChooseWordsHolder}
+      onPressMe={this.readyTogo}
     />
     </View>
     <View style={styles.buttonH2}></View>
@@ -169,15 +173,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonH1: {
-    flex:3,
+    flex: 3,
     alignSelf: 'stretch',
   },
   buttonH2: {
-    flex:1,
+    flex: 1,
     alignSelf: 'stretch',
   },
   buttonH3: {
-    flex:3,
+    flex: 3,
     alignSelf: 'stretch',
   },
 });

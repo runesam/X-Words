@@ -6,6 +6,8 @@
   "rules": {
     "max-len": "off",
     "no-useless-escape": "off",
-    "react/no-multi-comp": "off"
+    "react/no-multi-comp": "off",
+    "react/self-closing-comp": "off",
+
     }
 }
