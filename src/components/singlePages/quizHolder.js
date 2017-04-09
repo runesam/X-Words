@@ -11,7 +11,7 @@ import {
   // ScrollView,
   //Dimensions,
   //Animated,
-  //TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 //import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { Actions } from 'react-native-router-flux';
@@ -31,6 +31,7 @@ const Level = class Level extends Component {
   }
 
   onPressMe() {
+    console.log('as');
   }
   render() {
     const styles = {
@@ -54,10 +55,12 @@ const Level = class Level extends Component {
       },
     };
     return (
+      <TouchableOpacity onPress={this.onPressMe}>
         <View style={styles.itemStyle}>
           <Text style={styles.wordEnglish}>{this.props.data.details.english}</Text>
           <Text style={styles.wordTurkish}>{this.props.data.details.turkish}</Text>
         </View>
+      </TouchableOpacity>
     );
   }
 };
@@ -65,16 +68,11 @@ const Level = class Level extends Component {
 class QuizHolder extends Component {
   state = {
     dataSource: ds.cloneWithRows([]),
+    disable: true
   };
   componentWillMount() {
-    generalUtils.storageGetItem('status').then((data) => {
-      if (data !== 'choosed') {
-        Actions.HomePageHolder();
-      } else {
         generalUtils.storageGetItem('todayWords').then((data2) => {
         this.setState({ dataSource: ds.cloneWithRows(data2) });
-    });
-  }
     });
   }
   ComponentDidMount() {
@@ -108,6 +106,9 @@ class QuizHolder extends Component {
 render() {
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>{this.props.lang.text.question}</Text>
+      </View>
     <View style={styles.listHolder}>
     <ListView
       style={{ flex: 1 }}
@@ -118,24 +119,14 @@ render() {
     </View>
 
     <View style={styles.buttonHolder}>
-    <View style={styles.buttonH1}>
-    <Button
-      text={this.props.lang.title.startLearn}
-      style={styles.SignUpButton}
-      textStyle={styles.SignUpButtonText}
-      onPressMe={this.readyTogo}
-    />
-    </View>
-    <View style={styles.buttonH2}></View>
-    <View style={styles.buttonH3}>
-    <Button
-      text={this.props.lang.text.change}
-      style={styles.SignUpButton2}
-      textStyle={styles.SignUpButtonText2}
-      onPressMe={this.emptyTogo.bind(this)}
-    />
-    </View>
-    </View>
+      <Button
+        text={this.props.lang.title.startLearn}
+        style={styles.SignUpButton}
+        textStyle={styles.SignUpButtonText}
+        onPressMe={this.readyTogo}
+        disabled={this.state.disable}
+      />
+          </View>
     </View>
   );
 }
@@ -149,12 +140,15 @@ const styles = StyleSheet.create({
   },
   SignUpButton: {
     borderRadius: 20,
+    marginLeft: 90,
+    marginRight: 90,
     backgroundColor: 'rgba(255,255,255,1)',
     marginTop: 10,
+    flex: 1
   },
   SignUpButtonText: {
     alignSelf: 'center',
-    color: '#01b5cc',
+    color: '#00cccc',
     fontSize: 16,
     fontWeight: '600',
     paddingTop: 10,
@@ -175,6 +169,7 @@ const styles = StyleSheet.create({
   },
   listHolder: {
     flex: 7,
+    marginTop: 10,
     marginRight: 30,
     marginLeft: 30,
     borderRadius: 5,
@@ -184,12 +179,10 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 30,
-    marginLeft: 30,
     flexDirection: 'row',
   },
   buttonH1: {
-    flex: 3,
+    flex: 0.7,
     alignSelf: 'stretch',
   },
   buttonH2: {
@@ -197,8 +190,20 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   buttonH3: {
-    flex: 3,
+    flex: 0.7,
     alignSelf: 'stretch',
+  },
+  headerText: {
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'center'
+  },
+  header: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 40,
+    paddingRight: 40
   },
 });
 export { QuizHolder };
