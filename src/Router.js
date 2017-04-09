@@ -4,7 +4,7 @@ import { Scene, Router, Actions, Modal } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Slider, Interests, Levels, SignUpForm, HomePageHolder, ChooseWordsHolder, ConfirmWords } from './components/singlePages/';
+import { Slider, Interests, Levels, SignUpForm, HomePageHolder, ChooseWordsHolder, ConfirmWords, QuizHolder } from './components/singlePages/';
 
 import LoginForm from './components/LoginForm';
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
@@ -142,6 +142,15 @@ class RouterComponent extends Component {
                   key='ConfirmWords'
                   title={this.props.lang.title.confirmWords_pageTitle}
                   component={ConfirmWords}
+                  hideNavBar={false}
+                  hideTabBar
+                  navigationBarStyle={styles.navigationBarStyle}
+                  renderBackButton={this.backRender('white')}
+                />
+                <Scene
+                  key='QuizHolder'
+                  title={this.props.lang.title.confirmWords_pageTitle}
+                  component={QuizHolder}
                   hideNavBar={false}
                   hideTabBar
                   navigationBarStyle={styles.navigationBarStyle}
