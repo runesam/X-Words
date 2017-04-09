@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, Image, ScrollView, Dimensions, TouchableOpacity, Animated, LayoutAnimation } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-import { Actions } from 'react-native-router-flux';
+// import { Actions } from 'react-native-router-flux';
 import Tts from 'react-native-tts';
-import renderIf from 'render-if';
 import {
   Button,
   // CardSection,
@@ -15,25 +14,29 @@ import images from '../../../json/images.json';
 
 class LearnWithPhoto extends Component {
   state = {
+    fadeAnim: new Animated.Value(0),
     disabled: false
   }
   componentWillMount() {
+    LayoutAnimation.spring();
     // setInterval(() => {
     //   console.log(this.props.data.details);
     // }, 1000);
     Tts.setDefaultRate(0.4);
   }
   componentDidMount() {
-    // Tts.voices().then(voices => console.log(voices));
-    // Tts.addEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
-    Tts.addEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+    Animated.timing(this.state.fadeAnim, { toValue: 1 }).start();
+    Tts.addEventListener('tts-finish', () => { this.endingLoader(); });
   }
   componentWillUnmount() {
     // Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
     // Tts.removeEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
   }
   onPressMe() {
-    Actions.LearnWithoutHolder();
+    this.props.next();
+  }
+  endingLoader() {
+    this.setState({ disabled: false });
   }
   textToSpeech(text) {
     this.setState({ disabled: true }, () => {
@@ -44,6 +47,12 @@ class LearnWithPhoto extends Component {
       }
       Tts.speak(text);
     });
+  }
+  translateHolderIcon(data) {
+    if (this.state.disabled) {
+      return <Spinner size={data[0]} colors='white' />;
+    }
+    return <Icon name='volume-2' size={data[1]} color='white' />;
   }
   renderButton() {
     if (this.props.loading) {
@@ -60,18 +69,13 @@ class LearnWithPhoto extends Component {
   }
   render() {
     return (
-      <View style={styles.holder}>
-        <ScrollView style={styles.ScrollView}>
+      <Animated.View style={[styles.holder, { opacity: this.state.fadeAnim }]}>
+        <ScrollView style={styles.ScrollView} contentContainerStyle={{ flex: 1 }}>
           <View style={styles.translateHolder}>
             <View style={{ flex: 1 }}>
               <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data.details.english)} style={styles.translateHolderButton}>
                 <View style={styles.translateHolderIcon}>
-                  {renderIf(!this.state.disabled)(
-                    <Icon name='volume-2' size={35} color='white' />
-                  )}
-                  {renderIf(this.state.disabled)(
-                    <Spinner size='large' colors='white' />
-                  )}
+                  {this.translateHolderIcon(['large', 35])}
                 </View>
               </TouchableOpacity>
             </View>
@@ -87,12 +91,7 @@ class LearnWithPhoto extends Component {
           <View style={styles.sentenceHolder}>
             <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data.sentence.sentence)}>
               <View style={styles.sentenceHolderIcon}>
-                {renderIf(!this.state.disabled)(
-                  <Icon name='volume-2' size={20} color='white' />
-                )}
-                {renderIf(this.state.disabled)(
-                  <Spinner size='small' colors='white' />
-                )}
+                {this.translateHolderIcon(['small', 20])}
               </View>
             </TouchableOpacity>
             <Text style={styles.sentence}>{this.props.data.sentence.sentence}</Text>
@@ -100,11 +99,11 @@ class LearnWithPhoto extends Component {
           <View style={styles.explainHolder}>
             <Text style={styles.explain}>{this.props.data.sentence.explanation}</Text>
           </View>
-          <View style={{ flex: 2, paddingBottom: 10 }}>
+          <View style={styles.submitButtonContainer}>
             {this.renderButton()}
           </View>
         </ScrollView>
-      </View>
+      </Animated.View>
     );
   }
 }
@@ -147,7 +146,7 @@ const styles = {
     alignItems: 'center'
   },
   imageStyle: {
-    flex: 1,
+    flex: 3,
     width: (Dimensions.get('window').width - 50) / 2,
     height: (Dimensions.get('window').width - 50) / 2,
     resizeMode: 'contain',
@@ -214,6 +213,11 @@ const styles = {
     fontSize: 25,
     fontWeight: '400',
     color: '#666666'
+  },
+  submitButtonContainer: {
+    flex: 2,
+    paddingBottom: 10,
+    justifyContent: 'flex-end'
   }
 };
 

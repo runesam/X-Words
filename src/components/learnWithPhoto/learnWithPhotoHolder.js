@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  // Image,
   // Alert,
   StatusBar,
-  Text,
+  // Text,
   // Keyboard,
   // ScrollView,
   // TouchableWithoutFeedback
@@ -14,6 +13,7 @@ import {
 import DeviceInfo from 'react-native-device-info';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
+import { Spinner } from '../common/';
 import Header from './components/header';
 import LearnWithPhoto from './components/LearnWithPhoto';
 import generalUtils from '../../utils/generalUtils';
@@ -50,34 +50,49 @@ class LearnWithPhotoHolder extends Component {
 
     }
   }
-  onPressMe() {
-
+  updateReminder(wordId) {
+    this.reminders[wordId][0] = this.reminders[wordId][0] === 4 ? 0 : this.reminders[wordId][0] + 1;
+    generalUtils.storageSetItem('reminder', this.reminders);
   }
-  manyNumbers(id = 0) {
+  structureAndSetWordData() {
+    this.setState({ able: false });
+    this.currentWordData = {};
+    const currentSentenceId = this.reminders[this.datakeys[this.currentId]][0];
+    this.updateReminder(this.datakeys[this.currentId]);
+    this.currentWordData.sentence = this.wordsData[this.datakeys[this.currentId]].sentences[currentSentenceId];
+    this.currentWordData.details = this.wordsData[this.datakeys[this.currentId]].details;
+    const head = `${this.currentId + 1} / ${this.datakeys.length}`;
+    this.setState({
+      dataSource: this.currentWordData,
+      headline: head
+    });
+    const tempInterval = setInterval(() => {
+      if (this.state.dataSource.details) {
+        clearInterval(tempInterval);
+        this.setState({ able: true });
+        generalUtils.storageSetItem('reminder', this.reminders);
+      }
+    });
+  }
+  next() {
+    console.log(this.currentId);
+    console.log(this.datakeys.length);
+    if (this.currentId + 1 === this.datakeys.length) {
+      return false;
+    }
+    this.currentId++;
+    this.structureAndSetWordData();
+  }
+  manyNumbers() {
     generalUtils.storageGetItem('todayWords').then((data) => {
-      const currentId = id + 1;
-      const datakeys = Object.keys(data);
-      const head = `${currentId} / ${datakeys.length}`;
-      this.currentWordData = {};
+      this.wordsData = data;
+      this.currentId = 0;
+      this.datakeys = Object.keys(data);
       generalUtils.storageGetItem('reminder').then((reminders) => {
         this.reminders = reminders;
-        const currentSentenceId = this.reminders[datakeys[id]][0];
-        this.reminders[datakeys[id]][0]++;
-        this.currentWordData.sentence = data[datakeys[id]].sentences[currentSentenceId];
-        this.currentWordData.details = data[datakeys[id]].details;
+        this.structureAndSetWordData();
       });
-      this.setState({
-        max: datakeys.length,
-        dataSource: this.currentWordData,
-        headline: head
-      });
-      const tempInterval = setInterval(() => {
-        if (this.state.dataSource.details) {
-          clearInterval(tempInterval);
-          this.setState({ able: true });
-          generalUtils.storageSetItem('reminder', this.reminders);
-        }
-      });
+      this.setState({ max: this.datakeys.length });
     });
   }
   ComponentDidUpdate() {
@@ -85,9 +100,9 @@ class LearnWithPhotoHolder extends Component {
   }
   renderItem() {
     if (this.state.able) {
-      return <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} data={this.state.dataSource} accent={this.state.accent} />;
+      return <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} next={this.next.bind(this)} data={this.state.dataSource} accent={this.state.accent} />;
     }
-    return <Text>Loading...</Text>;
+    return <Spinner size='large' color='black' />;
   }
   render() {
     return (
