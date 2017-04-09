@@ -11,6 +11,7 @@ import {
   Spinner,
 } from '../../common/';
 import images from '../../../json/images.json';
+import generalUtils from '../../../utils/generalUtils';
 
 class LearnWithPhoto extends Component {
   state = {
@@ -20,6 +21,14 @@ class LearnWithPhoto extends Component {
   }
   componentWillMount() {
     Tts.setDefaultRate(0.4);
+    generalUtils.storageGetItem('reminder').then((data) => {
+      if(data){
+
+      }else{
+        let data = 12 0 0 
+        console.log(this.props.data.details.word_id);
+      }
+    });
   }
   componentDidMount() {
     // Tts.voices().then(voices => console.log(voices));
