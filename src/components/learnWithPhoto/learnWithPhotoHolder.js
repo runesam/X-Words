@@ -10,24 +10,30 @@ import {
   // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
-import Header from './components/header';
-import LearnWithPhoto from './components/LearnWithPhoto';
+import DeviceInfo from 'react-native-device-info';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-// import generalUtils from '../utils/generalUtils';
+import Header from './components/header';
+import LearnWithPhoto from './components/LearnWithPhoto';
+import generalUtils from '../../utils/generalUtils';
 // const _ = require('lodash');
 
 class LearnWithPhotoHolder extends Component {
   state= {
-    headline: '1/10',
+    accent: null,
   }
   componentWillMount() {
+    const version = parseInt(DeviceInfo.getSystemVersion(), 10);
+    if (!this.props.deviceAndroid || (this.props.deviceAndroid && version > 5)) {
+      generalUtils.storageGetItem('accent').then((data) => {
+        this.setState({ accent: data || 'Moira' }, () => { console.log(this.state.accent); });
+      });
+    }
     if (this.props.replaceColor) {
       this.props.replaceColor('#00cccc');
     }
     switch (this.props.action) {
       case 'newDay':
-      this.setState({ headline: '8/10' });
         break;
       default:
 
@@ -44,7 +50,7 @@ class LearnWithPhotoHolder extends Component {
       <View style={styles.mainContainer}>
         <StatusBar barStyle='light-content' />
         <Header headerText={this.state.headline} />
-        <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} wordId={this.start} />
+        <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} wordId={this.start} accent={this.state.accent} />
       </View>
     );
   }

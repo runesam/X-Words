@@ -244,6 +244,11 @@ class ChooseWordsHolder extends Component {
         if (this.state.left === 0) {
           console.log(this.state.idsArray);
           generalUtils.setDataFromApi(this.state.getWordsLinks, { memberId: this.state.memberId, ids: this.state.idsArray }).then(data => {
+            this.reminder = {};
+            this.state.idsArray.forEach((id) => {
+              this.reminder[id] = [0, 0];
+            });
+            generalUtils.storageSetItem('reminder', this.reminder);
             generalUtils.storageSetItem('todayWords', data);
             generalUtils.storageSetItem('status', 'choosed');
             const date = new Date();

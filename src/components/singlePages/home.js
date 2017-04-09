@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Bubbles, DoubleBounce, Bars, Pulse } from 'react-native-loader';
 // import firebase from 'firebase';
 import {
   StyleSheet,
@@ -108,12 +107,25 @@ class HomePageHolder extends Component {
                 <Text style={styles.headerText}>{this.props.lang.text.welcome}</Text>
               </View>
               <View style={styles.statistics}>
-                <View>
-                  <Bubbles size={10} color="#FFF" />
-                  <Bars size={10} color="#FDAAFF" />
-                  <Pulse size={10} color="#52AB42" />
-                  <DoubleBounce size={10} color="#1CAFF6" />
+                <View style={styles.popUpContainer}>
+                  <View style={styles.spacepop} />
+                  <View style={styles.popUp}>
+                    <Text style={styles.popText}>{`${this.props.lang.title.days}: ${this.state.days}`}</Text>
+                    <Text style={styles.popText}>{`${this.props.lang.title.words}: ${this.state.words}`}</Text>
+                  </View>
                 </View>
+                <View style={styles.photoHolder}>
+                  <Image source={{ uri: images.birdImage.data }} style={styles.birdImage} />
+                </View>
+              </View>
+              <View style={styles.startHolder}>
+                <Text style={styles.headerText}>{this.state.starter}</Text>
+                <Button
+                  text={this.state.startLearn}
+                  style={styles.SignUpButton}
+                  textStyle={styles.SignUpButtonText}
+                  onPressMe={this.goSomewhere.bind(this)}
+                />
               </View>
             </View>
           </ScrollView>

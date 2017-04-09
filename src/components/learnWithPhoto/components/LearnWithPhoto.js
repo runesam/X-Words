@@ -23,19 +23,25 @@ class LearnWithPhoto extends Component {
   }
   componentDidMount() {
     // Tts.voices().then(voices => console.log(voices));
-    Tts.addEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
+    // Tts.addEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
     Tts.addEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
   }
   componentWillUnmount() {
-    Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
-    Tts.removeEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+    // Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
+    // Tts.removeEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
   }
   onPressMe() {
     Actions.LearnWithoutHolder();
   }
   textToSpeech(text) {
-    Tts.setDefaultVoice('com.apple.ttsbundle.Karen-compact');
-    Tts.speak(text);
+    this.setState({ disabled: true }, () => {
+      if (this.props.accent) {
+        const accent = `com.apple.ttsbundle.${this.props.accent}-compact`;
+        console.log(accent);
+        Tts.setDefaultVoice(accent);
+      }
+      Tts.speak(text);
+    });
   }
   renderButton() {
     if (this.props.loading) {
