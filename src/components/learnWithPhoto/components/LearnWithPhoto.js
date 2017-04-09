@@ -11,14 +11,16 @@ import {
   Spinner,
 } from '../../common/';
 import images from '../../../json/images.json';
+// import generalUtils from '../../../utils/generalUtils';
 
 class LearnWithPhoto extends Component {
   state = {
-    word: 'shoes',
-    sentence: 'I bought new shoes from the store next to our home',
     disabled: false
   }
   componentWillMount() {
+    // setInterval(() => {
+    //   console.log(this.props.data.details);
+    // }, 1000);
     Tts.setDefaultRate(0.4);
   }
   componentDidMount() {
@@ -62,7 +64,7 @@ class LearnWithPhoto extends Component {
         <ScrollView style={styles.ScrollView}>
           <View style={styles.translateHolder}>
             <View style={{ flex: 1 }}>
-              <TouchableOpacity onPress={this.textToSpeech.bind(this, this.state.word)} style={styles.translateHolderButton}>
+              <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data.details.english)} style={styles.translateHolderButton}>
                 <View style={styles.translateHolderIcon}>
                   {renderIf(!this.state.disabled)(
                     <Icon name='volume-2' size={35} color='white' />
@@ -74,8 +76,8 @@ class LearnWithPhoto extends Component {
               </TouchableOpacity>
             </View>
             <View style={styles.translateWorder}>
-              <Text style={styles.wordEnglish}>{this.state.word}</Text>
-              <Text style={styles.wordTurkish}>{'Sample Tr'}</Text>
+              <Text style={styles.wordEnglish}>{this.props.data.details.english}</Text>
+              <Text style={styles.wordTurkish}>{this.props.data.details.turkish}</Text>
             </View>
             <View style={{ flex: 1 }}><Text>{''}</Text></View>
           </View>
@@ -83,7 +85,7 @@ class LearnWithPhoto extends Component {
             <Image source={{ uri: images.sampleShoes.data }} style={styles.imageStyle} />
           </View>
           <View style={styles.sentenceHolder}>
-            <TouchableOpacity onPress={this.textToSpeech.bind(this, this.state.sentence)}>
+            <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data.sentence.sentence)}>
               <View style={styles.sentenceHolderIcon}>
                 {renderIf(!this.state.disabled)(
                   <Icon name='volume-2' size={20} color='white' />
@@ -93,10 +95,10 @@ class LearnWithPhoto extends Component {
                 )}
               </View>
             </TouchableOpacity>
-            <Text style={styles.sentence}>{this.state.sentence}</Text>
+            <Text style={styles.sentence}>{this.props.data.sentence.sentence}</Text>
           </View>
           <View style={styles.explainHolder}>
-            <Text style={styles.explain}>{'it is just a placeholder this data should come from the local storage, but did u learn what to doI bought New Shoes from the shoppi mall and I like it but did u learn what to do'}</Text>
+            <Text style={styles.explain}>{this.props.data.sentence.explanation}</Text>
           </View>
           <View style={{ flex: 2, paddingBottom: 10 }}>
             {this.renderButton()}

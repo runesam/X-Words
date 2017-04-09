@@ -158,6 +158,7 @@ class RouterComponent extends Component {
                 />
                 <Scene
                   key='LearnWithPhotoHolder'
+                  title=''
                   component={LearnWithPhotoHolder}
                   hideNavBar={false}
                   navigationBarStyle={styles.navigationBarStyle}

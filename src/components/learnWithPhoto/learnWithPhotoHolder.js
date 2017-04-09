@@ -6,6 +6,7 @@ import {
   // Image,
   // Alert,
   StatusBar,
+  Text,
   // Keyboard,
   // ScrollView,
   // TouchableWithoutFeedback
@@ -21,6 +22,12 @@ import generalUtils from '../../utils/generalUtils';
 class LearnWithPhotoHolder extends Component {
   state= {
     accent: null,
+    total: 10,
+    next: 1,
+    current: 0,
+    max: 10,
+    dataSource: null,
+    able: false
   }
   componentWillMount() {
     const version = parseInt(DeviceInfo.getSystemVersion(), 10);
@@ -34,7 +41,11 @@ class LearnWithPhotoHolder extends Component {
     }
     switch (this.props.action) {
       case 'newDay':
-        break;
+      this.manyNumbers();
+      break;
+      case 'notNEw':
+      this.manyNumber(this.props.startider);
+      break;
       default:
 
     }
@@ -42,15 +53,48 @@ class LearnWithPhotoHolder extends Component {
   onPressMe() {
 
   }
+  manyNumbers(id = 0) {
+    generalUtils.storageGetItem('todayWords').then((data) => {
+      const currentId = id + 1;
+      const datakeys = Object.keys(data);
+      const head = `${currentId} / ${datakeys.length}`;
+      this.currentWordData = {};
+      generalUtils.storageGetItem('reminder').then((reminders) => {
+        this.reminders = reminders;
+        const currentSentenceId = this.reminders[datakeys[id]][0];
+        this.reminders[datakeys[id]][0]++;
+        this.currentWordData.sentence = data[datakeys[id]].sentences[currentSentenceId];
+        this.currentWordData.details = data[datakeys[id]].details;
+      });
+      this.setState({
+        max: datakeys.length,
+        dataSource: this.currentWordData,
+        headline: head
+      });
+      const tempInterval = setInterval(() => {
+        if (this.state.dataSource.details) {
+          clearInterval(tempInterval);
+          this.setState({ able: true });
+          generalUtils.storageSetItem('reminder', this.reminders);
+        }
+      });
+    });
+  }
   ComponentDidUpdate() {
 
+  }
+  renderItem() {
+    if (this.state.able) {
+      return <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} data={this.state.dataSource} accent={this.state.accent} />;
+    }
+    return <Text>Loading...</Text>;
   }
   render() {
     return (
       <View style={styles.mainContainer}>
         <StatusBar barStyle='light-content' />
         <Header headerText={this.state.headline} />
-        <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} wordId={this.start} accent={this.state.accent} />
+        {this.renderItem()}
       </View>
     );
   }
