@@ -8,7 +8,6 @@ import {
   ScrollView,
   // ScrollView,
   Dimensions,
-  Animated,
   TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
@@ -33,13 +32,8 @@ const Item = class Item extends Component {
     disabled: false
   }
   iWant() {
-    this.setState({ clicked: true });
-    this.props.handler(this.props.rowData.word_id);
-  }
-  call(chooseda, lefta) {
-    this.setState({
-      choosed: chooseda,
-      left: lefta
+    this.setState({ clicked: true }, () => {
+      this.props.handler(this.props.rowData.word_id);
     });
   }
   componentWillMount() {
@@ -54,9 +48,6 @@ const Item = class Item extends Component {
     // Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
     // Tts.removeEventListener('tts-finish', () => this.setState({ disabled: false }));
   }
-  onPressMe() {
-    Actions.LearnWithPhotoHolder();
-  }
   textToSpeech(text) {
     this.setState({ disabled: true }, () => {
       if (this.props.accent) {
@@ -70,12 +61,12 @@ const Item = class Item extends Component {
   imageHolder(image) {
     if (image) {
       return (
-        <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch' }} >
+        <View style={styles.ItemMain} >
           <View style={{ flex: 1 }} />
           <View style={styles.imageHold}>
             <Image source={{ uri: image }} style={styles.image} />
           </View>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.ItemSpeakButtonContainer}>
             <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.rowData.english)} disabled={this.state.disabled}>
               <View style={styles.circle}>
                 {renderIf(!this.state.disabled)(
@@ -134,10 +125,7 @@ const Item = class Item extends Component {
 class ChooseWordsHolder extends Component {
   state = {
     dataSource: [['English', 'turkish', 5]],
-    marga: new Animated.Value(0),
     rows: [0],
-    temper: -1 * (Dimensions.get('window').width - 50),
-    stepper: Dimensions.get('window').width - 40,
     currentX: null,
     level: 'orta',
     not: [],
@@ -150,11 +138,12 @@ class ChooseWordsHolder extends Component {
     getLink: 'get_new_words',
     canGet: true,
     offset: 0,
-    clicked: false,
     getWordsLinks: 'get_words_data',
-    accent: null
+    accent: null,
+    handleScroll: true
   };
   componentWillMount() {
+    this.scrollhandleStart = true;
     const version = parseInt(DeviceInfo.getSystemVersion(), 10);
     if (!this.props.deviceAndroid || (this.props.deviceAndroid && version > 5)) {
       generalUtils.storageGetItem('accent').then((data) => {
@@ -188,27 +177,22 @@ class ChooseWordsHolder extends Component {
     });
   }
   onPressMe() {
-    Animated.timing(
-      this.state.marga,
-      { toValue: this.state.temper }
-    ).start();
-    this.setState({
-      temper: this.state.temper - this.state.stepper
-    });
+
   }
   getMore() {
+    console.log(1);
     // console.log('state');
     const apiData = {};
     apiData.memberId = this.state.memberId;
     apiData.not = this.state.not;
+    console.log(2);
     generalUtils.setDataFromApi(this.state.getLink, apiData).then(data => {
+      console.log(3);
       if (data.none) {
-        this.setState({
-          canGet: false,
-        });
         console.log('no more');
         // update the level
       } else {
+          console.log(4);
         const all = this.state.rows.concat(data);
         this.setState({
           rows: all,
@@ -221,21 +205,27 @@ class ChooseWordsHolder extends Component {
             not: this.state.not.concat([data[i].word_id]),
           });
         }
+          console.log(5);
       }
+      setTimeout(() => { this.scrollhandleStart = true; }, 500);
     }).catch(reason => {
       console.log(reason);
     });
   }
   handleScroll(event) {
-    console.log('start scroll');
-    const width = this.state.not.length;
     this.setState({ offset: event.nativeEvent.contentOffset.x });
-    const current = event.nativeEvent.contentOffset.x / Dimensions.get('window').width;
-    const currentPage = width - current;
-    const can = this.state.canGet;
-    if (currentPage < 7 && can) {
-      this.setState({ canGet: false });
-      this.getMore();
+    if (this.scrollhandleStart) {
+      console.log('start scroll');
+      this.scrollhandleStart = false;
+      const currentPage = this.state.not.length - (this.state.offset / Dimensions.get('window').width);
+      console.log(this.scrollhandleStart);
+      if (currentPage < 3 && this.state.canGet) {
+        this.setState({ canGet: false }, () => {
+          this.getMore();
+        });
+      } else {
+        setTimeout(() => { this.scrollhandleStart = true; }, 500);
+      }
     }
   }
   ComponentDidMount() {
@@ -243,18 +233,17 @@ class ChooseWordsHolder extends Component {
   }
   handler(wordId) {
     if (this.state.left > 0) {
-      const ch = this.state.choosed + 1;
-      const le = this.state.left - 1;
       this.setState({
-        choosed: ch,
-        left: le,
+        choosed: this.state.choosed + 1,
+        left: this.state.left - 1,
         idsArray: this.state.idsArray.concat([wordId])
       }, () => {
-       if (this.state.left === 0) {
-          const apiData = {};
-          apiData.memberId = this.state.memberId;
-          apiData.ids = this.state.idsArray;
-          generalUtils.setDataFromApi(this.state.getWordsLinks, apiData).then(data => {
+        if (this.state.not.length - (this.state.offset / this.state.wida) > 1) {
+          this.refs.wordsa.scrollTo({ x: this.state.offset + this.state.wida, animated: true });
+        }
+        if (this.state.left === 0) {
+          console.log(this.state.idsArray);
+          generalUtils.setDataFromApi(this.state.getWordsLinks, { memberId: this.state.memberId, ids: this.state.idsArray }).then(data => {
             generalUtils.storageSetItem('todayWords', data);
             generalUtils.storageSetItem('status', 'choosed');
             const date = new Date();
@@ -264,12 +253,6 @@ class ChooseWordsHolder extends Component {
           }).catch(reason => console.log(reason));
         }
       });
-      const width = this.state.not.length;
-      const current = this.state.offset / this.state.wida;
-      const ah = width - current;
-      if (ah > 1) {
-        this.refs.wordsa.scrollTo({ x: this.state.offset + this.state.wida, animated: true });
-      }
     }
   }
   renderMyRow() {
@@ -279,7 +262,7 @@ class ChooseWordsHolder extends Component {
       );
     }
     return this.state.dataSource.map((value, key) =>
-      <Item key={key} lang={this.props.lang} handler={this.handler.bind(this)} rowData={value} choosed={this.state.choosed} left={this.state.left} accent={this.state.accent} />
+      <Item key={key} lang={this.props.lang} disabled={this.scrollhandleStart} handler={this.handler.bind(this)} rowData={value} choosed={this.state.choosed} left={this.state.left} accent={this.state.accent} />
     );
   }
   render() {
@@ -319,6 +302,7 @@ class ChooseWordsHolder extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   text: {
     color: 'white'
@@ -428,6 +412,16 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'contain',
     flex: 1
+  },
+  ItemMain: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'stretch'
+  },
+  ItemSpeakButtonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 export { ChooseWordsHolder };
