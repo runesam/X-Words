@@ -29,7 +29,7 @@ class HomePageHolder extends Component {
     const date = new Date();
     const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
     //generalUtils.storageSetItem('todaywords', null);
-    //generalUtils.storageSetItem('status', 'choosed');
+    generalUtils.storageSetItem('status', 'finished');
     if (this.props.replaceColor) {
       this.props.replaceColor('white');
     }
@@ -93,7 +93,7 @@ class HomePageHolder extends Component {
     } else if (this.state.status === 'ready') {
       Actions.ChooseWordsHolder();
     } else if (this.state.status === 'passed' || this.state.status === 'finished') {
-      //Actions.(open quiz);
+      Actions.QuizHolder();
     }
   }
   render() {
