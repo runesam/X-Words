@@ -17,7 +17,8 @@ import { Spinner } from '../common/';
 import Header from './components/header';
 import LearnWithPhoto from './components/LearnWithPhoto';
 import generalUtils from '../../utils/generalUtils';
-// const _ = require('lodash');
+
+const _ = require('lodash');
 
 class LearnWithPhotoHolder extends Component {
   state= {
@@ -43,7 +44,7 @@ class LearnWithPhotoHolder extends Component {
       case 'newDay':
       this.manyNumbers();
       break;
-      case 'notNEw':
+      case 'notNew':
       this.manyNumber(this.props.startider);
       break;
       default:
@@ -57,6 +58,9 @@ class LearnWithPhotoHolder extends Component {
   structureAndSetWordData() {
     this.setState({ able: false });
     this.currentWordData = {};
+    console.log(this.reminders);
+    console.log(temp);
+    const temp = _.findKey(this.reminders, (data) => data[0] === 0);
     const currentSentenceId = this.reminders[this.datakeys[this.currentId]][0];
     this.updateReminder(this.datakeys[this.currentId]);
     this.currentWordData.sentence = this.wordsData[this.datakeys[this.currentId]].sentences[currentSentenceId];
