@@ -26,16 +26,15 @@ class LearnWithPhoto extends Component {
   }
   componentDidMount() {
     Animated.timing(this.state.fadeAnim, { toValue: 1 }).start();
-    Tts.addEventListener('tts-finish', () => { this.endingLoader(); });
+    Tts.addEventListener('tts-finish', this.endingLoader);
   }
   componentWillUnmount() {
-    // Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
-    // Tts.removeEventListener('tts-finish', (event) => { this.setState({ disabled: false }); console.log(event); });
+    Tts.removeEventListener('tts-finish', this.endingLoader);
   }
   onPressMe() {
     this.props.next();
   }
-  endingLoader() {
+  endingLoader = () => {
     this.setState({ disabled: false });
   }
   textToSpeech(text) {

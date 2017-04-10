@@ -122,7 +122,7 @@ class Interests extends Component {
               />
             )}
             {renderIf(!this.state.dataCame)(
-              <Spinner size='large' style={styles.spinnerStyle} />
+              <Spinner size='large' style={styles.spinnerStyle} colors='white' />
             )}
           </ScrollView>
         </View>

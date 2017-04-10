@@ -48,7 +48,7 @@ class SignUpForm extends Component {
     const errorText = {};
     if (_.isEmpty(this.state.error)) {
       const apiData = {};
-      Alert.alert('everything', 'thing is', [{ text: 'ok' }]);
+      // Alert.alert('everything', 'thing is', [{ text: 'ok' }]);
       apiData.name = this.state.name;
       apiData.phone = this.state.phone;
       apiData.email = this.state.email;

@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 // import renderIf from 'render-if';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Tts from 'react-native-tts';
 import {
   Button,
   // CardSection,
@@ -25,7 +26,6 @@ import {
 } from '../../common/';
 // import generalUtils from '../utils/generalUtils';
 const _ = require('lodash');
-// const Speech = require('react-native-speech');
 
 const window = Dimensions.get('window');
 const Option = class Option extends Component {
@@ -55,21 +55,28 @@ const Option = class Option extends Component {
 class testI extends Component {
   state= {
     data: this.props.data,
-    disabled: true
+    disabled: true,
+    speakerDisabled: false
   }
   componentWillMount() {
 
   }
+  componentDidMount() {
+    this.onPressSpeaker();
+    Tts.addEventListener('tts-finish', this.endingLoader);
+  }
+  componentWillUnmount() {
+    Tts.removeEventListener('tts-finish', this.endingLoader);
+  }
   onPressSpeaker() {
-    // Speech.speak({
-    //   text: this.props.word,
-    //   voice: 'en-US'
-    // }).then(started => {
-    //   console.log(started);
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // });
+    this.setState({ speakerDisabled: true }, () => {
+      if (this.props.accent) {
+        const accent = `com.apple.ttsbundle.${this.props.accent}-compact`;
+        console.log(accent);
+        Tts.setDefaultVoice(accent);
+      }
+      Tts.speak(this.props.word);
+    });
   }
   onSelectAnswer(data) {
     const temp = this.state.data;
@@ -86,6 +93,15 @@ class testI extends Component {
   }
   onPressMe() {
     this.props.next(this.state.data);
+  }
+  endingLoader = () => {
+    this.setState({ speakerDisabled: false });
+  }
+  translateHolderIcon(data) {
+    if (this.state.speakerDisabled) {
+      return <Spinner size={data[0]} colors='white' />;
+    }
+    return <Icon name='volume-up' size={data[1]} color='white' style={styles.volIcon} />;
   }
   renderRow() {
     return this.state.data.map((single, i) =>
@@ -115,7 +131,7 @@ class testI extends Component {
           </Text>
           <TouchableOpacity onPress={this.onPressSpeaker.bind(this) || null}>
             <View style={styles.iconContainer}>
-              <Icon name='volume-up' size={25} color='white' style={styles.volIcon} />
+              {this.translateHolderIcon(['small', 25])}
             </View>
           </TouchableOpacity>
         </View>
