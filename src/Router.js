@@ -97,6 +97,7 @@ class RouterComponent extends Component {
               hideNavBar
               sceneStyle={styles.view_style}
               deviceAndroid={this.props.deviceAndroid}
+              initial
             />
             <Scene
               key='login'
@@ -116,7 +117,6 @@ class RouterComponent extends Component {
             <Scene
               key='main'
               tabs
-              initial
               tabBarStyle={styles.tabBarStyle}
               tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
             >

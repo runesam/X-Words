@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import renderIf from 'render-if';
+import DeviceInfo from 'react-native-device-info';
 // import Icon from 'react-native-vector-icons/EvilIcons';
 // import { Scene, Actions } from 'react-native-router-flux';
 import {
@@ -38,9 +39,16 @@ class component extends Component {
     id: null,
     testIData: null,
     singleData: null,
+    accent: null,
     result: {}
   }
   componentWillMount() {
+    const version = parseInt(DeviceInfo.getSystemVersion(), 10);
+    if (!this.props.deviceAndroid || (this.props.deviceAndroid && version > 5)) {
+      generalUtils.storageGetItem('accent').then((data) => {
+        this.setState({ accent: data || 'Moira' }, () => { console.log(this.state.accent); });
+      });
+    }
     generalUtils.storageGetItem('levelOptionData').then(() => {
       const data = {};
       data.level_id = 4;
@@ -57,6 +65,7 @@ class component extends Component {
     });
   }
   componentDidUpdate() {
+
   }
   onPressMe(data) {
     const temp = this.state.result;
@@ -117,7 +126,7 @@ class component extends Component {
   renderRowTestView() {
     if (this.state.singleData) {
       return (
-        <TestI data={this.state.singleData} word={this.state.word} next={this.onPressMe.bind(this)} lang={this.props.lang} />
+        <TestI data={this.state.singleData} word={this.state.word} next={this.onPressMe.bind(this)} lang={this.props.lang} accent={this.state.accent} />
       );
     }
     return <Spinner size='large' color='black' />;
@@ -137,7 +146,7 @@ class component extends Component {
           )}
         </View>
         <View style={styles.footerContainer}>
-          <FooterWithNumber number={this.state.testIData ? this.state.testIData.length : null} current={this.state.page} />
+          <FooterWithNumber number={this.state.testIData ? this.state.testIData.length : null} current={this.state.page} lang={this.props.lang} />
         </View>
       </View>
     );

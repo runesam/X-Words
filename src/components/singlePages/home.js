@@ -27,7 +27,8 @@ class HomePageHolder extends Component {
   componentWillMount() {
     const date = new Date();
     const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
-    // generalUtils.storageSetItem('todaywords', null);
+    generalUtils.storageGetAllItems();
+    //generalUtils.storageSetItem('todaywords', null);
     generalUtils.storageSetItem('status', 'finished');
     if (this.props.replaceColor) {
       this.props.replaceColor('white');

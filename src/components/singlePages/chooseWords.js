@@ -36,17 +36,15 @@ const Item = class Item extends Component {
       this.props.handler(this.props.rowData.word_id);
     });
   }
-  componentWillMount() {
-    Tts.setDefaultRate(0.45);
-  }
   componentDidMount() {
-    // Tts.voices().then(voices => console.log(voices));
-    // Tts.addEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
-    Tts.addEventListener('tts-finish', () => this.setState({ disabled: false }));
+    this.onPressSpeaker();
+    Tts.addEventListener('tts-finish', this.endingLoader);
   }
   componentWillUnmount() {
-    // Tts.removeEventListener('tts-start', (event) => { this.setState({ disabled: true }); console.log(event); });
-    // Tts.removeEventListener('tts-finish', () => this.setState({ disabled: false }));
+    Tts.removeEventListener('tts-finish', this.endingLoader);
+  }
+  endingLoader = () => {
+    this.setState({ disabled: false });
   }
   textToSpeech(text) {
     this.setState({ disabled: true }, () => {
