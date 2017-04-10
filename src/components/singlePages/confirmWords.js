@@ -33,26 +33,6 @@ const Level = class Level extends Component {
   onPressMe() {
   }
   render() {
-    const styles = {
-      itemStyle: {
-        paddingTop: 18,
-        paddingBottom: 18,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: '#d7d7d7',
-        borderBottomWidth: 1,
-      },
-      wordEnglish: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#000'
-      },
-      wordTurkish: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#666666'
-      },
-    };
     console.log(this.props.data);
     return (
         <View style={styles.itemStyle}>
@@ -200,6 +180,24 @@ const styles = StyleSheet.create({
   buttonH3: {
     flex: 3,
     alignSelf: 'stretch',
+  },
+  itemStyle: {
+    paddingTop: 18,
+    paddingBottom: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#d7d7d7',
+    borderBottomWidth: 1,
+  },
+  wordEnglish: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000'
+  },
+  wordTurkish: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#666666'
   },
 });
 export { ConfirmWords };

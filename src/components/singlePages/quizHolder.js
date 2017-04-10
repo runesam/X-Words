@@ -23,55 +23,41 @@ import {
 } from '../common/';
 import generalUtils from '../../utils/generalUtils';
 
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+const _ = require('lodash');
 
-const Level = class Level extends Component {
+class Answer extends Component {
   state = {
-
+selected: false
   }
   componentWillMount() {
     // console.log(this.props.data);
   }
+  handler() {
+    this.props.handler(this.props.refa);
+  }
   render() {
-    const styles = {
-      itemStyle: {
-        paddingTop: 18,
-        paddingBottom: 18,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: '#d7d7d7',
-        borderBottomWidth: 1,
-      },
-      wordEnglish: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#000'
-      },
-      wordTurkish: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#666666'
-      },
-    };
     return (
-      <TouchableOpacity onPress={this.onPressMe}>
-        <View style={styles.itemStyle}>
-          <Text style={styles.wordEnglish}>{}</Text>
-          <Text style={styles.wordTurkish}>{}</Text>
+    <View style={[{backgroundColor:'white', flex:1, borderColor: '#d7d7d7'}, this.props.refa!== 3 ? { borderBottomWidth: 1 } : { borderBottomWidth: 0 }]}>
+      <TouchableOpacity onPress={this.handler.bind(this)} style={{ flex: 1,backgroundColor: 'white' }}>
+        <View style={[styles.itemStyle, this.props.selected === this.props.refa ? {backgroundColor: 'green'} : {backgroundColor: 'white'}]}>
+          <Text style={[styles.wordEnglish, this.props.selected === this.props.refa ? {color: 'white'}:{color: 'black'}]}>{this.props.data[0]}</Text>
         </View>
       </TouchableOpacity>
+    </View>
     );
   }
 };
-
 class QuizHolder extends Component {
   state = {
-    dataSource: ds.cloneWithRows([]),
-    disable: true
+    dataSource: null,
+    disable: true,
+    selected: null,
+    answers: null,
+    result: 0
   };
   componentWillMount() {
     this.currentId = 0;
-    if (!this.props.id) {
+    if (this.props.id) {
       this.currentId = this.props.id;
     }
     generalUtils.storageGetItem('todayWords').then((data) => {
@@ -79,9 +65,19 @@ class QuizHolder extends Component {
       this.datakeys = Object.keys(data);
       generalUtils.storageGetItem('reminder').then((reminders) => {
       this.reminders = reminders;
-      console.log(this.currentId);
+      this.currentSentenceId = this.reminders[this.datakeys[this.currentId]][1];
+      this.currentWordData = this.wordsData[this.datakeys[this.currentId]].quizes[this.currentSentenceId];
+      this.currentWordData.word = this.wordsData[this.datakeys[this.currentId]].details.english;
+      this.setState({ dataSource: this.currentWordData }, () => {
+        const temp = [];
+        temp.push(['correct', this.state.dataSource.correct]);
+        temp.push(['wrong1', this.state.dataSource.wrong1]);
+        temp.push(['wrong2', this.state.dataSource.wrong2]);
+        temp.push(['wrong3', this.state.dataSource.wrong3]);
+        this.answers = _.shuffle(temp);
+        this.setState({ answers: this.answers });
       });
-      this.setState({ dataSource: this.currentWordData.quizes });
+      });
     });
 
     //    this.setState({ dataSource: ds.cloneWithRows(data2) });
@@ -90,8 +86,7 @@ class QuizHolder extends Component {
 
   }
   readyTogo() {
-    generalUtils.storageSetItem('status', 'confirmed');
-    Actions.LearnWithPhotoHolder({ action: 'newDay' });
+    Alert.alert(this.state.result === 1 ? 'correct' : 'wrong');
   }
   emptyTogo() {
     Alert.alert(
@@ -109,11 +104,21 @@ class QuizHolder extends Component {
   { cancelable: false }
 );
   }
-  renderRow() {
-      return (data) =>
-      <Level data={data} />
-      ;
-    }
+  handler(idko) {
+    if (this.state.answers[idko][0] === 'correct') {
+    this.setState({ selected: idko, disable: false, result: 1 });
+  } else {
+    this.setState({ selected: idko, disable: false, result: -1 });
+  }
+  }
+  getIt() {
+    if (this.state.dataSource && this.state.answers) {
+      return this.state.answers.map((option, key) =>
+      <Answer data={option} refa={key} key={key}  handler={this.handler.bind(this)} selected={this.state.selected} />
+      );
+  }
+  return <Text>Loading..</Text>;
+  }
 render() {
   return (
     <View style={styles.container}>
@@ -121,12 +126,7 @@ render() {
         <Text style={styles.headerText}>{this.props.lang.text.question}</Text>
       </View>
     <View style={styles.listHolder}>
-    <ListView
-      style={{ flex: 1 }}
-      dataSource={this.state.dataSource}
-      renderRow={this.renderRow()}
-      enableEmptySections
-    />
+      {this.getIt()}
     </View>
 
     <View style={styles.buttonHolder}>
@@ -134,7 +134,7 @@ render() {
         text={this.props.lang.title.startLearn}
         style={styles.SignUpButton}
         textStyle={styles.SignUpButtonText}
-        onPressMe={this.readyTogo}
+        onPressMe={this.readyTogo.bind(this)}
         disabled={this.state.disable}
       />
           </View>
@@ -215,6 +215,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 40,
     paddingRight: 40
+  },
+  itemStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  wordEnglish: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000'
+  },
+  wordTurkish: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#666666'
   },
 });
 export { QuizHolder };

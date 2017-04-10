@@ -14,7 +14,7 @@ import PurchaseHolder from './components/purchase/purchaseHolder';
 
 const singleTab = class singleTab extends Component {
   state={
-
+    
   }
   componentWillMount() {
 
@@ -149,7 +149,7 @@ class RouterComponent extends Component {
                 />
                 <Scene
                   key='QuizHolder'
-                  title={this.props.lang.title.confirmWords_pageTitle}
+                  title={this.props.lang.title.quizPageTitle}
                   component={QuizHolder}
                   hideNavBar={false}
                   hideTabBar
