@@ -29,9 +29,8 @@ const Level = class Level extends Component {
   state = {
 
   }
-
-  onPressMe() {
-    console.log('as');
+  componentWillMount() {
+    // console.log(this.props.data);
   }
   render() {
     const styles = {
@@ -57,8 +56,8 @@ const Level = class Level extends Component {
     return (
       <TouchableOpacity onPress={this.onPressMe}>
         <View style={styles.itemStyle}>
-          <Text style={styles.wordEnglish}>{this.props.data.details.english}</Text>
-          <Text style={styles.wordTurkish}>{this.props.data.details.turkish}</Text>
+          <Text style={styles.wordEnglish}>{}</Text>
+          <Text style={styles.wordTurkish}>{}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -71,9 +70,21 @@ class QuizHolder extends Component {
     disable: true
   };
   componentWillMount() {
-        generalUtils.storageGetItem('todayWords').then((data2) => {
-        this.setState({ dataSource: ds.cloneWithRows(data2) });
+    this.currentId = 0;
+    if (!this.props.id) {
+      this.currentId = this.props.id;
+    }
+    generalUtils.storageGetItem('todayWords').then((data) => {
+      this.wordsData = data;
+      this.datakeys = Object.keys(data);
+      generalUtils.storageGetItem('reminder').then((reminders) => {
+      this.reminders = reminders;
+      console.log(this.currentId);
+      });
+      this.setState({ dataSource: this.currentWordData.quizes });
     });
+
+    //    this.setState({ dataSource: ds.cloneWithRows(data2) });
   }
   ComponentDidMount() {
 
