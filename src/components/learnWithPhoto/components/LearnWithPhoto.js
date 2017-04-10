@@ -70,7 +70,7 @@ class LearnWithPhoto extends Component {
   render() {
     return (
       <Animated.View style={[styles.holder, { opacity: this.state.fadeAnim }]}>
-        <ScrollView style={styles.ScrollView} contentContainerStyle={{ flex: 1 }}>
+        <ScrollView style={styles.ScrollView} contentContainerStyle={Dimensions.get('window').height > 650 ? { flex: 1 } : null}>
           <View style={styles.translateHolder}>
             <View style={{ flex: 1 }}>
               <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data.details.english)} style={styles.translateHolderButton}>
@@ -114,12 +114,12 @@ const styles = {
     backgroundColor: '#f2fcfd'
   },
   ScrollView: {
+    paddingTop: 10,
     backgroundColor: '#f2fcfd'
   },
   translateHolder: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
-    padding: 15
   },
   translateHolderButton: {
     flex: 1,
@@ -141,12 +141,11 @@ const styles = {
     alignItems: 'center'
   },
   imageWrapper: {
-    flex: 1,
-    paddingTop: 5,
-    alignItems: 'center'
+    flex: 4,
+    alignItems: 'center',
   },
   imageStyle: {
-    flex: 3,
+    flex: 1,
     width: (Dimensions.get('window').width - 50) / 2,
     height: (Dimensions.get('window').width - 50) / 2,
     resizeMode: 'contain',
@@ -154,6 +153,7 @@ const styles = {
     borderColor: '#00cccc'
   },
   sentenceHolder: {
+    flex: 1,
     flexDirection: 'row',
     margin: 15,
     padding: 15,
@@ -177,12 +177,12 @@ const styles = {
     marginLeft: 10
   },
   explainHolder: {
-    flex: 1,
+    flex: 2,
     padding: 25,
     paddingTop: 10,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#f2fcfd'
+    backgroundColor: '#f2fcfd',
   },
   explain: {
     color: '#038b9b',
@@ -210,12 +210,12 @@ const styles = {
     color: '#000'
   },
   wordTurkish: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '400',
     color: '#666666'
   },
   submitButtonContainer: {
-    flex: 2,
+    flex: 1,
     paddingBottom: 10,
     justifyContent: 'flex-end'
   }
