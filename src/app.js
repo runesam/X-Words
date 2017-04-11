@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import PushNotification from 'react-native-push-notification';
 // import generalUtils from './utils/generalUtils';
 import reducers from './reducers';
 import {
@@ -28,6 +29,11 @@ class App extends Component {
     api
   }
   componentWillMount() {
+    console.log(123123);
+    PushNotification.localNotificationSchedule({
+      message: 'My Notification Message', // (required)
+      date: new Date(Date.now() + (20 * 1000)) // in 60 secs
+    });
     // const config = {
     //   apiKey: 'AIzaSyDWIqk__XudJoxv8dEu1VpE8TdByVFUUKM',
     //   authDomain: 'manager-7edd8.firebaseapp.com',

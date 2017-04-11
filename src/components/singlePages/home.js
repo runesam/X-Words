@@ -27,27 +27,27 @@ class HomePageHolder extends Component {
   componentWillMount() {
     const date = new Date();
     const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
-    this.checkstatus=null;
-    this.checkMemberId=null;
-    this.checkday=null;
-    this.endDate=null;
+    this.checkstatus = null;
+    this.checkMemberId = null;
+    this.checkday = null;
+    this.endDate = null;
     generalUtils.storageGetItem('status').then((data) => {
-      this.checksStatus=data;
+      this.checksStatus = data;
         this.setState({ status: data });
     });
     generalUtils.storageGetItem('memeberId').then((data2) => {
-      this.checkMemberId=data2;
+      this.checkMemberId = data2;
     });
     generalUtils.storageGetItem('day').then((data3) => {
-      this.checkday=data3;
+      this.checkday = data3;
     });
     generalUtils.storageGetItem('endDate').then((data4) => {
-      this.endDate=data3;
+      this.endDate = data4;
     });
-    this.checkstatus=null;
-    this.checkMemberId=null;
-    this.checkday=null;
-    this.endDate=null;
+    this.checkstatus = null;
+    this.checkMemberId = null;
+    this.checkday = null;
+    this.endDate = null;
 
     //generalUtils.storageSetItem('todaywords', null);
     // generalUtils.storageSetItem('status', 'confirmed');
