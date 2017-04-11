@@ -98,6 +98,12 @@ class RouterComponent extends Component {
               deviceAndroid={this.props.deviceAndroid}
             />
             <Scene
+              key='login'
+              component={LoginForm}
+              title='Please Login'
+              hideNavBar={false}
+            />
+            <Scene
               key='PurchaseHolder'
               lang={this.props.lang}
               component={PurchaseHolder}

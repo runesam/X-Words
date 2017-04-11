@@ -50,7 +50,7 @@ class HomePageHolder extends Component {
     this.endDate=null;
 
     //generalUtils.storageSetItem('todaywords', null);
-    generalUtils.storageSetItem('status', 'finished');
+    // generalUtils.storageSetItem('status', 'confirmed');
     if (this.props.replaceColor) {
       this.props.replaceColor('white');
     }

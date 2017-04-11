@@ -11,6 +11,7 @@ import {
   // TouchableWithoutFeedback
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import { Actions } from 'react-native-router-flux';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import { Spinner } from '../common/';
@@ -58,9 +59,6 @@ class LearnWithPhotoHolder extends Component {
   structureAndSetWordData() {
     this.setState({ able: false });
     this.currentWordData = {};
-    console.log(this.reminders);
-    console.log(temp);
-    const temp = _.findKey(this.reminders, (data) => data[0] === 0);
     const currentSentenceId = this.reminders[this.datakeys[this.currentId]][0];
     this.updateReminder(this.datakeys[this.currentId]);
     this.currentWordData.sentence = this.wordsData[this.datakeys[this.currentId]].sentences[currentSentenceId];
@@ -73,15 +71,18 @@ class LearnWithPhotoHolder extends Component {
     const tempInterval = setInterval(() => {
       if (this.state.dataSource.details) {
         clearInterval(tempInterval);
+        if (this.currentId + 1 === this.datakeys.length) {
+          this.last = true;
+        }
         this.setState({ able: true });
         generalUtils.storageSetItem('reminder', this.reminders);
       }
     });
   }
   next() {
-    console.log(this.currentId);
-    console.log(this.datakeys.length);
     if (this.currentId + 1 === this.datakeys.length) {
+      generalUtils.storageSetItem('status', 'finished');
+      Actions.Home();
       return false;
     }
     this.currentId++;
@@ -89,11 +90,15 @@ class LearnWithPhotoHolder extends Component {
   }
   manyNumbers() {
     generalUtils.storageGetItem('todayWords').then((data) => {
+      console.log(data);
       this.wordsData = data;
-      this.currentId = 0;
       this.datakeys = Object.keys(data);
       generalUtils.storageGetItem('reminder').then((reminders) => {
         this.reminders = reminders;
+        console.log(this.reminders);
+        const firstWordNeverBeenReadId = _.findKey(this.reminders, (reminder) => reminder[0] === 0);
+        this.currentId = firstWordNeverBeenReadId ? this.datakeys.indexOf(firstWordNeverBeenReadId.toString()) : 0;
+        console.log(this.currentId);
         this.structureAndSetWordData();
       });
       this.setState({ max: this.datakeys.length });
@@ -104,7 +109,7 @@ class LearnWithPhotoHolder extends Component {
   }
   renderItem() {
     if (this.state.able) {
-      return <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} next={this.next.bind(this)} data={this.state.dataSource} accent={this.state.accent} />;
+      return <LearnWithPhoto lang={this.props.lang} deviceAndroid={this.props.deviceAndroid} next={this.next.bind(this)} data={this.state.dataSource} accent={this.state.accent} last={this.last} />;
     }
     return <Spinner size='large' color='black' />;
   }
