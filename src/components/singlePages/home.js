@@ -27,18 +27,37 @@ class HomePageHolder extends Component {
   componentWillMount() {
     const date = new Date();
     const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
-    generalUtils.storageGetAllItems();
+    this.checkstatus=null;
+    this.checkMemberId=null;
+    this.checkday=null;
+    this.endDate=null;
+    generalUtils.storageGetItem('status').then((data) => {
+      this.checksStatus=data;
+        this.setState({ status: data });
+    });
+    generalUtils.storageGetItem('memeberId').then((data2) => {
+      this.checkMemberId=data2;
+    });
+    generalUtils.storageGetItem('day').then((data3) => {
+      this.checkday=data3;
+    });
+    generalUtils.storageGetItem('endDate').then((data4) => {
+      this.endDate=data3;
+    });
+    this.checkstatus=null;
+    this.checkMemberId=null;
+    this.checkday=null;
+    this.endDate=null;
+
     //generalUtils.storageSetItem('todaywords', null);
     generalUtils.storageSetItem('status', 'finished');
     if (this.props.replaceColor) {
       this.props.replaceColor('white');
     }
-    generalUtils.storageGetItem('status').then((data) => {
-      this.setState({ status: data });
+
       let buttonT = '';
       let textT = '';
-      generalUtils.storageGetItem('day').then((day) => {
-        switch (data) {
+        switch (this.checksStatus) {
           case 'confirmed':
           buttonT = this.props.lang.title.startLearn;
           textT = this.props.lang.text.choosedAlready;
@@ -52,7 +71,7 @@ class HomePageHolder extends Component {
           textT = this.props.lang.text.learnAlready;
           break;
           case 'passed':
-          if (day === newDate) {
+          if (this.checkday === newDate) {
             buttonT = this.props.lang.title.takeQuize;
             textT = this.props.lang.text.learnAlready;
           } else {
@@ -78,14 +97,11 @@ class HomePageHolder extends Component {
           starter: textT,
           startLearn: buttonT,
         });
-      });
-    });
   }
   ComponentDidUpdate() {
 
   }
   goSomewhere() {
-    console.log(this.state.status);
     if (this.state.status === 'choosed') {
       Actions.ConfirmWords();
     } else if (this.state.status === 'confirmed') {

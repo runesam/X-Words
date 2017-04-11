@@ -37,7 +37,7 @@ const Item = class Item extends Component {
     });
   }
   componentDidMount() {
-    this.onPressSpeaker();
+  //  this.onPressSpeaker();
     Tts.addEventListener('tts-finish', this.endingLoader);
   }
   componentWillUnmount() {

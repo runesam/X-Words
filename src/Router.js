@@ -6,7 +6,6 @@ import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { Slider, Interests, Levels, SignUpForm, HomePageHolder, ChooseWordsHolder, ConfirmWords, QuizHolder } from './components/singlePages/';
 
-import LoginForm from './components/LoginForm';
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
@@ -14,7 +13,7 @@ import PurchaseHolder from './components/purchase/purchaseHolder';
 
 const singleTab = class singleTab extends Component {
   state={
-    
+
   }
   componentWillMount() {
 
@@ -97,13 +96,6 @@ class RouterComponent extends Component {
               hideNavBar
               sceneStyle={styles.view_style}
               deviceAndroid={this.props.deviceAndroid}
-              initial
-            />
-            <Scene
-              key='login'
-              component={LoginForm}
-              title='Please Login'
-              hideNavBar={false}
             />
             <Scene
               key='PurchaseHolder'
@@ -119,6 +111,7 @@ class RouterComponent extends Component {
               tabs
               tabBarStyle={styles.tabBarStyle}
               tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
+              initial
             >
               {/* first tab starts */}
               <Scene
