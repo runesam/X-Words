@@ -9,7 +9,7 @@ import {
   // ShapedTextInput,
   Spinner,
 } from '../../common/';
-import images from '../../../json/images.json';
+// import images from '../../../json/images.json';
 // import generalUtils from '../../../utils/generalUtils';
 
 class LearnWithPhoto extends Component {
@@ -59,7 +59,7 @@ class LearnWithPhoto extends Component {
     }
     return (
       <Button
-        text={this.props.lang.title.submit}
+        text={this.props.last ? this.props.lang.title.finish : this.props.lang.title.submit}
         style={styles.submitButton}
         textStyle={styles.submitButtonText}
         onPressMe={this.onPressMe.bind(this)}
@@ -79,13 +79,13 @@ class LearnWithPhoto extends Component {
               </TouchableOpacity>
             </View>
             <View style={styles.translateWorder}>
-              <Text style={styles.wordEnglish}>{this.props.data.details.english}</Text>
+              <Text style={[styles.wordEnglish, this.props.data.details.english.length > 10 ? { fontSize: 20 } : { fontSize: 25 }]}>{this.props.data.details.english}</Text>
               <Text style={styles.wordTurkish}>{this.props.data.details.turkish}</Text>
             </View>
             <View style={{ flex: 1 }}><Text>{''}</Text></View>
           </View>
           <View style={styles.imageWrapper}>
-            <Image source={{ uri: images.sampleShoes.data }} style={styles.imageStyle} />
+            <Image source={{ uri: this.props.data.details.image }} style={styles.imageStyle} />
           </View>
           <View style={styles.sentenceHolder}>
             <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data.sentence.sentence)}>
@@ -204,7 +204,6 @@ const styles = {
     padding: 10
   },
   wordEnglish: {
-    fontSize: 30,
     fontWeight: '600',
     color: '#000'
   },
