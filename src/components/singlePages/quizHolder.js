@@ -114,33 +114,32 @@ class QuizHolder extends Component {
   getIt() {
     if (this.state.dataSource && this.state.answers) {
       return this.state.answers.map((option, key) =>
-      <Answer data={option} refa={key} key={key}  handler={this.handler.bind(this)} selected={this.state.selected} />
+        <Answer data={option} refa={key} key={key} handler={this.handler.bind(this)} selected={this.state.selected} />
       );
+    }
+    return <Text>Loading..</Text>;
   }
-  return <Text>Loading..</Text>;
-  }
-render() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>{this.props.lang.text.question}</Text>
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>{this.props.lang.text.question}</Text>
+        </View>
+        <View style={styles.listHolder}>
+          {this.getIt()}
+        </View>
+        <View style={styles.buttonHolder}>
+          <Button
+            text={this.props.lang.title.startLearn}
+            style={styles.SignUpButton}
+            textStyle={styles.SignUpButtonText}
+            onPressMe={this.readyTogo.bind(this)}
+            disabled={this.state.disable}
+          />
+        </View>
       </View>
-    <View style={styles.listHolder}>
-      {this.getIt()}
-    </View>
-
-    <View style={styles.buttonHolder}>
-      <Button
-        text={this.props.lang.title.startLearn}
-        style={styles.SignUpButton}
-        textStyle={styles.SignUpButtonText}
-        onPressMe={this.readyTogo.bind(this)}
-        disabled={this.state.disable}
-      />
-          </View>
-    </View>
-  );
-}
+    );
+  }
 }
 const styles = StyleSheet.create({
   container: {

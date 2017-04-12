@@ -10,6 +10,7 @@ import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHold
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import PurchaseHolder from './components/purchase/purchaseHolder';
+import Profile from './components/profile/profileHolder';
 
 const singleTab = class singleTab extends Component {
   state={
@@ -199,12 +200,13 @@ class RouterComponent extends Component {
                 key='profile'
                 title={this.props.lang.title.profile_tab}
                 iconName='user'
-                component={HomePageHolder}
+                component={Profile}
                 hideNavBar
                 lang={this.props.lang}
                 icon={singleTab}
                 sceneStyle={styles.tabSceneStyle}
                 renderBackButton={this.backRender('white')}
+                initial
               />
               {/* third tab ends */}
               {/* forth tab starts */}
