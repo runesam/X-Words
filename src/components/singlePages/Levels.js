@@ -104,9 +104,7 @@ class Levels extends Component {
     });
   }
   renderRow() {
-    return (data) =>
-      <Level data={data} updateData={this.updateData.bind(this)} />
-    ;
+    return (data) => <Level data={data} updateData={this.updateData.bind(this)} />;
   }
   render() {
     return (

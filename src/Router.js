@@ -4,12 +4,13 @@ import { Scene, Router, Actions, Modal } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Slider, Interests, Levels, SignUpForm, HomePageHolder, ChooseWordsHolder, ConfirmWords, QuizHolder } from './components/singlePages/';
+import { Slider, Interests, Levels, SignUpForm, LoginForm, HomePageHolder, ChooseWordsHolder, ConfirmWords, QuizHolder } from './components/singlePages/';
 
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import PurchaseHolder from './components/purchase/purchaseHolder';
+import Profile from './components/profile/profileHolder';
 
 const singleTab = class singleTab extends Component {
   state={
@@ -194,12 +195,13 @@ class RouterComponent extends Component {
                 key='profile'
                 title={this.props.lang.title.profile_tab}
                 iconName='user'
-                component={HomePageHolder}
+                component={Profile}
                 hideNavBar
                 lang={this.props.lang}
                 icon={singleTab}
                 sceneStyle={styles.tabSceneStyle}
                 renderBackButton={this.backRender('white')}
+                initial
               />
               {/* third tab ends */}
               {/* forth tab starts */}

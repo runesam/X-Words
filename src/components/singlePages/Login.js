@@ -24,7 +24,7 @@ import generalUtils from '../../utils/generalUtils';
 
 const _ = require('lodash');
 
-class Login extends Component {
+class LoginForm extends Component {
   state= {
     name: null,
     phone: null,
@@ -392,4 +392,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export { Login };
+export { LoginForm };

@@ -5,4 +5,5 @@ export * from './Interests';
 export * from './Levels';
 export * from './Slider';
 export * from './SignUp';
+export * from './Login';
 export * from './quizHolder';
