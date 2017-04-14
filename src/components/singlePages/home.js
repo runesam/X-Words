@@ -25,39 +25,50 @@ class HomePageHolder extends Component {
     startLearn: this.props.lang.title.startLearn,
   }
   componentWillMount() {
+    //generalUtils.storageSetItem('endDate', null);
+     generalUtils.storageSetItem('status', 'confirmed');
+     const faks =new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+     generalUtils.storageSetItem('endDate', faks);
     const date = new Date();
-    const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
+    if(faks > date){
+      console.log('ok');
+    }
     this.checkstatus=null;
     this.checkMemberId=null;
     this.checkday=null;
     this.endDate=null;
     generalUtils.storageGetItem('status').then((data) => {
-      this.checksStatus=data;
-        this.setState({ status: data });
-    });
+      this.checksStatus = data;
+      this.setState({ status: data });
     generalUtils.storageGetItem('memeberId').then((data2) => {
       this.checkMemberId=data2;
-    });
     generalUtils.storageGetItem('day').then((data3) => {
       this.checkday=data3;
-    });
-    generalUtils.storageGetItem('endDate').then((data4) => {
-      this.endDate=data3;
-    });
-    this.checkstatus=null;
-    this.checkMemberId=null;
-    this.checkday=null;
-    this.endDate=null;
+    generalUtils.storageGetItem('endDate').then((endDate) => {
 
-    //generalUtils.storageSetItem('todaywords', null);
-    // generalUtils.storageSetItem('status', 'confirmed');
     if (this.props.replaceColor) {
       this.props.replaceColor('white');
     }
+    console.log(this.checkstatus);
 
       let buttonT = '';
       let textT = '';
         switch (this.checksStatus) {
+          case 'interests':
+          Actions.interests();
+          break;
+          case 'level':
+          Actions.levels();
+          break;
+          case 'signup':
+          Actions.signup();
+          break;
+          case 'test':
+          Actions.testWithPhotos();
+          break;
+          case 'purchase':
+          Actions.PurchaseHolder();
+          break;
           case 'confirmed':
           buttonT = this.props.lang.title.startLearn;
           textT = this.props.lang.text.choosedAlready;
@@ -81,13 +92,6 @@ class HomePageHolder extends Component {
             generalUtils.storageSetItem('status', 'ready');
           }
           break;
-          case 'null':
-          generalUtils.storageSetItem('data', null);
-          generalUtils.storageSetItem('status', 'ready');
-          buttonT = this.props.lang.title.chooseWords;
-          this.setState({ status: 'ready' });
-          textT = this.props.lang.text.starter;
-          break;
           default:
           buttonT = this.props.lang.title.chooseWords;
           textT = this.props.lang.text.starter;
@@ -96,6 +100,10 @@ class HomePageHolder extends Component {
         this.setState({
           starter: textT,
           startLearn: buttonT,
+        });
+        });
+        });
+        });
         });
   }
   ComponentDidUpdate() {
