@@ -23,7 +23,7 @@ import {
   // PickerButton,
   // HscrollView
 } from '../common/';
-// import generalUtils from '../utils/generalUtils';
+import generalUtils from '../../utils/generalUtils';
 // const _ = require('lodash');
 
 class PurchaseHolder extends Component {
@@ -33,8 +33,20 @@ class PurchaseHolder extends Component {
   componentWillMount() {
 
   }
+  purchase(){
+    //if success
+    const daysnumber = 5;
+    const date = new Date().getTime() + (1000 * 24 * 60 * 60 * daysnumber);
+    console.log(date);
+    generalUtils.storageSetItem('endDate',date);
+    generalUtils.storageSetItem('status','ready');
+    return true;
+  }
   onPressMe() {
-    Actions.main();
+    if(this.purchase()){
+Actions.HomePageHolder();
+Actions.pop();
+}
   }
   ComponentDidUpdate() {
 

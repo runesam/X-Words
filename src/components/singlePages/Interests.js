@@ -83,6 +83,7 @@ class Interests extends Component {
       Alert.alert(this.props.lang.title.error, this.props.lang.text.error_interests_validation, [{ text: this.props.lang.title.ok }]);
     } else {
       generalUtils.storageSetItem('interestsData', this.state.Interests);
+      generalUtils.storageSetItem('status','level');
       generalUtils.storageGetItem('interestsData').then((data) => console.log(data));
       Actions.levels();
     }

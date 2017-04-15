@@ -25,18 +25,10 @@ class HomePageHolder extends Component {
     startLearn: this.props.lang.title.startLearn,
   }
   componentWillMount() {
-    //generalUtils.storageSetItem('endDate', null);
-     generalUtils.storageSetItem('status', null);
-     const faks =new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-     generalUtils.storageSetItem('endDate', faks);
-    const date = new Date();
-    if(faks > date){
-      console.log('ok');
-    }
-    this.checkstatus=null;
-    this.checkMemberId=null;
-    this.checkday=null;
-    this.endDate=null;
+    // generalUtils.storageSetItem('status','purchase');
+    // generalUtils.storageSetItem('memeberId',null);
+    // generalUtils.storageSetItem('day',null);
+    // generalUtils.storageSetItem('endDate',null);
     generalUtils.storageGetItem('status').then((data) => {
       this.checksStatus = data;
       this.setState({ status: data });
@@ -45,7 +37,10 @@ class HomePageHolder extends Component {
     generalUtils.storageGetItem('day').then((data3) => {
       this.checkday=data3;
     generalUtils.storageGetItem('endDate').then((endDate) => {
-
+      const date = new Date().getTime();
+      if(endDate > date){
+        console.log('ok');
+      }
     if (this.props.replaceColor) {
       this.props.replaceColor('white');
     }
