@@ -26,7 +26,7 @@ class HomePageHolder extends Component {
   }
   componentWillMount() {
     //generalUtils.storageSetItem('endDate', null);
-     generalUtils.storageSetItem('status', 'confirmed');
+     generalUtils.storageSetItem('status', null);
      const faks =new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
      generalUtils.storageSetItem('endDate', faks);
     const date = new Date();
@@ -50,7 +50,6 @@ class HomePageHolder extends Component {
       this.props.replaceColor('white');
     }
     console.log(this.checkstatus);
-
       let buttonT = '';
       let textT = '';
         switch (this.checksStatus) {
@@ -80,6 +79,9 @@ class HomePageHolder extends Component {
           case 'finished':
           buttonT = this.props.lang.title.takeQuize;
           textT = this.props.lang.text.learnAlready;
+          break;
+          case null:
+          Actions.slider();
           break;
           case 'passed':
           if (this.checkday === newDate) {

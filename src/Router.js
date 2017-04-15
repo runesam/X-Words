@@ -11,7 +11,6 @@ import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import PurchaseHolder from './components/purchase/purchaseHolder';
 import Profile from './components/profile/profileHolder';
-
 const singleTab = class singleTab extends Component {
   state={
 
