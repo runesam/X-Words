@@ -33,20 +33,19 @@ class PurchaseHolder extends Component {
   componentWillMount() {
 
   }
-  purchase(){
+  onPressMe() {
+    if (this.purchase()) {
+      Actions.pop();
+    }
+  }
+  purchase() {
     //if success
     const daysnumber = 5;
     const date = new Date().getTime() + (1000 * 24 * 60 * 60 * daysnumber);
     console.log(date);
-    generalUtils.storageSetItem('endDate',date);
-    generalUtils.storageSetItem('status','ready');
+    generalUtils.storageSetItem('endDate', date);
+    //generalUtils.storageSetItem('status','ready');
     return true;
-  }
-  onPressMe() {
-    if(this.purchase()){
-Actions.HomePageHolder();
-Actions.pop();
-}
   }
   ComponentDidUpdate() {
 

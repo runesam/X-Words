@@ -81,7 +81,7 @@ class HomePageHolder extends Component {
               textT = this.props.lang.text.learnAlready;
               break;
               case 'passed':
-              if (this.checkday === newDate) {
+              if (this.checkday === 'newDate') {
                 buttonT = this.props.lang.title.takeQuize;
                 textT = this.props.lang.text.learnAlready;
               } else {

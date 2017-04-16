@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from 'react-native';
-import { Scene, Router, Actions, Modal } from 'react-native-router-flux';
+import { Scene, Router, Actions, Modal, Reducer } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -29,6 +29,14 @@ const singleTab = class singleTab extends Component {
   }
 };
 
+const reducerCreate = params => {
+    const defaultReducer = Reducer(params);
+    return (state, action) => {
+        console.log(action);
+        return defaultReducer(state, action);
+    };
+};
+
 class RouterComponent extends Component {
   state={
 
@@ -48,7 +56,7 @@ class RouterComponent extends Component {
   }
   render() {
     return (
-      <Router duration={500} >
+      <Router duration={500} createReducer={reducerCreate}>
         <Scene key="modal" component={Modal} >
           <Scene key='root'>
             <Scene
