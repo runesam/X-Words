@@ -45,7 +45,7 @@ class Single extends Component {
   }
   render() {
     return (
-      <View style={{ height: 170, paddingBottom: 10, marginLeft: 20, marginRight: 20, borderBottomWidth: 1, borderColor: 'gray', justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
+      <View style={styles.SingleContainer}>
         <View style={{ flex: 1, alignItems: 'center' }}>
           <Text style={{ fontSize: 17 }}>{this.props.data.title}</Text>
         </View>
@@ -214,6 +214,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontStyle: 'italic',
     fontSize: Dimensions.get('window').width < 375 ? 12 : 14
+  },
+  SingleContainer: {
+
   }
 });
 
