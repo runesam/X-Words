@@ -26,85 +26,84 @@ class HomePageHolder extends Component {
   }
   componentWillMount() {
     //generalUtils.storageSetItem('endDate', null);
-     generalUtils.storageSetItem('status', 'confirmed');
-     const faks =new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-     generalUtils.storageSetItem('endDate', faks);
+    generalUtils.storageSetItem('status', 'confirmed');
+    const faks = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
+    generalUtils.storageSetItem('endDate', faks);
     const date = new Date();
-    if(faks > date){
+    if (faks > date) {
       console.log('ok');
     }
-    this.checkstatus=null;
-    this.checkMemberId=null;
-    this.checkday=null;
-    this.endDate=null;
+    this.checkstatus = null;
+    this.checkMemberId = null;
+    this.checkday = null;
+    this.endDate = null;
     generalUtils.storageGetItem('status').then((data) => {
       this.checksStatus = data;
       this.setState({ status: data });
-    generalUtils.storageGetItem('memeberId').then((data2) => {
-      this.checkMemberId=data2;
-    generalUtils.storageGetItem('day').then((data3) => {
-      this.checkday=data3;
-    generalUtils.storageGetItem('endDate').then((endDate) => {
-
-    if (this.props.replaceColor) {
-      this.props.replaceColor('white');
-    }
-    console.log(this.checkstatus);
-
-      let buttonT = '';
-      let textT = '';
-        switch (this.checksStatus) {
-          case 'interests':
-          Actions.interests();
-          break;
-          case 'level':
-          Actions.levels();
-          break;
-          case 'signup':
-          Actions.signup();
-          break;
-          case 'test':
-          Actions.testWithPhotos();
-          break;
-          case 'purchase':
-          Actions.PurchaseHolder();
-          break;
-          case 'confirmed':
-          buttonT = this.props.lang.title.startLearn;
-          textT = this.props.lang.text.choosedAlready;
-          break;
-          case 'choosed':
-          buttonT = this.props.lang.title.startLearn;
-          textT = this.props.lang.text.choosedAlready;
-          break;
-          case 'finished':
-          buttonT = this.props.lang.title.takeQuize;
-          textT = this.props.lang.text.learnAlready;
-          break;
-          case 'passed':
-          if (this.checkday === newDate) {
-            buttonT = this.props.lang.title.takeQuize;
-            textT = this.props.lang.text.learnAlready;
-          } else {
-            buttonT = this.props.lang.title.chooseWords;
-            textT = this.props.lang.text.starter;
-            generalUtils.storageSetItem('todaywords', null);
-            generalUtils.storageSetItem('status', 'ready');
-          }
-          break;
-          default:
-          buttonT = this.props.lang.title.chooseWords;
-          textT = this.props.lang.text.starter;
-          this.setState({ status: 'ready' });
-        }
-        this.setState({
-          starter: textT,
-          startLearn: buttonT,
+      generalUtils.storageGetItem('memeberId').then((data2) => {
+        this.checkMemberId = data2;
+        generalUtils.storageGetItem('day').then((data3) => {
+          this.checkday = data3;
+          generalUtils.storageGetItem('endDate').then((endDate) => {
+            console.log(endDate);
+            if (this.props.replaceColor) {
+              this.props.replaceColor('white');
+            }
+            console.log(this.checkstatus);
+            let buttonT = '';
+            let textT = '';
+            switch (this.checksStatus) {
+              case 'interests':
+              Actions.interests();
+              break;
+              case 'level':
+              Actions.levels();
+              break;
+              case 'signup':
+              Actions.signup();
+              break;
+              case 'test':
+              Actions.testWithPhotos();
+              break;
+              case 'purchase':
+              Actions.PurchaseHolder();
+              break;
+              case 'confirmed':
+              buttonT = this.props.lang.title.startLearn;
+              textT = this.props.lang.text.choosedAlready;
+              break;
+              case 'choosed':
+              buttonT = this.props.lang.title.startLearn;
+              textT = this.props.lang.text.choosedAlready;
+              break;
+              case 'finished':
+              buttonT = this.props.lang.title.takeQuize;
+              textT = this.props.lang.text.learnAlready;
+              break;
+              case 'passed':
+              if (this.checkday === newDate) {
+                buttonT = this.props.lang.title.takeQuize;
+                textT = this.props.lang.text.learnAlready;
+              } else {
+                buttonT = this.props.lang.title.chooseWords;
+                textT = this.props.lang.text.starter;
+                generalUtils.storageSetItem('todaywords', null);
+                generalUtils.storageSetItem('status', 'ready');
+              }
+              break;
+              default:
+              buttonT = this.props.lang.title.chooseWords;
+              textT = this.props.lang.text.starter;
+              this.setState({ status: 'ready' });
+            }
+            this.setState({
+              starter: textT,
+              startLearn: buttonT,
+            });
+          });
         });
-        });
-        });
-        });
-        });
+      });
+    });
   }
   ComponentDidUpdate() {
 

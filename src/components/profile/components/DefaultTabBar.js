@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-class iconTabBar extends Component {
+class DefaultTabBar extends Component {
   componentWillMount() {
     this.tabIcons = [];
   }
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default iconTabBar;
+export { DefaultTabBar };

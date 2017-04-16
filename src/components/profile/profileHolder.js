@@ -10,9 +10,9 @@ import {
   // TouchableWithoutFeedback
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import DefaultTabBar from './components/blueTabBar';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
+import { DefaultTabBar, Analytics } from './components/';
 import {
   // Button,
   // CardSection,
@@ -41,14 +41,13 @@ class profile extends Component {
   render() {
     return (
       <ScrollableTabView
-        initialPage={1}
+        initialPage={0}
         renderTabBar={() => <DefaultTabBar />}
+        style={styles.ScrollableTabView}
       >
-        <ScrollView tabLabel="ios-analytics" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>News</Text>
-          </View>
-        </ScrollView>
+        <View style={styles.Analytics} tabLabel="ios-analytics">
+          <Analytics />
+        </View>
         <ScrollView tabLabel="ios-people" style={styles.tabView}>
           <View style={styles.card}>
             <Text>Friends</Text>
@@ -75,10 +74,16 @@ class profile extends Component {
 }
 
 const styles = StyleSheet.create({
-  tabView: {
-    flex: 8,
-    padding: 10,
+  ScrollableTabView: {
     backgroundColor: 'rgba(0,0,0,0.01)',
+  },
+  tabView: {
+    padding: 10,
+  },
+  Analytics: {
+    flex: 1,
+    marginBottom: 60
+    // backgroundColor: 'red'
   },
   card: {
     flex: 1,
@@ -86,8 +91,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderColor: 'rgba(0,0,0,0.1)',
     margin: 5,
-    height: 150,
-    padding: 15,
     shadowColor: '#ccc',
     shadowOffset: { width: 2, height: 2, },
     shadowOpacity: 0.5,
