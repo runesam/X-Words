@@ -11,6 +11,7 @@ import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import PurchaseHolder from './components/purchase/purchaseHolder';
 import Profile from './components/profile/profileHolder';
+
 const singleTab = class singleTab extends Component {
   state={
 
@@ -86,6 +87,18 @@ class RouterComponent extends Component {
               deviceAndroid={this.props.deviceAndroid}
             />
             <Scene
+              key='login'
+              backTitle='back'
+              navigationBarStyle={styles.navigationBarStyle}
+              component={LoginForm}
+              lang={this.props.lang}
+              api={this.props.api}
+              title='Sign In'
+              hideNavBar
+              sceneStyle={styles.view_style}
+              deviceAndroid={this.props.deviceAndroid}
+            />
+            <Scene
               key='testWithPhotos'
               backTitle='back'
               navigationBarStyle={styles.navigationBarStyle}
@@ -130,7 +143,6 @@ class RouterComponent extends Component {
                   lang={this.props.lang}
                   sceneStyle={styles.tabSceneStyle}
                   renderBackButton={this.backRender('white')}
-                  initial
                 />
                 <Scene
                   key='ConfirmWords'
@@ -200,6 +212,7 @@ class RouterComponent extends Component {
                 icon={singleTab}
                 sceneStyle={styles.tabSceneStyle}
                 renderBackButton={this.backRender('white')}
+                initial
               />
               {/* third tab ends */}
               {/* forth tab starts */}

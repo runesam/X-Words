@@ -75,15 +75,14 @@ class profile extends Component {
 
 const styles = StyleSheet.create({
   ScrollableTabView: {
-    backgroundColor: 'rgba(0,0,0,0.01)',
   },
   tabView: {
     padding: 10,
   },
   Analytics: {
     flex: 1,
-    marginBottom: 60
-    // backgroundColor: 'red'
+    backgroundColor: 'rgba(0,0,0,0.04)',
+    paddingBottom: 60
   },
   card: {
     flex: 1,

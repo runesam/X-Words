@@ -30,15 +30,16 @@ class Single extends Component {
     progress: 0
   }
   componentWillMount() {
-    this.value = 0.01;
+
   }
   componentDidMount() {
     const looper = setInterval(() => {
       if (this.state.progress >= this.props.data.target / 100) {
         console.log(this.state.progress);
+        this.setState({ progress: this.props.data.target / 100 });
         clearInterval(looper);
       } else {
-        this.setState({ progress: this.state.progress + this.value });
+        this.setState({ progress: this.state.progress + this.props.velocity });
       }
     });
   }
@@ -46,7 +47,7 @@ class Single extends Component {
     return (
       <View style={{ height: 170, paddingBottom: 10, marginLeft: 20, marginRight: 20, borderBottomWidth: 1, borderColor: 'gray', justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ fontSize: 17 }}>{this.props.title}</Text>
+          <Text style={{ fontSize: 17 }}>{this.props.data.title}</Text>
         </View>
         <View style={{ flexDirection: 'row', flex: 4 }}>
           <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -137,7 +138,7 @@ class Analytics extends Component {
 
   }
   renderSingles() {
-    return this.data.map((value, key) => <Single key={key} data={value} indeterminate={false} />);
+    return this.data.map((value, key) => <Single key={key} data={value} indeterminate={false} velocity={0.07} />);
   }
   render() {
     return (
