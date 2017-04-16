@@ -216,7 +216,15 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get('window').width < 375 ? 12 : 14
   },
   SingleContainer: {
-
+    height: 170,
+    paddingBottom: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    borderBottomWidth: 1,
+    borderColor: 'gray',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 5
   }
 });
 
