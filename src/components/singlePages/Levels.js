@@ -79,7 +79,7 @@ class Levels extends Component {
   }
   onPressMe() {
     generalUtils.storageSetItem('levelOptionData', this.state.selectedLevel);
-    generalUtils.storageGetItem('levelOptionData').then((data) => console.log(data));
+    generalUtils.storageSetItem('status','signup');
     Actions.signup();
   }
   handleAppStateChange() {

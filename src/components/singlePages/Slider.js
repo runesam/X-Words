@@ -9,6 +9,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 import Button from 'react-native-button';
+import generalUtils from '../../utils/generalUtils';
 import { Actions } from 'react-native-router-flux';
 import renderIf from 'render-if';
 
@@ -28,6 +29,7 @@ class Slider extends Component {
 
   }
   onPress() {
+    generalUtils.storageSetItem('status','interests');
     this.setState({ loading: true });
     setTimeout(() => {
       Actions.interests();

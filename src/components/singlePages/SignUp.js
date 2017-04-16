@@ -59,6 +59,7 @@ class SignUpForm extends Component {
       .then(data => {
         if (data.result) {
           generalUtils.storageSetItem('memberId', data.member_id);
+          generalUtils.storageSetItem('status', 'test');
           Actions.testWithPhotos();
         } else {
           Alert.alert(

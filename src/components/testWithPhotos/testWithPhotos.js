@@ -49,9 +49,10 @@ class component extends Component {
         this.setState({ accent: data || 'Moira' }, () => { console.log(this.state.accent); });
       });
     }
-    generalUtils.storageGetItem('levelOptionData').then(() => {
+    generalUtils.storageGetItem('levelOptionData').then((option) => {
+      console.log(option);
       const data = {};
-      data.level_id = 4;
+      data.level_id = option;
       generalUtils.setDataFromApi(this.props.api.getTestByLevel, data)
       .then(res => {
         this.setState({
@@ -91,6 +92,7 @@ class component extends Component {
         })
         .catch(reason => console.log(reason));
       });
+      generalUtils.storageSetItem('status','purchase');
       Actions.PurchaseHolder();
     }
   }

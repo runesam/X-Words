@@ -11,7 +11,6 @@ import testWithPhotos from './components/testWithPhotos/testWithPhotos';
 import LearnWithoutHolder from './components/learnWithout/learnWithoutHolder';
 import PurchaseHolder from './components/purchase/purchaseHolder';
 import Profile from './components/profile/profileHolder';
-
 const singleTab = class singleTab extends Component {
   state={
 
@@ -201,7 +200,6 @@ class RouterComponent extends Component {
                 icon={singleTab}
                 sceneStyle={styles.tabSceneStyle}
                 renderBackButton={this.backRender('white')}
-                initial
               />
               {/* third tab ends */}
               {/* forth tab starts */}
