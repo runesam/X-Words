@@ -35,7 +35,10 @@ class PurchaseHolder extends Component {
   }
   onPressMe() {
     if (this.purchase()) {
-      Actions.pop();
+      // Actions.refresh({ reCheck: true });
+      generalUtils.storageSetItem('status', 'test');
+      Actions.main();
+      Actions.HomePageHolder();
     }
   }
   purchase() {
@@ -59,7 +62,7 @@ class PurchaseHolder extends Component {
           <Text style={styles.imageLabel}>{this.props.lang.title.congrats}</Text>
           <Text style={styles.congratsText}>{this.props.lang.text.congrats_text}</Text>
         </View>
-        <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.offerTextContainer}>
           <Text style={styles.offerText}>{this.props.lang.title.offer}</Text>
         </View>
         <View style={styles.footer}>
@@ -113,6 +116,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: 'center',
     paddingTop: 10
+  },
+  offerTextContainer: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   offerText: {
     color: 'white',

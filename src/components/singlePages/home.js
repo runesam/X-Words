@@ -26,7 +26,7 @@ class HomePageHolder extends Component {
   }
   componentWillMount() {
     //generalUtils.storageSetItem('endDate', null);
-    generalUtils.storageSetItem('status', 'confirmed');
+    // generalUtils.storageSetItem('status', 'purchase');
     const faks = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
     generalUtils.storageSetItem('endDate', faks);
     const date = new Date();

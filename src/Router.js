@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from 'react-native';
-import { Scene, Router, Actions, Modal, Reducer } from 'react-native-router-flux';
+import { Scene, Router, Actions, Modal } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import reducerCreate from './reducers/routeChecker';
 import { Slider, Interests, Levels, SignUpForm, LoginForm, HomePageHolder, ChooseWordsHolder, ConfirmWords, QuizHolder } from './components/singlePages/';
 
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
@@ -27,14 +28,6 @@ const singleTab = class singleTab extends Component {
       </View>
     );
   }
-};
-
-const reducerCreate = params => {
-    const defaultReducer = Reducer(params);
-    return (state, action) => {
-        console.log(action);
-        return defaultReducer(state, action);
-    };
 };
 
 class RouterComponent extends Component {

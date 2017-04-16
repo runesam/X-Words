@@ -46,15 +46,15 @@ class Single extends Component {
   render() {
     return (
       <View style={styles.SingleContainer}>
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ fontSize: 17 }}>{this.props.data.title}</Text>
+        <View style={styles.SingleTitleContainer}>
+          <Text style={styles.SingleTitle}>{this.props.data.title}</Text>
         </View>
-        <View style={{ flexDirection: 'row', flex: 4 }}>
-          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+        <View style={styles.SingleBodyContainer}>
+          <View style={styles.SingleBodyLeftContainer}>
             <Text>{this.props.data.statices[0].number}</Text>
             <Text>{this.props.data.statices[0].text}</Text>
           </View>
-          <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
+          <View style={styles.SingleSpinnerContainer}>
             <Progress.Circle
               size={80}
               progress={this.state.progress}
@@ -64,9 +64,9 @@ class Single extends Component {
               color={this.props.data.color}
               borderColor={this.props.data.color}
             />
-            <View style={{ height: 30, borderRightWidth: 1, borderColor: 'gray', marginTop: 10 }}></View>
+            <View style={styles.SingleVertical}></View>
           </View>
-          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+          <View style={styles.SingleBodyLeftContainer}>
             <Text>{this.props.data.statices[1].number}</Text>
             <Text>{this.props.data.statices[1].text}</Text>
           </View>
@@ -225,6 +225,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 5
+  },
+  SingleTitleContainer: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  SingleTitle: {
+    fontSize: 17
+  },
+  SingleBodyContainer: {
+    flex: 4,
+    flexDirection: 'row'
+  },
+  SingleBodyLeftContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  SingleSpinnerContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  SingleVertical: {
+    height: 30,
+    borderRightWidth: 1,
+    borderColor: 'gray',
+    marginTop: 10
   }
 });
 
