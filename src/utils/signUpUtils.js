@@ -1,4 +1,4 @@
-import generalUtails from '../utils/generalUtils';
+import generalUtails from './generalUtils';
 
 const signupDataKey = 'signupData';
 
