@@ -26,18 +26,22 @@ class HomePageHolder extends Component {
   }
   componentWillMount() {
     //generalUtils.storageSetItem('endDate', null);
-    // generalUtils.storageSetItem('status', 'purchase');
+    //generalUtils.storageSetItem('status', 'purchase');
+    const date = new Date();
+    const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
     const faks = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
     generalUtils.storageSetItem('endDate', faks);
-    const date = new Date();
     if (faks > date) {
       console.log('ok');
+    } else {
+      Actions.PurchaseHolder();
     }
     this.checkstatus = null;
     this.checkMemberId = null;
     this.checkday = null;
     this.endDate = null;
     generalUtils.storageGetItem('status').then((data) => {
+      console.log(data);
       this.checksStatus = data;
       this.setState({ status: data });
       generalUtils.storageGetItem('memeberId').then((data2) => {
@@ -81,7 +85,7 @@ class HomePageHolder extends Component {
               textT = this.props.lang.text.learnAlready;
               break;
               case 'passed':
-              if (this.checkday === 'newDate') {
+              if (this.checkday === newDate) {
                 buttonT = this.props.lang.title.takeQuize;
                 textT = this.props.lang.text.learnAlready;
               } else {

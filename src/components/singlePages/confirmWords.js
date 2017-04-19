@@ -33,7 +33,6 @@ const Level = class Level extends Component {
   onPressMe() {
   }
   render() {
-    console.log(this.props.data);
     return (
         <View style={styles.itemStyle}>
           <Text style={styles.wordEnglish}>{this.props.data.details.english}</Text>
@@ -54,13 +53,40 @@ class ConfirmWords extends Component {
       } else {
         generalUtils.storageGetItem('todayWords').then((data2) => {
         this.setState({ dataSource: ds.cloneWithRows(data2) });
+        //console.log(Object.keys(data2).length);
+        var d = new Date(new Date().getTime()+ (1000*60*60*9)); // for now
+        var crnt = d.getHours() + (d.getMinutes() / 60);
+        var start = 0;
+        if (crnt <= 9 ) {
+          start = 9 - crnt;
+        }else if (crnt <= 11.5 ) {
+          start = 11.5 - crnt;
+        }else if (crnt <= 14 ) {
+          start = 14-crnt;
+        }else if (crnt <= 16.5 ){
+          start = 16.5  - crnt;
+        }else if (crnt <= 19 ) {
+          start = 19 - crnt;
+        }
+        if(start == 0){
+          Alert.alert('You passed day Please press start tomorrow earler');
+        }else{
+          console.log(start);
+          start += 0.75;
+          console.log(start);
+          console.log(start);
+          console.log(start);
+        }
     });
   }
     });
+  }
+  ComponentDidMount() {
 
+  }
+  readyTogo() {
     var PushNotification = require('react-native-push-notification');
-
-PushNotification.configure({
+    PushNotification.configure({
 
     // (optional) Called when Token is generated (iOS and Android)
     onRegister: function(token) {
@@ -86,17 +112,11 @@ PushNotification.configure({
       * - if not, you must call PushNotificationsHandler.requestPermissions() later
       */
     requestPermissions: true,
-});
-  }
-  ComponentDidMount() {
-
-  }
-  readyTogo() {
-
+  });
   PushNotification.localNotificationSchedule({
   message: "My Notification Message", // (required)
   date: new Date(Date.now() + (10 * 1000)) // in 60 secs
-});
+  });
   //  generalUtils.storageSetItem('status', 'confirmed');
   //  Actions.LearnWithPhotoHolder({ action: 'newDay' });
   }
