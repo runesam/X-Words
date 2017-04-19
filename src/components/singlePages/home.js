@@ -40,16 +40,6 @@ class HomePageHolder extends Component {
     this.checkMemberId = null;
     this.checkday = null;
     this.endDate = null;
-<<<<<<< HEAD
-    generalUtils.storageGetItem('status').then((data) => {
-      console.log(data);
-      this.checksStatus = data;
-      this.setState({ status: data });
-      generalUtils.storageGetItem('memeberId').then((data2) => {
-        this.checkMemberId = data2;
-        generalUtils.storageGetItem('day').then((data3) => {
-          this.checkday = data3;
-=======
     generalUtils.storageGetItem('status').then((status) => {
       this.checksStatus = status;
       this.setState({ status });
@@ -57,7 +47,6 @@ class HomePageHolder extends Component {
         this.checkMemberId = memeberId;
         generalUtils.storageGetItem('day').then((day) => {
           this.checkday = day;
->>>>>>> 3744d7befeec294048dd572d53bb9b7c5bbb5f38
           generalUtils.storageGetItem('endDate').then((endDate) => {
             console.log(endDate);
             if (this.props.replaceColor) {

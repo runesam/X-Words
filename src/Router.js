@@ -75,6 +75,7 @@ class RouterComponent extends Component {
             sceneStyle={styles.view_style}
             deviceAndroid={this.props.deviceAndroid}
             lang={this.props.lang}
+            initial={this.props.initial === 'levels'}
           />
           <Scene
             key='signup'
@@ -87,6 +88,7 @@ class RouterComponent extends Component {
             hideNavBar
             sceneStyle={styles.view_style}
             deviceAndroid={this.props.deviceAndroid}
+            initial={this.props.initial === 'signup'}
           />
           <Scene
             key='login'
@@ -99,6 +101,7 @@ class RouterComponent extends Component {
             hideNavBar
             sceneStyle={styles.view_style}
             deviceAndroid={this.props.deviceAndroid}
+            initial={this.props.initial === 'login'}
           />
           <Scene
             key='testWithPhotos'
@@ -111,6 +114,7 @@ class RouterComponent extends Component {
             hideNavBar
             sceneStyle={styles.view_style}
             deviceAndroid={this.props.deviceAndroid}
+            initial={this.props.initial === 'testWithPhotos'}
           />
           <Scene
             key='PurchaseHolder'
@@ -127,6 +131,7 @@ class RouterComponent extends Component {
             tabs
             tabBarStyle={styles.tabBarStyle}
             tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
+            initial={this.props.initial === 'main'}
           >
             {/* first tab starts */}
             <Scene

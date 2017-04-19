@@ -30,9 +30,8 @@ class App extends Component {
     api
   }
   componentWillMount() {
-    setTimeout(() => {
-      updateInitial.getStatus(this.updateRoute);
-    }, 5000);
+    // generalUtils.storageSetItem('status', 'main');
+    updateInitial.getStatus(this.updateRoute);
     // PushNotification.localNotificationSchedule({
     //   message: 'My Notification Message', // (required)
     //   date: new Date(Date.now() + (20 * 1000)) // in 60 secs
@@ -49,7 +48,7 @@ class App extends Component {
   componentDidMount() {
 
   }
-  updateRoute(data) {
+  updateRoute = (data) => {
     this.setState({ initial: data });
   }
   renderRouter() {
