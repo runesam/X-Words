@@ -40,6 +40,10 @@ class HomePageHolder extends Component {
     this.checkMemberId = null;
     this.checkday = null;
     this.endDate = null;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     generalUtils.storageGetItem('status').then((status) => {
       this.checksStatus = status;
       this.setState({ status });

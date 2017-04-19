@@ -18,7 +18,7 @@
     "words": "Words",
     "chooseWords": "choose words",
     "startLearn": "Start Learn",
-    "takeQuize": "Take Quiz",
+    "takeQuize": "Practice",
     "offer" : "Only 19 TRY",
     "buy_now": "Buy Now!",
     "phone": "0 (212) 988 - 19 88",
@@ -59,7 +59,7 @@
     "trouble": "Having troubles please call us on",
     "starter": "Ready to choose today",
     "choosedAlready": "You have choosed words",
-    "learnAlready": "You have learned words",
+    "learnAlready": "Finish ",
     "welcome": "Have a good day, Here are sum ",
     "question": "choose correct sentence",
   }
