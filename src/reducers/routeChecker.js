@@ -1,5 +1,5 @@
-import { Reducer, Actions } from 'react-native-router-flux';
-import generalUtils from '../utils/generalUtils';
+import { Reducer } from 'react-native-router-flux';
+// import generalUtils from '../utils/generalUtils';
 
 export default params => {
   const defaultReducer = Reducer(params);
