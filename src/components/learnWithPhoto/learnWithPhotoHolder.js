@@ -81,7 +81,7 @@ class LearnWithPhotoHolder extends Component {
   }
   next() {
     if (this.currentId + 1 === this.datakeys.length) {
-      generalUtils.storageSetItem('status', 'finished');
+      generalUtils.storageSetItem('learnstatus', 'finished');
       Actions.Home();
       return false;
     }

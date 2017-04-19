@@ -148,7 +148,7 @@ class ChooseWordsHolder extends Component {
         this.setState({ accent: data || 'Moira' }, () => { console.log(this.state.accent); });
       });
     }
-    generalUtils.storageGetItem('status').then((data) => {
+    generalUtils.storageGetItem('learnstatus').then((data) => {
       if (data === 'choosed') {
         Actions.ConfirmWords();
       } else {
@@ -248,7 +248,7 @@ class ChooseWordsHolder extends Component {
             });
             generalUtils.storageSetItem('reminder', this.reminder);
             generalUtils.storageSetItem('todayWords', data);
-            generalUtils.storageSetItem('status', 'choosed');
+            generalUtils.storageSetItem('learnstatus', 'choosed');
             const date = new Date();
             const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
             generalUtils.storageSetItem('day', newDate);

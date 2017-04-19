@@ -96,7 +96,7 @@ class QuizHolder extends Component {
     { text: this.props.lang.title.cancelBoxbutton, onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
     { text: this.props.lang.title.okBox,
     onPress: () => {
-      generalUtils.storageSetItem('status', 'ready');
+      generalUtils.storageSetItem('learnstatus', 'ready');
       generalUtils.storageSetItem('todayWords', null);
       Actions.ChooseWordsHolder();
     } },

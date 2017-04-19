@@ -36,7 +36,7 @@ class PurchaseHolder extends Component {
   onPressMe() {
     if (this.purchase()) {
       // Actions.refresh({ reCheck: true });
-      generalUtils.storageSetItem('status', 'test');
+      generalUtils.storageSetItem('status', 'main');
       Actions.main();
       Actions.HomePageHolder();
     }

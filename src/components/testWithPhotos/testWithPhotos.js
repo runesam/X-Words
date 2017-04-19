@@ -92,7 +92,7 @@ class component extends Component {
         })
         .catch(reason => console.log(reason));
       });
-      generalUtils.storageSetItem('status','purchase');
+      generalUtils.storageSetItem('status','PurchaseHolder');
       Actions.PurchaseHolder();
     }
   }

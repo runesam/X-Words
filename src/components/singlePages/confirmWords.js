@@ -47,54 +47,10 @@ class ConfirmWords extends Component {
     dataSource: ds.cloneWithRows([]),
   };
   componentWillMount() {
-    generalUtils.storageGetItem('status').then((data) => {
-      if (data !== 'choosed') {
-        Actions.HomePageHolder();
-      } else {
-        generalUtils.storageGetItem('todayWords').then((data2) => {
-        this.setState({ dataSource: ds.cloneWithRows(data2) });
-        //console.log(Object.keys(data2).length);
-        var d = new Date(new Date().getTime()+ (1000*60*60*9)); // for now
-        var crnt = d.getHours() + (d.getMinutes() / 60);
-        var start = 0;
-        var steps = 5;
-        if (crnt <= 9 ) {
-        start = 9 - crnt;
-        }else if (crnt <= 11.5 ) {
-        start = 11.5 - crnt;
-        steps=4;
-        }else if (crnt <= 14 ) {
-        start = 14-crnt;
-        steps=3;
-        }else if (crnt <= 16.5 ){
-        start = 16.5  - crnt;
-        steps=2;
-        }else if (crnt <= 19 ) {
-        start = 19 - crnt;
-        steps=1;
-        }
-        if(start == 0){
-        alert('You passed day Please press start tomorrow earler');
-        }else{
-        start -= 0.75;
-        for(var i=0;i<steps;i++){
-        start += 0.75;
-        console.log('time to learn new words'+start*1000*60);
-        start += 1.75;
-        console.log('time to take quiz'+start*1000*60);
-        console.log('step');
-        }
-        }
-    });
-  }
-    });
-  }
-  ComponentDidMount() {
-
-  }
-  readyTogo() {
-    var PushNotification = require('react-native-push-notification');
-    PushNotification.configure({
+    this.start = 0;
+    this.steps = 5;
+    this.PushNotification = require('react-native-push-notification');
+    this.PushNotification.configure({
 
     // (optional) Called when Token is generated (iOS and Android)
     onRegister: function(token) {
@@ -121,7 +77,54 @@ class ConfirmWords extends Component {
       */
     requestPermissions: true,
   });
-  PushNotification.localNotificationSchedule({
+
+    generalUtils.storageGetItem('learnstatus').then((data) => {
+      if (data !== 'choosed') {
+        Actions.HomePageHolder();
+      } else {
+        generalUtils.storageGetItem('todayWords').then((data2) => {
+        this.setState({ dataSource: ds.cloneWithRows(data2) });
+        //console.log(Object.keys(data2).length);
+        var d = new Date(new Date().getTime()); // for now
+        var crnt = d.getHours() + (d.getMinutes() / 60);
+        if (crnt <= 9 ) {
+        this.start = 9 - crnt;
+        }else if (crnt <= 11.5 ) {
+        this.start = 11.5 - crnt;
+        this.steps=4;
+        }else if (crnt <= 14 ) {
+        this.start = 14-crnt;
+        this.steps=3;
+        }else if (crnt <= 16.5 ){
+        this.start = 16.5  - crnt;
+        this.steps=2;
+        }else if (crnt <= 19 ) {
+        this.start = 19 - crnt;
+        this.steps=1;
+        }
+    });
+  }
+    });
+  }
+  ComponentDidMount() {
+
+  }
+  readyTogo = () => {
+    console.log(this.start); // 
+    if(this.start == 0){  // this is not defined
+    alert('You passed day Please press start tomorrow earler');
+    }else{
+      this.start -= 0.75;
+      for(var i=0;i<this.steps;i++){
+      this.start += 0.75;
+      console.log('time to learn new words'+start);
+      this.start += 1.75;
+      console.log('time to take quiz'+start);
+      console.log('step');
+    }
+    }
+
+  this.PushNotification.localNotificationSchedule({
   message: "My Notification Message", // (required)
   date: new Date(Date.now() + (10 * 1000)) // in 60 secs
   });
@@ -136,7 +139,7 @@ class ConfirmWords extends Component {
     { text: this.props.lang.title.cancelBoxbutton, onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
     { text: this.props.lang.title.okBox,
     onPress: () => {
-      generalUtils.storageSetItem('status', 'ready');
+      generalUtils.storageSetItem('learnstatus', 'ready');
       generalUtils.storageSetItem('todayWords', null);
       Actions.ChooseWordsHolder();
     } },
@@ -167,7 +170,7 @@ render() {
       text={this.props.lang.title.startLearn}
       style={styles.SignUpButton}
       textStyle={styles.SignUpButtonText}
-      onPressMe={this.readyTogo}
+      onPressMe={this.readyTogo.bind(this)}
     />
     </View>
     <View style={styles.buttonH2}></View>

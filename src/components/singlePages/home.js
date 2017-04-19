@@ -40,7 +40,8 @@ class HomePageHolder extends Component {
     this.checkMemberId = null;
     this.checkday = null;
     this.endDate = null;
-    generalUtils.storageGetItem('status').then((status) => {
+    generalUtils.storageGetItem('learnstatus').then((status) => {
+      console.log(status);
       this.checksStatus = status;
       this.setState({ status });
       generalUtils.storageGetItem('memeberId').then((memeberId) => {
@@ -76,7 +77,7 @@ class HomePageHolder extends Component {
                 buttonT = this.props.lang.title.chooseWords;
                 textT = this.props.lang.text.starter;
                 generalUtils.storageSetItem('todaywords', null);
-                generalUtils.storageSetItem('status', 'ready');
+                generalUtils.storageSetItem('learnstatus', 'ready');
               }
               break;
               default:
