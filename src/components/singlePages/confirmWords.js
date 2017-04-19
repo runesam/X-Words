@@ -57,25 +57,33 @@ class ConfirmWords extends Component {
         var d = new Date(new Date().getTime()+ (1000*60*60*9)); // for now
         var crnt = d.getHours() + (d.getMinutes() / 60);
         var start = 0;
+        var steps = 5;
         if (crnt <= 9 ) {
-          start = 9 - crnt;
+        start = 9 - crnt;
         }else if (crnt <= 11.5 ) {
-          start = 11.5 - crnt;
+        start = 11.5 - crnt;
+        steps=4;
         }else if (crnt <= 14 ) {
-          start = 14-crnt;
+        start = 14-crnt;
+        steps=3;
         }else if (crnt <= 16.5 ){
-          start = 16.5  - crnt;
+        start = 16.5  - crnt;
+        steps=2;
         }else if (crnt <= 19 ) {
-          start = 19 - crnt;
+        start = 19 - crnt;
+        steps=1;
         }
         if(start == 0){
-          Alert.alert('You passed day Please press start tomorrow earler');
+        alert('You passed day Please press start tomorrow earler');
         }else{
-          console.log(start);
-          start += 0.75;
-          console.log(start);
-          console.log(start);
-          console.log(start);
+        start -= 0.75;
+        for(var i=0;i<steps;i++){
+        start += 0.75;
+        console.log('time to learn new words'+start*1000*60);
+        start += 1.75;
+        console.log('time to take quiz'+start*1000*60);
+        console.log('step');
+        }
         }
     });
   }
