@@ -49,34 +49,7 @@ class ConfirmWords extends Component {
   componentWillMount() {
     this.start = 0;
     this.steps = 5;
-    this.PushNotification = require('react-native-push-notification');
-    this.PushNotification.configure({
 
-    // (optional) Called when Token is generated (iOS and Android)
-    onRegister: function(token) {
-        console.log( 'TOKEN:', token );
-    },
-    // (required) Called when a remote or local notification is opened or received
-    onNotification: function(notification) {
-        console.log( 'NOTIFICATION:', notification );
-    },
-    // IOS ONLY (optional): default: all - Permissions to register.
-    permissions: {
-        alert: true,
-        badge: true,
-        sound: true
-    },
-
-    // Should the initial notification be popped automatically
-    // default: true
-    popInitialNotification: true,
-    /**
-      * (optional) default: true
-      * - Specified if permissions (ios) and token (android and ios) will requested or not,
-      * - if not, you must call PushNotificationsHandler.requestPermissions() later
-      */
-    requestPermissions: true,
-  });
 
     generalUtils.storageGetItem('learnstatus').then((data) => {
       if (data !== 'choosed') {
@@ -110,22 +83,57 @@ class ConfirmWords extends Component {
 
   }
   readyTogo = () => {
-    console.log(this.start); // 
-    if(this.start == 0){  // this is not defined
-    alert('You passed day Please press start tomorrow earler');
-    }else{
-      this.start -= 0.75;
-      for(var i=0;i<this.steps;i++){
-      this.start += 0.75;
-      console.log('time to learn new words'+start);
-      this.start += 1.75;
-      console.log('time to take quiz'+start);
-      console.log('step');
-    }
-    }
+    var PushNotification = require('react-native-push-notification');
+    PushNotification.configure({
 
-  this.PushNotification.localNotificationSchedule({
-  message: "My Notification Message", // (required)
+    // (optional) Called when Token is generated (iOS and Android)
+    onRegister: function(token) {
+        console.log( 'TOKEN:', token );
+    },
+    // (required) Called when a remote or local notification is opened or received
+    onNotification: function(notification) {
+        console.log( 'NOTIFICATION:', notification );
+    },
+    // IOS ONLY (optional): default: all - Permissions to register.
+    permissions: {
+        alert: true,
+        badge: true,
+        sound: true
+    },
+
+    // Should the initial notification be popped automatically
+    // default: true
+    popInitialNotification: true,
+    /**
+      * (optional) default: true
+      * - Specified if permissions (ios) and token (android and ios) will requested or not,
+      * - if not, you must call PushNotificationsHandler.requestPermissions() later
+      */
+    requestPermissions: true,
+  });
+
+  if(this.start === 0){  // this is not defined
+  alert('You passed day Please press start tomorrow earler');
+  }else{
+    this.start -= 0.75;
+    for(var i=0;i<this.steps;i++){
+    this.start += 0.75;
+//
+// PushNotification.localNotificationSchedule({
+// message: "Time To Learn Words", // (required)
+// date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
+// });
+    this.start += 1.75;
+//
+// PushNotification.localNotificationSchedule({
+// message: "Time For Your Quiz", // (required)
+// date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
+// });
+    console.log('step');
+  }
+  }
+  PushNotification.localNotificationSchedule({
+  message: "Time For Your Quiz", // (required)
   date: new Date(Date.now() + (10 * 1000)) // in 60 secs
   });
   //  generalUtils.storageSetItem('status', 'confirmed');
@@ -170,7 +178,7 @@ render() {
       text={this.props.lang.title.startLearn}
       style={styles.SignUpButton}
       textStyle={styles.SignUpButtonText}
-      onPressMe={this.readyTogo.bind(this)}
+      onPressMe={this.readyTogo}
     />
     </View>
     <View style={styles.buttonH2}></View>
