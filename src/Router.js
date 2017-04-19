@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from 'react-native';
-import { Scene, Router, Actions, Modal } from 'react-native-router-flux';
+import { Scene, Router, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -50,188 +50,187 @@ class RouterComponent extends Component {
   render() {
     return (
       <Router duration={500} createReducer={reducerCreate}>
-        <Scene key="modal" component={Modal} >
-          <Scene key='root'>
+        <Scene key='root'>
+          <Scene
+            key='slider'
+            component={Slider}
+            deviceAndroid={this.props.deviceAndroid}
+            lang={this.props.lang}
+            hideNavBar
+            initial={this.props.initial === 'slider'}
+          />
+          <Scene
+            key='interests'
+            component={Interests}
+            hideNavBar
+            sceneStyle={styles.view_style}
+            deviceAndroid={this.props.deviceAndroid}
+            lang={this.props.lang}
+            initial={this.props.initial === 'interests'}
+          />
+          <Scene
+            key='levels'
+            component={Levels}
+            hideNavBar
+            sceneStyle={styles.view_style}
+            deviceAndroid={this.props.deviceAndroid}
+            lang={this.props.lang}
+          />
+          <Scene
+            key='signup'
+            backTitle='back'
+            navigationBarStyle={styles.navigationBarStyle}
+            component={SignUpForm}
+            lang={this.props.lang}
+            api={this.props.api}
+            title='Sign Up'
+            hideNavBar
+            sceneStyle={styles.view_style}
+            deviceAndroid={this.props.deviceAndroid}
+          />
+          <Scene
+            key='login'
+            backTitle='back'
+            navigationBarStyle={styles.navigationBarStyle}
+            component={LoginForm}
+            lang={this.props.lang}
+            api={this.props.api}
+            title='Sign In'
+            hideNavBar
+            sceneStyle={styles.view_style}
+            deviceAndroid={this.props.deviceAndroid}
+          />
+          <Scene
+            key='testWithPhotos'
+            backTitle='back'
+            navigationBarStyle={styles.navigationBarStyle}
+            component={testWithPhotos}
+            lang={this.props.lang}
+            api={this.props.api}
+            title='Test With Photos'
+            hideNavBar
+            sceneStyle={styles.view_style}
+            deviceAndroid={this.props.deviceAndroid}
+          />
+          <Scene
+            key='PurchaseHolder'
+            lang={this.props.lang}
+            component={PurchaseHolder}
+            title='PurchaseHolder '
+            hideNavBar
+            sceneStyle={styles.view_style}
+            initial={this.props.initial === 'PurchaseHolder'}
+          />
+          {/* page with tabs starts */}
+          <Scene
+            key='main'
+            tabs
+            tabBarStyle={styles.tabBarStyle}
+            tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
+          >
+            {/* first tab starts */}
             <Scene
-              key='slider'
-              component={Slider}
+              key='Home'
+              iconName='home'
+              icon={singleTab}
+              lang={this.props.lang}
               deviceAndroid={this.props.deviceAndroid}
-              lang={this.props.lang}
+              title={this.props.lang.title.home_tab}
               hideNavBar
-            />
-            <Scene
-              key='interests'
-              component={Interests}
-              hideNavBar
-              sceneStyle={styles.view_style}
-              deviceAndroid={this.props.deviceAndroid}
-              lang={this.props.lang}
-            />
-            <Scene
-              key='levels'
-              component={Levels}
-              hideNavBar
-              sceneStyle={styles.view_style}
-              deviceAndroid={this.props.deviceAndroid}
-              lang={this.props.lang}
-            />
-            <Scene
-              key='signup'
-              backTitle='back'
-              navigationBarStyle={styles.navigationBarStyle}
-              component={SignUpForm}
-              lang={this.props.lang}
-              api={this.props.api}
-              title='Sign Up'
-              hideNavBar
-              sceneStyle={styles.view_style}
-              deviceAndroid={this.props.deviceAndroid}
-            />
-            <Scene
-              key='login'
-              backTitle='back'
-              navigationBarStyle={styles.navigationBarStyle}
-              component={LoginForm}
-              lang={this.props.lang}
-              api={this.props.api}
-              title='Sign In'
-              hideNavBar
-              sceneStyle={styles.view_style}
-              deviceAndroid={this.props.deviceAndroid}
-            />
-            <Scene
-              key='testWithPhotos'
-              backTitle='back'
-              navigationBarStyle={styles.navigationBarStyle}
-              component={testWithPhotos}
-              lang={this.props.lang}
-              api={this.props.api}
-              title='Test With Photos'
-              hideNavBar
-              sceneStyle={styles.view_style}
-              deviceAndroid={this.props.deviceAndroid}
-            />
-            <Scene
-              key='PurchaseHolder'
-              lang={this.props.lang}
-              component={PurchaseHolder}
-              title='PurchaseHolder '
-              hideNavBar
-              sceneStyle={styles.view_style}
-            />
-            {/* page with tabs starts */}
-            <Scene
-              key='main'
-              tabs
-              tabBarStyle={styles.tabBarStyle}
-              tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}
-              initial
+              passProps
             >
-              {/* first tab starts */}
               <Scene
-                key='Home'
-                iconName='home'
-                icon={singleTab}
-                lang={this.props.lang}
-                deviceAndroid={this.props.deviceAndroid}
-                title={this.props.lang.title.home_tab}
-                hideNavBar
-                passProps
-              >
-                <Scene
-                  key='HomePageHolder'
-                  component={HomePageHolder}
-                  lang={this.props.lang}
-                  sceneStyle={styles.tabSceneStyle}
-                  renderBackButton={this.backRender('white')}
-                />
-                <Scene
-                  key='ConfirmWords'
-                  title={this.props.lang.title.confirmWords_pageTitle}
-                  component={ConfirmWords}
-                  hideNavBar={false}
-                  hideTabBar
-                  navigationBarStyle={styles.navigationBarStyle}
-                  renderBackButton={this.backRender('white')}
-                />
-                <Scene
-                  key='QuizHolder'
-                  title={this.props.lang.title.quizPageTitle}
-                  component={QuizHolder}
-                  hideNavBar={false}
-                  hideTabBar
-                  navigationBarStyle={styles.navigationBarStyle}
-                  renderBackButton={this.backRender('white')}
-                />
-                <Scene
-                  key='ChooseWordsHolder'
-                  title={this.props.lang.title.chooseWords_pageTitle}
-                  component={ChooseWordsHolder}
-                  hideNavBar={false}
-                  hideTabBar
-                  navigationBarStyle={styles.navigationBarStyle}
-                  renderBackButton={this.backRender('white')}
-                />
-                <Scene
-                  key='LearnWithPhotoHolder'
-                  title=''
-                  component={LearnWithPhotoHolder}
-                  hideNavBar={false}
-                  navigationBarStyle={styles.navigationBarStyle}
-                  renderBackButton={this.backRender('white')}
-                />
-                <Scene
-                  key='LearnWithoutHolder'
-                  component={LearnWithoutHolder}
-                  hideNavBar={false}
-                  navigationBarStyle={styles.navigationBarStyle}
-                  renderBackButton={this.backRender('white')}
-                />
-              </Scene>
-              {/* first tab ends */}
-              {/* second tab starts */}
-              <Scene
-                key='practice'
-                title={this.props.lang.title.practice_tab}
-                iconName='bolt'
+                key='HomePageHolder'
                 component={HomePageHolder}
-                hideNavBar
                 lang={this.props.lang}
-                icon={singleTab}
                 sceneStyle={styles.tabSceneStyle}
                 renderBackButton={this.backRender('white')}
               />
-              {/* second tab ends */}
-              {/* third tab starts */}
               <Scene
-                key='profile'
-                title={this.props.lang.title.profile_tab}
-                iconName='user'
-                component={Profile}
-                hideNavBar
-                lang={this.props.lang}
-                icon={singleTab}
-                sceneStyle={styles.tabSceneStyle}
+                key='ConfirmWords'
+                title={this.props.lang.title.confirmWords_pageTitle}
+                component={ConfirmWords}
+                hideNavBar={false}
+                hideTabBar
+                navigationBarStyle={styles.navigationBarStyle}
                 renderBackButton={this.backRender('white')}
-                initial
               />
-              {/* third tab ends */}
-              {/* forth tab starts */}
               <Scene
-                key='settings'
-                title={this.props.lang.title.settings_tab}
-                iconName='sliders'
-                component={HomePageHolder}
-                hideNavBar
-                lang={this.props.lang}
-                icon={singleTab}
-                sceneStyle={styles.tabSceneStyle}
+                key='QuizHolder'
+                title={this.props.lang.title.quizPageTitle}
+                component={QuizHolder}
+                hideNavBar={false}
+                hideTabBar
+                navigationBarStyle={styles.navigationBarStyle}
                 renderBackButton={this.backRender('white')}
               />
-              {/* forth tab ends */}
+              <Scene
+                key='ChooseWordsHolder'
+                title={this.props.lang.title.chooseWords_pageTitle}
+                component={ChooseWordsHolder}
+                hideNavBar={false}
+                hideTabBar
+                navigationBarStyle={styles.navigationBarStyle}
+                renderBackButton={this.backRender('white')}
+              />
+              <Scene
+                key='LearnWithPhotoHolder'
+                title=''
+                component={LearnWithPhotoHolder}
+                hideNavBar={false}
+                navigationBarStyle={styles.navigationBarStyle}
+                renderBackButton={this.backRender('white')}
+              />
+              <Scene
+                key='LearnWithoutHolder'
+                component={LearnWithoutHolder}
+                hideNavBar={false}
+                navigationBarStyle={styles.navigationBarStyle}
+                renderBackButton={this.backRender('white')}
+              />
             </Scene>
-            {/* page with tabs ends */}
+            {/* first tab ends */}
+            {/* second tab starts */}
+            <Scene
+              key='practice'
+              title={this.props.lang.title.practice_tab}
+              iconName='bolt'
+              component={HomePageHolder}
+              hideNavBar
+              lang={this.props.lang}
+              icon={singleTab}
+              sceneStyle={styles.tabSceneStyle}
+              renderBackButton={this.backRender('white')}
+            />
+            {/* second tab ends */}
+            {/* third tab starts */}
+            <Scene
+              key='profile'
+              title={this.props.lang.title.profile_tab}
+              iconName='user'
+              component={Profile}
+              hideNavBar
+              lang={this.props.lang}
+              icon={singleTab}
+              sceneStyle={styles.tabSceneStyle}
+              renderBackButton={this.backRender('white')}
+            />
+            {/* third tab ends */}
+            {/* forth tab starts */}
+            <Scene
+              key='settings'
+              title={this.props.lang.title.settings_tab}
+              iconName='sliders'
+              component={HomePageHolder}
+              hideNavBar
+              lang={this.props.lang}
+              icon={singleTab}
+              sceneStyle={styles.tabSceneStyle}
+              renderBackButton={this.backRender('white')}
+            />
+            {/* forth tab ends */}
           </Scene>
+          {/* page with tabs ends */}
         </Scene>
       </Router>
     );

@@ -40,6 +40,7 @@ class HomePageHolder extends Component {
     this.checkMemberId = null;
     this.checkday = null;
     this.endDate = null;
+<<<<<<< HEAD
     generalUtils.storageGetItem('status').then((data) => {
       console.log(data);
       this.checksStatus = data;
@@ -48,6 +49,15 @@ class HomePageHolder extends Component {
         this.checkMemberId = data2;
         generalUtils.storageGetItem('day').then((data3) => {
           this.checkday = data3;
+=======
+    generalUtils.storageGetItem('status').then((status) => {
+      this.checksStatus = status;
+      this.setState({ status });
+      generalUtils.storageGetItem('memeberId').then((memeberId) => {
+        this.checkMemberId = memeberId;
+        generalUtils.storageGetItem('day').then((day) => {
+          this.checkday = day;
+>>>>>>> 3744d7befeec294048dd572d53bb9b7c5bbb5f38
           generalUtils.storageGetItem('endDate').then((endDate) => {
             console.log(endDate);
             if (this.props.replaceColor) {
@@ -57,21 +67,6 @@ class HomePageHolder extends Component {
             let buttonT = '';
             let textT = '';
             switch (this.checksStatus) {
-              case 'interests':
-              Actions.interests();
-              break;
-              case 'level':
-              Actions.levels();
-              break;
-              case 'signup':
-              Actions.signup();
-              break;
-              case 'test':
-              Actions.testWithPhotos();
-              break;
-              case 'purchase':
-              Actions.PurchaseHolder();
-              break;
               case 'confirmed':
               buttonT = this.props.lang.title.startLearn;
               textT = this.props.lang.text.choosedAlready;

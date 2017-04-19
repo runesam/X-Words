@@ -9,7 +9,7 @@ import {
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 // import PushNotification from 'react-native-push-notification';
-// import generalUtils from './utils/generalUtils';
+import updateInitial from './utils/updateInitial';
 import reducers from './reducers';
 import {
   // Header,
@@ -25,10 +25,14 @@ class App extends Component {
   state = {
     store: createStore(reducers, {}, applyMiddleware(ReduxThunk)),
     accent: null,
+    initial: null,
     lang,
     api
   }
   componentWillMount() {
+    setTimeout(() => {
+      updateInitial.getStatus(this.updateRoute);
+    }, 5000);
     // PushNotification.localNotificationSchedule({
     //   message: 'My Notification Message', // (required)
     //   date: new Date(Date.now() + (20 * 1000)) // in 60 secs
@@ -45,11 +49,19 @@ class App extends Component {
   componentDidMount() {
 
   }
+  updateRoute(data) {
+    this.setState({ initial: data });
+  }
+  renderRouter() {
+    if (this.state.initial) {
+      return <Router deviceAndroid={this.props.deviceAndroid} lang={this.state.lang} api={this.state.api} accent={this.state.accent} initial={this.state.initial} />;
+    }
+  }
   render() {
     return (
       <Provider store={this.state.store}>
         <View style={styles.view_style}>
-          <Router deviceAndroid={this.props.deviceAndroid} lang={this.state.lang} api={this.state.api} accent={this.state.accent} />
+          {this.renderRouter()}
         </View>
       </Provider>
     );

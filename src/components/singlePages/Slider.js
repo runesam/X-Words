@@ -6,12 +6,12 @@ import {
   Image,
   // LayoutAnimation
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import renderIf from 'render-if';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 import Button from 'react-native-button';
 import generalUtils from '../../utils/generalUtils';
-import { Actions } from 'react-native-router-flux';
-import renderIf from 'render-if';
 
 import {
   // Header,
@@ -29,7 +29,7 @@ class Slider extends Component {
 
   }
   onPress() {
-    generalUtils.storageSetItem('status','interests');
+    generalUtils.storageSetItem('status', 'interests');
     this.setState({ loading: true });
     setTimeout(() => {
       Actions.interests();
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     // paddingTop: 25,
     width: 120,
     overflow: 'hidden',
-    borderRadius: 200,
+    borderRadius: 10,
     backgroundColor: '#ff0050',
     justifyContent: 'center',
     alignItems: 'center',
@@ -158,4 +158,5 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   }
 });
+
 export { Slider };
