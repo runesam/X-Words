@@ -34,7 +34,7 @@ class HomePageHolder extends Component {
     },
     // (required) Called when a remote or local notification is opened or received
     onNotification: function(notification) {
-        console.log( 'hello mother:', notification );
+
     },
     // IOS ONLY (optional): default: all - Permissions to register.
     permissions: {
@@ -54,7 +54,7 @@ class HomePageHolder extends Component {
     requestPermissions: true,
   });
     //generalUtils.storageSetItem('endDate', null);
-    //generalUtils.storageSetItem('status', 'purchase');
+    //generalUtils.storageSetItem('learnstatus', 'choosed');
     const date = new Date();
     const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
     const faks = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
@@ -94,6 +94,13 @@ class HomePageHolder extends Component {
               textT = this.props.lang.text.choosedAlready;
               break;
               case 'finished':
+                  generalUtils.storageGetItem('todayFlow').then((todayFlow) => {
+                    for(var i=0;i<todayFlow.length;i++){
+                      if(todayFlow[i][1] === 0){
+                        console.log(todayFlow[i][0]);
+                      }
+                    }
+                  });
               buttonT = this.props.lang.title.takeQuize;
               textT = this.props.lang.text.learnAlready;
               break;

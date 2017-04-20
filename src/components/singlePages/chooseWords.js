@@ -27,8 +27,6 @@ import generalUtils from '../../utils/generalUtils';
 const Item = class Item extends Component {
   state= {
     clicked: false,
-    choosed: 10,
-    left: 0,
     disabled: false
   }
   iWant() {
@@ -148,6 +146,9 @@ class ChooseWordsHolder extends Component {
         this.setState({ accent: data || 'Moira' }, () => { console.log(this.state.accent); });
       });
     }
+    generalUtils.storageGetItem('wordsPerDay').then((wordsPerDay) => {
+      this.setState({ left: wordsPerDay || 10 });
+    });
     generalUtils.storageGetItem('learnstatus').then((data) => {
       if (data === 'choosed') {
         Actions.ConfirmWords();
@@ -249,9 +250,6 @@ class ChooseWordsHolder extends Component {
             generalUtils.storageSetItem('reminder', this.reminder);
             generalUtils.storageSetItem('todayWords', data);
             generalUtils.storageSetItem('learnstatus', 'choosed');
-            const date = new Date();
-            const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
-            generalUtils.storageSetItem('day', newDate);
             Actions.ConfirmWords();
           }).catch(reason => console.log(reason));
         }

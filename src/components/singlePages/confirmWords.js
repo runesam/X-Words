@@ -49,7 +49,7 @@ class ConfirmWords extends Component {
   componentWillMount() {
     this.start = 0;
     this.steps = 5;
-
+    this.notificationsTimes = [];
 
     generalUtils.storageGetItem('learnstatus').then((data) => {
       if (data !== 'choosed') {
@@ -58,7 +58,8 @@ class ConfirmWords extends Component {
         generalUtils.storageGetItem('todayWords').then((data2) => {
         this.setState({ dataSource: ds.cloneWithRows(data2) });
         //console.log(Object.keys(data2).length);
-        var d = new Date(new Date().getTime()); // for now
+        this.nowTime = new Date().getTime();
+        var d = new Date(this.nowTime); // for now
         var crnt = d.getHours() + (d.getMinutes() / 60);
         if (crnt <= 9 ) {
         this.start = 9 - crnt;
@@ -112,32 +113,32 @@ class ConfirmWords extends Component {
     requestPermissions: true,
   });
 
-  if(this.start === 0){  // this is not defined
+  if (this.start === 0) {  // this is not defined
   alert('You passed day Please press start tomorrow earler');
-  }else{
+  } else {
     this.start -= 0.75;
-    for(var i=0;i<this.steps;i++){
+    for (var i = 0; i < this.steps; i++) {
     this.start += 0.75;
-//
+    this.notificationsTimes[i] = [this.nowTime + (this.start * 60 * 60 ), 0];
 // PushNotification.localNotificationSchedule({
-// message: "Time To Learn Words", // (required)
+// message: 'Time To Learn Words', // (required)
 // date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
 // });
     this.start += 1.75;
-//
+    this.notificationsTimes[i] = [this.nowTime + (this.start * 60 * 60 ), 0];
 // PushNotification.localNotificationSchedule({
-// message: "Time For Your Quiz", // (required)
+// message: 'Time For Your Quiz', // (required)
 // date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
 // });
-    console.log('step');
+}
+console.log(this.notificationsTimes);
+generalUtils.storageSetItem('todayFlow', this.notificationsTimes);
+//const date = new Date();
+//const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
+//generalUtils.storageSetItem('day', newDate);
+//generalUtils.storageSetItem('learnstatus', 'confirmed');
+//Actions.LearnWithPhotoHolder({ action: 'newDay' });
   }
-  }
-  PushNotification.localNotificationSchedule({
-  message: "Time For Your Quiz", // (required)
-  date: new Date(Date.now() + (10 * 1000)) // in 60 secs
-  });
-  //  generalUtils.storageSetItem('status', 'confirmed');
-  //  Actions.LearnWithPhotoHolder({ action: 'newDay' });
   }
   emptyTogo() {
     Alert.alert(
