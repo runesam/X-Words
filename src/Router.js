@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import reducerCreate from './reducers/routeChecker';
-import { Slider, Interests, Levels, SignUpForm, LoginForm, HomePageHolder, ChooseWordsHolder, ConfirmWords, QuizHolder } from './components/singlePages/';
+import { Slider, Interests, Levels, SignUpForm, LoginForm, HomePageHolder, ChooseWordsHolder, ConfirmWords, QuizHolder, FlowDirector } from './components/singlePages/';
 
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
@@ -159,6 +159,14 @@ class RouterComponent extends Component {
                 hideTabBar
                 navigationBarStyle={styles.navigationBarStyle}
                 renderBackButton={this.backRender('white')}
+              />
+              <Scene
+                key='FlowDirector'
+                title={this.props.lang.title.confirmWords_pageTitle}
+                component={FlowDirector}
+                hideNavBar={false}
+                hideTabBar
+                renderBackButton = {this.backRender('white')}
               />
               <Scene
                 key='QuizHolder'

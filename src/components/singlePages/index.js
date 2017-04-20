@@ -7,3 +7,4 @@ export * from './Slider';
 export * from './SignUp';
 export * from './Login';
 export * from './quizHolder';
+export * from './FlowDirector';

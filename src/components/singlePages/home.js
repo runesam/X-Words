@@ -23,18 +23,22 @@ class HomePageHolder extends Component {
     days: 10,
     words: 130,
     status: '',
+    toDo:null,
+    loading:false,
     starter: this.props.lang.text.starter,
     startLearn: this.props.lang.title.startLearn,
     type: null
   }
   componentWillMount() {
+    Actions.FlowDirector();
+    //generalUtils.storageSetItem('learnstatus', 'finished');
     const types = ['CircleFlip', 'Bounce', 'Wave', 'WanderingCubes', 'Pulse', 'ChasingDots', 'ThreeBounce', 'Circle', '9CubeGrid', 'FadingCircle', 'FadingCircleAlt'];
     let i = 10;
     setInterval(() => {
       i = i === types.length - 1 ? 0 : i + 1;
-      this.setState({ type: types[i] }, () => {
-        console.log(this.state.type);
-      });
+      //this.setState({ type: types[i] }, () => {
+      //  console.log(this.state.type);
+      //});
     }, 2000);
     PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
@@ -64,21 +68,13 @@ class HomePageHolder extends Component {
   });
     //generalUtils.storageSetItem('endDate', null);
     //generalUtils.storageSetItem('learnstatus', 'choosed');
-    const date = new Date();
-    const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
-    const faks = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
-    generalUtils.storageSetItem('endDate', faks);
-    if (faks > date) {
-      console.log('ok');
-    } else {
-      Actions.PurchaseHolder();
-    }
     this.checkstatus = null;
     this.checkMemberId = null;
     this.checkday = null;
-    this.endDate = null;
+    //generalUtils.storageGetAllItems();
+    this.faks = new Date().getTime();
     generalUtils.storageGetItem('learnstatus').then((status) => {
-      console.log(status);
+
       this.checksStatus = status;
       this.setState({ status });
       generalUtils.storageGetItem('memeberId').then((memeberId) => {
@@ -86,13 +82,18 @@ class HomePageHolder extends Component {
         generalUtils.storageGetItem('day').then((day) => {
           this.checkday = day;
           generalUtils.storageGetItem('endDate').then((endDate) => {
-            console.log(endDate);
             if (this.props.replaceColor) {
               this.props.replaceColor('white');
             }
-            console.log(this.checkstatus);
+
+            if (this.faks < endDate) {
+
+            } else {
+            Actions.PurchaseHolder();
+            }
             let buttonT = '';
             let textT = '';
+            this.missed=0;
             switch (this.checksStatus) {
               case 'confirmed':
               buttonT = this.props.lang.title.startLearn;
@@ -105,15 +106,27 @@ class HomePageHolder extends Component {
               case 'finished':
                   generalUtils.storageGetItem('todayFlow').then((todayFlow) => {
                     for(var i=0;i<todayFlow.length;i++){
-                      if(todayFlow[i][1] === 0){
-                        console.log(todayFlow[i][0]);
+                      if(todayFlow[i][1] === 0 &&  this.faks > todayFlow[i][0] ){
+                      this.missed++;
                       }
                     }
+                    if(this.missed === 0){
+                      this.setState({
+                        starter: this.props.lang.text.learnAlready,
+                        startLearn: this.props.lang.title.takeQuize,
+                      });
+                    }else{
+                      this.setState({
+                        toDo: this.missed,
+                        starter: this.props.lang.text.missedAlready + this.missed,
+                        startLearn: this.props.lang.title.continue,
+                      });
+                    }
                   });
-              buttonT = this.props.lang.title.takeQuize;
-              textT = this.props.lang.text.learnAlready;
               break;
               case 'passed':
+              const date = new Date();
+              const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
               if (this.checkday === newDate) {
                 buttonT = this.props.lang.title.takeQuize;
                 textT = this.props.lang.text.learnAlready;
@@ -148,12 +161,14 @@ class HomePageHolder extends Component {
       Actions.LearnWithPhotoHolder({ action: 'newDay' });
     } else if (this.state.status === 'ready') {
       Actions.ChooseWordsHolder();
-    } else if (this.state.status === 'passed' || this.state.status === 'finished') {
-      Actions.QuizHolder();
+    } else if (this.state.status === 'finished') {
+      Actions.FlowDirector();
+    }else if (this.state.status === 'passed') {
+      Alert.alert('Practice page to old words');
     }
   }
   renderLoader() {
-    if ('sa' !== null) {
+    if (this.state.loading) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
           <Loader color='black' size={50} type={this.state.type} />

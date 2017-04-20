@@ -58,7 +58,7 @@ class ConfirmWords extends Component {
         generalUtils.storageGetItem('todayWords').then((data2) => {
         this.setState({ dataSource: ds.cloneWithRows(data2) });
         //console.log(Object.keys(data2).length);
-        this.nowTime = new Date().getTime();
+        console.log(this.nowTime);
         var d = new Date(this.nowTime); // for now
         var crnt = d.getHours() + (d.getMinutes() / 60);
         if (crnt <= 9 ) {
@@ -117,27 +117,32 @@ class ConfirmWords extends Component {
   alert('You passed day Please press start tomorrow earler');
   } else {
     this.start -= 0.75;
+    var is=0;
     for (var i = 0; i < this.steps; i++) {
     this.start += 0.75;
-    this.notificationsTimes[i] = [this.nowTime + (this.start * 60 * 60 ), 0];
+
+    this.notificationsTimes[is] = [this.nowTime + (this.start * 60 * 60 * 1000 ), 0, 0];
 // PushNotification.localNotificationSchedule({
 // message: 'Time To Learn Words', // (required)
 // date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
 // });
     this.start += 1.75;
-    this.notificationsTimes[i] = [this.nowTime + (this.start * 60 * 60 ), 0];
+    is++;
+    this.notificationsTimes[is] = [this.nowTime + (this.start * 60 * 60 * 1000 ), 0, 1];
+    is++;
 // PushNotification.localNotificationSchedule({
 // message: 'Time For Your Quiz', // (required)
 // date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
 // });
 }
-console.log(this.notificationsTimes);
+// console.log(this.notificationsTimes);
 generalUtils.storageSetItem('todayFlow', this.notificationsTimes);
-//const date = new Date();
-//const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
-//generalUtils.storageSetItem('day', newDate);
-//generalUtils.storageSetItem('learnstatus', 'confirmed');
-//Actions.LearnWithPhotoHolder({ action: 'newDay' });
+console.log(this.notificationsTimes);
+const date = new Date();
+const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
+generalUtils.storageSetItem('day', newDate);
+generalUtils.storageSetItem('learnstatus', 'confirmed');
+Actions.LearnWithPhotoHolder({ action: 'newDay' });
   }
   }
   emptyTogo() {

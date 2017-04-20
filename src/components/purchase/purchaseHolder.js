@@ -45,10 +45,11 @@ class PurchaseHolder extends Component {
     //if success
     const daysnumber = 5;
     const date = new Date().getTime() + (1000 * 24 * 60 * 60 * daysnumber);
+    console.log('1');
     console.log(date);
+    console.log('2');
     generalUtils.storageSetItem('endDate', date);
     generalUtils.storageSetItem('wordsPerDay', 10);
-    //generalUtils.storageSetItem('status','ready');
     return true;
   }
   ComponentDidUpdate() {
