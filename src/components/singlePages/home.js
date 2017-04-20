@@ -9,8 +9,10 @@ import {
   ScrollView,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Loader from 'react-native-spinkit';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
+import PushNotification from 'react-native-push-notification';
 import { Button } from '../common/';
 import generalUtils from '../../utils/generalUtils';
 import images from '../../json/images.json';
@@ -23,18 +25,25 @@ class HomePageHolder extends Component {
     status: '',
     starter: this.props.lang.text.starter,
     startLearn: this.props.lang.title.startLearn,
+    type: null
   }
   componentWillMount() {
-    var PushNotification = require('react-native-push-notification');
+    const types = ['CircleFlip', 'Bounce', 'Wave', 'WanderingCubes', 'Pulse', 'ChasingDots', 'ThreeBounce', 'Circle', '9CubeGrid', 'FadingCircle', 'FadingCircleAlt'];
+    let i = 10;
+    setInterval(() => {
+      i = i === types.length - 1 ? 0 : i + 1;
+      this.setState({ type: types[i] }, () => {
+        console.log(this.state.type);
+      });
+    }, 2000);
     PushNotification.configure({
-
     // (optional) Called when Token is generated (iOS and Android)
-    onRegister: function(token) {
-        console.log( 'TOKEN:', token );
+    onRegister: (token) => {
+        console.log('TOKEN:', token);
     },
     // (required) Called when a remote or local notification is opened or received
-    onNotification: function(notification) {
-
+    onNotification: (notification) => {
+        console.log('hello mother:', notification);
     },
     // IOS ONLY (optional): default: all - Permissions to register.
     permissions: {
@@ -143,40 +152,52 @@ class HomePageHolder extends Component {
       Actions.QuizHolder();
     }
   }
+  renderLoader() {
+    if ('sa' !== null) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+          <Loader color='black' size={50} type={this.state.type} />
+        </View>
+      );
+    }
+    return (
+      <ScrollView style={styles.scrollView} contentContainerStyle={{ flex: 1 }}>
+        <View style={styles.container}>
+          <View style={styles.spacer} />
+          <View style={styles.header}>
+            <Text style={styles.headerText}>{this.props.lang.text.welcome}</Text>
+          </View>
+          <View style={styles.statistics}>
+            <View style={styles.popUpContainer}>
+              <View style={styles.spacepop} />
+              <View style={styles.popUp}>
+                <Text style={styles.popText}>{`${this.props.lang.title.days}: ${this.state.days}`}</Text>
+                <Text style={styles.popText}>{`${this.props.lang.title.words}: ${this.state.words}`}</Text>
+              </View>
+            </View>
+            <View style={styles.photoHolder}>
+              <Image source={{ uri: images.birdImage.data }} style={styles.birdImage} />
+            </View>
+          </View>
+          <View style={styles.startHolder}>
+            <Text style={styles.headerText}>{this.state.starter}</Text>
+            <Button
+              text={this.state.startLearn}
+              style={styles.SignUpButton}
+              textStyle={styles.SignUpButtonText}
+              onPressMe={this.goSomewhere.bind(this)}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    );
+  }
   render() {
     return (
       <View style={styles.mainContainer}>
         <StatusBar barStyle='light-content' />
         <View style={{ flex: 10.5 }} >
-          <ScrollView style={styles.scrollView} contentContainerStyle={{ flex: 1 }}>
-            <View style={styles.container}>
-              <View style={styles.spacer} />
-              <View style={styles.header}>
-                <Text style={styles.headerText}>{this.props.lang.text.welcome}</Text>
-              </View>
-              <View style={styles.statistics}>
-                <View style={styles.popUpContainer}>
-                  <View style={styles.spacepop} />
-                  <View style={styles.popUp}>
-                    <Text style={styles.popText}>{`${this.props.lang.title.days}: ${this.state.days}`}</Text>
-                    <Text style={styles.popText}>{`${this.props.lang.title.words}: ${this.state.words}`}</Text>
-                  </View>
-                </View>
-                <View style={styles.photoHolder}>
-                  <Image source={{ uri: images.birdImage.data }} style={styles.birdImage} />
-                </View>
-              </View>
-              <View style={styles.startHolder}>
-                <Text style={styles.headerText}>{this.state.starter}</Text>
-                <Button
-                  text={this.state.startLearn}
-                  style={styles.SignUpButton}
-                  textStyle={styles.SignUpButtonText}
-                  onPressMe={this.goSomewhere.bind(this)}
-                />
-              </View>
-            </View>
-          </ScrollView>
+          {this.renderLoader()}
         </View>
       </View>
     );
