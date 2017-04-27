@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Image,
-  // Alert,
+  Alert,
   ScrollView,
   // ScrollView,
   Dimensions,
@@ -129,7 +129,7 @@ class ChooseWordsHolder extends Component {
     idsArray: [],
     choosed: 0,
     left: 10, // how many words
-    memberId: 4,
+    memberId: null,
     interestsNumber: 8,
     getLink: 'get_new_words',
     canGet: true,
@@ -147,18 +147,48 @@ class ChooseWordsHolder extends Component {
       });
     }
     generalUtils.storageGetItem('wordsPerDay').then((wordsPerDay) => {
-      this.setState({ left: wordsPerDay || 10 });
+      this.nowTime = new Date().getTime();
+      // this.nowTime = new Date().getTime() - (10 * 3600000);
+      var d = new Date(this.nowTime); // for now
+      console.log(d);
+      var crnt = d.getHours() + (d.getMinutes() / 60);
+      if (crnt <= 9 ) {
+        this.setState({ left: wordsPerDay || 10 });
+      }else if (crnt <= 11.5 ) {
+        this.setState({ left: (wordsPerDay/5)*4 || 8 });
+      }else if (crnt <= 14 ) {
+        this.setState({ left: (wordsPerDay/5)*3 || 8 });
+      }else if (crnt <= 16.5 ){
+        this.setState({ left: (wordsPerDay/5)*2 || 8 });
+      }else if (crnt <= 19 ) {
+        this.setState({ left: (wordsPerDay/5)*1 || 8 });
+      }else{
+        Alert.alert('Too Late','You passed day Please press start tomorrow earler');
+        Actions.pop();
+      }
     });
     generalUtils.storageGetItem('learnstatus').then((data) => {
+    generalUtils.storageGetItem('memberId').then((memberId) => {
       if (data === 'choosed') {
         Actions.ConfirmWords();
       } else {
         // console.log("1");
         const apiData = {};
-        apiData.memberId = this.state.memberId;
+        this.setState({ memberId: memberId });
+        apiData.memberId = memberId;
         apiData.not = this.state.not;
         // console.log("2");
+        console.log(apiData);
         generalUtils.setDataFromApi(this.state.getLink, apiData).then(res => {
+
+          if (res.none) {
+            Alert.alert(
+    'No data',
+    'Couldnt find more words if you want refresh page or change level',
+  );
+          //  Actions.HomePageHolder();
+            // update the level
+        } else {
           // console.log("3");
           this.setState({
             dataSource: res,
@@ -171,8 +201,10 @@ class ChooseWordsHolder extends Component {
             });
           }
           // console.log("5");
+        }
         }).catch(reason => console.log(reason));
       }
+    });
     });
   }
   onPressMe() {
@@ -244,10 +276,13 @@ class ChooseWordsHolder extends Component {
           console.log(this.state.idsArray);
           generalUtils.setDataFromApi(this.state.getWordsLinks, { memberId: this.state.memberId, ids: this.state.idsArray }).then(data => {
             this.reminder = {};
+            this.showVSquiz = {};
             this.state.idsArray.forEach((id) => {
               this.reminder[id] = [0, 0];
+              this.showVSquiz[id] = [0, 0];
             });
             generalUtils.storageSetItem('reminder', this.reminder);
+            generalUtils.storageSetItem('showVSquiz', this.showVSquiz);
             generalUtils.storageSetItem('todayWords', data);
             generalUtils.storageSetItem('learnstatus', 'choosed');
             Actions.ConfirmWords();

@@ -4,7 +4,7 @@ import { Reducer } from 'react-native-router-flux';
 export default params => {
   const defaultReducer = Reducer(params);
   return (state, action) => {
-    console.log(action);
+    //console.log(action);
     if (!action.scene || !action.key) {
       setTimeout(() => {
         // generalUtils.storageSetItem('status', 'ready');

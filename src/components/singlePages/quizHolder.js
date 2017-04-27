@@ -27,10 +27,8 @@ const _ = require('lodash');
 
 class Answer extends Component {
   state = {
-selected: false
-  }
-  componentWillMount() {
-    // console.log(this.props.data);
+selected: false,
+wordName: 'word'
   }
   handler() {
     this.props.handler(this.props.refa);
@@ -56,60 +54,16 @@ class QuizHolder extends Component {
     result: 0
   };
   componentWillMount() {
-    this.currentId = 0;
-    if (this.props.id) {
-      this.currentId = this.props.id;
-    }
+    this.allToUpdate = [];
+    this.maxTe = this.props.quizes.length;
+    this.words = this.props.quizes;
     generalUtils.storageGetItem('todayWords').then((data) => {
       this.wordsData = data;
-      this.datakeys = Object.keys(data);
       generalUtils.storageGetItem('reminder').then((reminders) => {
-      this.reminders = reminders;
-      this.currentSentenceId = this.reminders[this.datakeys[this.currentId]][1];
-      this.currentWordData = this.wordsData[this.datakeys[this.currentId]].quizes[this.currentSentenceId];
-      this.currentWordData.word = this.wordsData[this.datakeys[this.currentId]].details.english;
-      this.setState({ dataSource: this.currentWordData }, () => {
-        const temp = [];
-        temp.push(['correct', this.state.dataSource.correct]);
-        temp.push(['wrong1', this.state.dataSource.wrong1]);
-        temp.push(['wrong2', this.state.dataSource.wrong2]);
-        temp.push(['wrong3', this.state.dataSource.wrong3]);
-        this.answers = _.shuffle(temp);
-        this.setState({ answers: this.answers });
+        this.reminders = reminders;
+        this.renderIT(this.words);
       });
       });
-    });
-
-    //    this.setState({ dataSource: ds.cloneWithRows(data2) });
-  }
-  ComponentDidMount() {
-
-  }
-  readyTogo() {
-    Alert.alert(this.state.result === 1 ? 'correct' : 'wrong');
-  }
-  emptyTogo() {
-    Alert.alert(
-  this.props.lang.title.cancelBox,
-  this.props.lang.title.cancelBoxText,
-  [
-    { text: this.props.lang.title.cancelBoxbutton, onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-    { text: this.props.lang.title.okBox,
-    onPress: () => {
-      generalUtils.storageSetItem('learnstatus', 'ready');
-      generalUtils.storageSetItem('todayWords', null);
-      Actions.ChooseWordsHolder();
-    } },
-  ],
-  { cancelable: false }
-);
-  }
-  handler(idko) {
-    if (this.state.answers[idko][0] === 'correct') {
-    this.setState({ selected: idko, disable: false, result: 1 });
-  } else {
-    this.setState({ selected: idko, disable: false, result: -1 });
-  }
   }
   getIt() {
     if (this.state.dataSource && this.state.answers) {
@@ -119,11 +73,95 @@ class QuizHolder extends Component {
     }
     return <Text>Loading..</Text>;
   }
+  updateReminder(wordId) {
+    this.reminders[wordId][1] = this.reminders[wordId][1] === 4 ? 0 : this.reminders[wordId][1] + 1;
+  }
+  handler(idko) {
+    if (this.state.answers[idko][0] === 'correct') {
+    this.setState({ selected: idko, disable: false, result: 1 });
+  } else {
+    this.setState({ selected: idko, disable: false, result: -1 });
+  }
+  }
+  readyTogo() {
+    this.allToUpdate.push([this.currentId, this.state.result]);
+    if (this.last) {
+      this.repeat = [];
+      generalUtils.storageSetItem('reminder', this.reminders);
+      if (this.props.updateNotificaion) {
+        generalUtils.storageGetItem('todayFlow').then((todayFlow) => {
+          this.todayFlowNew = todayFlow;
+          this.todayFlowNew[this.props.iK][1] = 1;
+          generalUtils.storageSetItem('todayFlow', this.todayFlowNew).then(() => {
+            generalUtils.storageGetItem('showVSquiz').then((showVSquiz) => {
+              this.showVSquiz = showVSquiz;
+              for(var i=0;i < this.allToUpdate.length; i++){
+                if(this.props.action === 1){
+                  this.showVSquiz[this.allToUpdate[i][0]][1] = this.allToUpdate[i][1]  === 1 ? 1 : 3;
+                }else{
+                this.showVSquiz[this.allToUpdate[i][0]][1] = this.allToUpdate[i][1]  === 1 ? 1 : 2;
+                }
+                if(this.allToUpdate[i][1]  === -1){
+                  this.repeat.push([this.allToUpdate[i][0],0]);
+                }
+              }
+              generalUtils.storageSetItem('showVSquiz', this.showVSquiz).then(() => {
+                if(this.repeat.length>0){
+                  Actions.LearnWithPhotoHolder({ action: 'notNew', updateNotificaion: false, words: this.repeat, iK: i });
+                }else{
+                  Actions.FlowDirector();
+                }
+              });
+            });
+          });
+        });
+      } else {
+        Actions.FlowDirector();
+      }
+    } else {
+      this.words[this.keyF][1] = 1;
+      this.setState({ selected: null, disable:true });
+      this.renderIT(this.words);
+    }
+  }
+  renderIT(wordstemp) {
+    this.tempwords = wordstemp;
+
+      this.continueSearch=true;
+      this.whichstep=0;
+      for(var i=0;i < this.tempwords.length; i++){
+      if(this.tempwords[i][1]===0 && this.continueSearch){
+        this.continueSearch=false;
+        this.whichstep = i + 1;
+        this.keyF=i;
+        if (this.whichstep === this.maxTe) {
+          this.last = true;
+        }
+
+        this.currentId = this.tempwords[this.keyF][0];
+      this.currentSentenceId = this.reminders[this.currentId][1];
+      this.currentWordData = this.wordsData[this.currentId].quizes[this.currentSentenceId];
+      this.currentWordData.word = this.wordsData[this.currentId].details.english;
+      this.updateReminder(this.currentId);
+      this.setState({ dataSource: this.currentWordData, wordName: this.currentWordData.word }, () => {
+        const temp = [];
+        temp.push(['correct', this.state.dataSource.correct]);
+        temp.push(['wrong1', this.state.dataSource.wrong1]);
+        temp.push(['wrong2', this.state.dataSource.wrong2]);
+        temp.push(['wrong3', this.state.dataSource.wrong3]);
+        this.answers = _.shuffle(temp);
+        this.setState({ answers: this.answers });
+      });
+    }
+  }
+
+    //    this.setState({ dataSource: ds.cloneWithRows(data2) });
+  }
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>{this.props.lang.text.question}</Text>
+          <Text style={styles.headerText}>{this.props.lang.text.question} "{this.state.wordName}"</Text>
         </View>
         <View style={styles.listHolder}>
           {this.getIt()}

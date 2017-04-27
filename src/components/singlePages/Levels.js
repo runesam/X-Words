@@ -64,9 +64,10 @@ class Levels extends Component {
       .then(data => {
         const filterLevels = _.filter(data, (o) => o.active === true);
         const tempLevels = [];
-        filterLevels.map((value) =>
-          tempLevels.push(parseInt(value.level_id, 10))
-        );
+        filterLevels.map((value) =>{
+          tempLevels.push(parseInt(value.level_id, 10));
+          this.setState({ selectedLevel: parseInt(value.level_id, 10) });
+        });
         this.setState({ dataSource: ds.cloneWithRows(data), dataCame: true, levelsStorage: data, Levels: tempLevels });
       })
       .catch(reason => console.log(reason));

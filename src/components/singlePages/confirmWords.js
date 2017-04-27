@@ -53,12 +53,15 @@ class ConfirmWords extends Component {
 
     generalUtils.storageGetItem('learnstatus').then((data) => {
       if (data !== 'choosed') {
-        Actions.HomePageHolder();
+        Actions.pop();
       } else {
         generalUtils.storageGetItem('todayWords').then((data2) => {
         this.setState({ dataSource: ds.cloneWithRows(data2) });
         //console.log(Object.keys(data2).length);
-        console.log(this.nowTime);
+        this.nowTime = new Date().getTime();
+        // this.nowTime = new Date().getTime() - (10 * 3600000);
+
+        // this.nowTime = new Date().getTime() - (22 * 3600000);
         var d = new Date(this.nowTime); // for now
         var crnt = d.getHours() + (d.getMinutes() / 60);
         if (crnt <= 9 ) {
@@ -86,55 +89,50 @@ class ConfirmWords extends Component {
   readyTogo = () => {
     var PushNotification = require('react-native-push-notification');
     PushNotification.configure({
-
-    // (optional) Called when Token is generated (iOS and Android)
     onRegister: function(token) {
         console.log( 'TOKEN:', token );
     },
-    // (required) Called when a remote or local notification is opened or received
     onNotification: function(notification) {
         console.log( 'NOTIFICATION:', notification );
     },
-    // IOS ONLY (optional): default: all - Permissions to register.
     permissions: {
         alert: true,
         badge: true,
         sound: true
     },
-
-    // Should the initial notification be popped automatically
-    // default: true
     popInitialNotification: true,
-    /**
-      * (optional) default: true
-      * - Specified if permissions (ios) and token (android and ios) will requested or not,
-      * - if not, you must call PushNotificationsHandler.requestPermissions() later
-      */
     requestPermissions: true,
   });
 
   if (this.start === 0) {  // this is not defined
   alert('You passed day Please press start tomorrow earler');
+  Actions.pop();
   } else {
     this.start -= 0.75;
-    var is=0;
+    this.is=0;
     for (var i = 0; i < this.steps; i++) {
     this.start += 0.75;
 
-    this.notificationsTimes[is] = [this.nowTime + (this.start * 60 * 60 * 1000 ), 0, 0];
-// PushNotification.localNotificationSchedule({
-// message: 'Time To Learn Words', // (required)
-// date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
-// });
+    this.notificationsTimes[this.is] = [this.nowTime + (this.start * 60 * 60 * 1000 ), 0, 0];
+PushNotification.localNotificationSchedule({
+message: 'Time To Learn Words', // (required)
+date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
+});
     this.start += 1.75;
-    is++;
-    this.notificationsTimes[is] = [this.nowTime + (this.start * 60 * 60 * 1000 ), 0, 1];
-    is++;
-// PushNotification.localNotificationSchedule({
-// message: 'Time For Your Quiz', // (required)
-// date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
-// });
+    this.is++;
+    this.notificationsTimes[this.is] = [this.nowTime + (this.start * 60 * 60 * 1000 ), 0, 1];
+    this.is++;
+PushNotification.localNotificationSchedule({
+message: 'Time For Your Quiz', // (required)
+date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
+});
 }
+this.start += 1.25;
+this.notificationsTimes[this.is] = [this.nowTime + (this.start * 60 * 60 * 1000 ), 0, 2];
+PushNotification.localNotificationSchedule({
+message: 'Time to fix mistakes', // (required)
+date: new Date(Date.now() + (this.start * 60 * 60 * 1000)) // in 60 secs
+});
 // console.log(this.notificationsTimes);
 generalUtils.storageSetItem('todayFlow', this.notificationsTimes);
 console.log(this.notificationsTimes);

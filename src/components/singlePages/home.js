@@ -5,6 +5,7 @@ import {
   View,
   Text,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
 } from 'react-native';
@@ -23,15 +24,16 @@ class HomePageHolder extends Component {
     days: 10,
     words: 130,
     status: '',
-    toDo:null,
-    loading:false,
+    toDo: null,
+    loading: false,
     starter: this.props.lang.text.starter,
     startLearn: this.props.lang.title.startLearn,
     type: null
   }
   componentWillMount() {
-    Actions.FlowDirector();
-    //generalUtils.storageSetItem('learnstatus', 'finished');
+    // generalUtils.storageGetAllItems();
+    //Actions.FlowDirector();
+    //  generalUtils.storageSetItem('learnstatus', 'ready');
     const types = ['CircleFlip', 'Bounce', 'Wave', 'WanderingCubes', 'Pulse', 'ChasingDots', 'ThreeBounce', 'Circle', '9CubeGrid', 'FadingCircle', 'FadingCircleAlt'];
     let i = 10;
     setInterval(() => {
@@ -47,7 +49,7 @@ class HomePageHolder extends Component {
     },
     // (required) Called when a remote or local notification is opened or received
     onNotification: (notification) => {
-        console.log('hello mother:', notification);
+      Actions.FlowDirector();
     },
     // IOS ONLY (optional): default: all - Permissions to register.
     permissions: {
@@ -71,8 +73,10 @@ class HomePageHolder extends Component {
     this.checkstatus = null;
     this.checkMemberId = null;
     this.checkday = null;
+    this.missed=0;
     //generalUtils.storageGetAllItems();
     this.faks = new Date().getTime();
+  //  this.faks = new Date().getTime()+ (14 * 3600000);
     generalUtils.storageGetItem('learnstatus').then((status) => {
 
       this.checksStatus = status;
@@ -93,7 +97,6 @@ class HomePageHolder extends Component {
             }
             let buttonT = '';
             let textT = '';
-            this.missed=0;
             switch (this.checksStatus) {
               case 'confirmed':
               buttonT = this.props.lang.title.startLearn;
@@ -162,8 +165,12 @@ class HomePageHolder extends Component {
     } else if (this.state.status === 'ready') {
       Actions.ChooseWordsHolder();
     } else if (this.state.status === 'finished') {
-      Actions.FlowDirector();
-    }else if (this.state.status === 'passed') {
+      if (this.missed === 0) {
+        Alert.alert('Not Ready', 'No Work to do for now follow notifcation');
+      } else {
+        Actions.FlowDirector();
+      }
+    } else if (this.state.status === 'passed') {
       Alert.alert('Practice page to old words');
     }
   }
