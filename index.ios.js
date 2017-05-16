@@ -8,11 +8,11 @@ import {
 
 const App = require('./src/app');
 
-class manager extends Component {
+class Xwords extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <App />
+          <App deviceIOS />
       </View>
     );
   }
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('ten_words', () => manager);
+AppRegistry.registerComponent('Xwords', () => Xwords);

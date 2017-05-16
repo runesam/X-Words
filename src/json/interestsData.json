@@ -1,0 +1,146 @@
+[
+  {
+    "id": 0,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 1,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 2,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 3,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
+  },
+  {
+    "id": 4,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 5,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 6,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 7,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
+  },
+  {
+    "id": 8,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 9,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 10,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 11,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
+  },
+  {
+    "id": 12,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 13,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 14,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 15,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
+  },
+  {
+    "id": 16,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 17,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 18,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 19,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
+  },
+  {
+    "id": 20,
+    "image": "love_travel",
+    "text": "Travel",
+    "active": false
+  },
+  {
+    "id": 21,
+    "image": "love_shopping",
+    "text": "Shopping",
+    "active": false
+  },
+  {
+    "id": 22,
+    "image": "love_education",
+    "text": "Education",
+    "active": false
+  },
+  {
+    "id": 23,
+    "image": "love_nature",
+    "text": "Nature",
+    "active": false
+  }
+]

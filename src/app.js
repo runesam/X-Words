@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+// import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
 import {
-StyleSheet,
-// Text,
-View,
+  StyleSheet,
+  // Text,
+  View,
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+// import PushNotification from 'react-native-push-notification';
+import updateInitial from './utils/updateInitial';
 import reducers from './reducers';
 import {
   // Header,
@@ -15,32 +17,50 @@ import {
   // Spinner,
   // CardSection
 } from './components/common/';
-// import LoginForm from './components/LoginForm';
 import Router from './Router';
-// import LibraryList from './components/LibraryList';
+import lang from './json/lang_en.json';
+import api from './json/apiKeys.json';
 
 class App extends Component {
   state = {
-    store: createStore(reducers, {}, applyMiddleware(ReduxThunk))
+    store: createStore(reducers, {}, applyMiddleware(ReduxThunk)),
+    accent: null,
+    initial: null,
+    lang,
+    api
   }
   componentWillMount() {
-    const config = {
-      apiKey: 'AIzaSyDWIqk__XudJoxv8dEu1VpE8TdByVFUUKM',
-      authDomain: 'manager-7edd8.firebaseapp.com',
-      databaseURL: 'https://manager-7edd8.firebaseio.com',
-      storageBucket: 'manager-7edd8.appspot.com',
-      messagingSenderId: '111479488991'
-    };
-    firebase.initializeApp(config);
+    // generalUtils.storageSetItem('status', 'main');
+    updateInitial.getStatus(this.updateRoute);
+    // PushNotification.localNotificationSchedule({
+    //   message: 'My Notification Message', // (required)
+    //   date: new Date(Date.now() + (20 * 1000)) // in 60 secs
+    // });
+    // const config = {
+    //   apiKey: 'AIzaSyDWIqk__XudJoxv8dEu1VpE8TdByVFUUKM',
+    //   authDomain: 'manager-7edd8.firebaseapp.com',
+    //   databaseURL: 'https://manager-7edd8.firebaseio.com',
+    //   storageBucket: 'manager-7edd8.appspot.com',
+    //   messagingSenderId: '111479488991'
+    // };
+    // firebase.initializeApp(config);
   }
   componentDidMount() {
 
+  }
+  updateRoute = (data) => {
+this.setState({ initial: data || 'slider' });
+  }
+  renderRouter() {
+    if (this.state.initial) {
+      return <Router deviceAndroid={this.props.deviceAndroid} lang={this.state.lang} api={this.state.api} accent={this.state.accent} initial={this.state.initial} />;
+    }
   }
   render() {
     return (
       <Provider store={this.state.store}>
         <View style={styles.view_style}>
-          <Router deviceAndroid={this.props.deviceAndroid} />
+          {this.renderRouter()}
         </View>
       </Provider>
     );
