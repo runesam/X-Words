@@ -90,7 +90,7 @@ class LearnWithPhotoHolder extends Component {
     if (this.currentId + 1 === this.datakeys.length) {
       generalUtils.storageSetItem('learnstatus', 'finished');
       generalUtils.storageSetItem('reminder', this.reminders);
-      Actions.Home();
+      Actions.pop({ refresh: { toGo: 'ahmed' } });
       return false;
     }
     this.currentId++;

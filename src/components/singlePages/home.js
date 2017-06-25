@@ -18,7 +18,6 @@ import { Button } from '../common/';
 import generalUtils from '../../utils/generalUtils';
 import images from '../../json/images.json';
 // const _ = require('lodash');
-
 class HomePageHolder extends Component {
   state= {
     days: 10,
@@ -31,6 +30,7 @@ class HomePageHolder extends Component {
     type: null
   }
   componentWillMount() {
+  //  Actions.FlowDirector();
     // generalUtils.storageGetAllItems();
     //Actions.FlowDirector();
     //  generalUtils.storageSetItem('learnstatus', 'ready');
@@ -73,7 +73,7 @@ class HomePageHolder extends Component {
     this.checkstatus = null;
     this.checkMemberId = null;
     this.checkday = null;
-    this.missed=0;
+    this.missed = 0;
     //generalUtils.storageGetAllItems();
     this.faks = new Date().getTime();
   //  this.faks = new Date().getTime()+ (14 * 3600000);
@@ -108,16 +108,33 @@ class HomePageHolder extends Component {
               break;
               case 'finished':
                   generalUtils.storageGetItem('todayFlow').then((todayFlow) => {
+                    const date = new Date();
+                    const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
                     for(var i=0;i<todayFlow.length;i++){
-                      if(todayFlow[i][1] === 0 &&  this.faks > todayFlow[i][0] ){
-                      this.missed++;
+                      if(this.checkday === newDate){
+                        if(todayFlow[i][1] === 0 && this.faks > todayFlow[i][0] ){
+                        this.missed++;
+                        }
+                      }else{
+                        if(todayFlow[i][1] === 0){
+                        this.missed++;
+                        }
                       }
                     }
                     if(this.missed === 0){
+                      if(this.checkday === newDate){
                       this.setState({
                         starter: this.props.lang.text.learnAlready,
                         startLearn: this.props.lang.title.takeQuize,
                       });
+                    }else{
+                      this.setState({ status: 'finished' });
+                      this.setState({
+                        starter: this.props.lang.text.saveTodayWork,
+                        startLearn: this.props.lang.title.saveWork,
+                      });
+                    }
+
                     }else{
                       this.setState({
                         toDo: this.missed,
@@ -126,8 +143,10 @@ class HomePageHolder extends Component {
                       });
                     }
                   });
+
               break;
               case 'passed':
+              this.setState({ status: 'ready' });
               const date = new Date();
               const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
               if (this.checkday === newDate) {
@@ -136,7 +155,6 @@ class HomePageHolder extends Component {
               } else {
                 buttonT = this.props.lang.title.chooseWords;
                 textT = this.props.lang.text.starter;
-                generalUtils.storageSetItem('todaywords', null);
                 generalUtils.storageSetItem('learnstatus', 'ready');
               }
               break;
@@ -154,8 +172,8 @@ class HomePageHolder extends Component {
       });
     });
   }
-  ComponentDidUpdate() {
-
+  componentWillReceiveProps(nextProps) {
+Alert.alert(nextProps.toGo);
   }
   goSomewhere() {
     if (this.state.status === 'choosed') {
@@ -165,13 +183,20 @@ class HomePageHolder extends Component {
     } else if (this.state.status === 'ready') {
       Actions.ChooseWordsHolder();
     } else if (this.state.status === 'finished') {
+      const date = new Date();
+      const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
       if (this.missed === 0) {
-        Alert.alert('Not Ready', 'No Work to do for now follow notifcation');
-      } else {
+        if (this.checkday === newDate){
+          Alert.alert('Not Ready', 'No Work to do for now follow notifcation');
+        } else{
+          Actions.FlowDirector();
+        }
+
+      }else {
         Actions.FlowDirector();
       }
     } else if (this.state.status === 'passed') {
-      Alert.alert('Practice page to old words');
+      Actions.ChooseWordsHolder();
     }
   }
   renderLoader() {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from 'react-native';
-import { Scene, Router, Actions } from 'react-native-router-flux';
+import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import reducerCreate from './reducers/routeChecker';
-import { Slider, Interests, Levels, SignUpForm, LoginForm, HomePageHolder, ChooseWordsHolder, ConfirmWords, QuizHolder, FlowDirector } from './components/singlePages/';
+import { Slider, Interests, Levels, SignUpForm, LoginForm, HomePageHolder, Settings, PracticeHolder, ChooseWordsHolder, ConfirmWords, QuizHolder, FlowDirector } from './components/singlePages/';
 
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
@@ -208,7 +208,7 @@ class RouterComponent extends Component {
               key='practice'
               title={this.props.lang.title.practice_tab}
               iconName='bolt'
-              component={HomePageHolder}
+              component={PracticeHolder}
               hideNavBar
               lang={this.props.lang}
               icon={singleTab}
@@ -234,12 +234,12 @@ class RouterComponent extends Component {
               key='settings'
               title={this.props.lang.title.settings_tab}
               iconName='sliders'
-              component={HomePageHolder}
-              hideNavBar
+              component={Settings}
+              hideNavBar={false}
               lang={this.props.lang}
               icon={singleTab}
               sceneStyle={styles.tabSceneStyle}
-              renderBackButton={this.backRender('white')}
+              renderBackButton={()=>(null)}
             />
             {/* forth tab ends */}
           </Scene>

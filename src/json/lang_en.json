@@ -34,9 +34,16 @@
     "cancelBoxText": "are you sure to cancle",
     "cancelBoxbutton": "cancel",
     "okBox": "ok",
-
+    "saveWork": "save",
+    "wordsPerDay":"words to learn per day",
+    "levelSetting":"Level",
+    "contactSetting":"Contact us",
+    "subscriptionSetting":"Cancel my subscription",
+    "rateSetting":"Cancel my subscription",
+    "suggestSetting":"Cancel my subscription",
   },
   "text": {
+    "saveTodayWork": "You finished today works",
     "choosed": "SEÇILMIŞ",
     "left": "KALAN",
     "topic": " Konu",
