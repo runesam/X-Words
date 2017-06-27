@@ -48,15 +48,13 @@ class SignUpForm extends Component {
     const errorText = {};
     if (_.isEmpty(this.state.error)) {
       const apiData = {};
-      // Alert.alert('everything', 'thing is', [{ text: 'ok' }]);
       apiData.name = this.state.name;
       apiData.phone = this.state.phone;
       apiData.email = this.state.email;
       apiData.password = this.state.password;
       apiData.interests = this.state.interests;
       apiData.level = this.state.level;
-      generalUtils.setDataFromApi(this.props.api.register, apiData)
-      .then(data => {
+      generalUtils.setDataFromApi(this.props.api.register, apiData).then(data => {
         if (data.result) {
           generalUtils.storageSetItem('memberId', data.member_id);
           generalUtils.storageSetItem('status', 'testWithPhotos');
@@ -68,8 +66,7 @@ class SignUpForm extends Component {
             [{ text: this.props.lang.title.ok }]
           );
         }
-      })
-      .catch(reason => console.log(reason));
+      }).catch(reason => console.log(reason));
     } else {
       switch (this.state.error[0]) {
         case 'name':
@@ -92,15 +89,6 @@ class SignUpForm extends Component {
         [{ text: this.props.lang.title.ok }]
       );
     }
-    // firebase.auth().signInWithEmailAndPassword(this.state.Email, this.state.PassWord)
-    // .then(this.onLoginSuccess.bind(this))
-    // .catch(
-    //   () => {
-    //        this.state.Email, this.state.PassWord)
-    //     .then(this.onSignupSuccess.bind(this))
-    //     .catch(this.onEverythingFail.bind(this));
-    //   }
-    // );
   }
   ComponentDidUpdate() {
 
@@ -177,9 +165,9 @@ class SignUpForm extends Component {
   }
   render() {
     return (
-      <View style={styles.userAuth}>
+      <View style={[styles.userAuth, { padding: 0 }]}>
         <StatusBar barStyle='light-content' />
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} >
+        <ScrollView style={[styles.userAuth, { flex: 1 }]} showsVerticalScrollIndicator={false} >
           <View style={styles.FlexI}>
             <View style={{ flex: 1 }}>
               <Image source={{ uri: 'logo_white' }} style={styles.logo} />
@@ -267,12 +255,7 @@ class SignUpForm extends Component {
 
 const styles = StyleSheet.create({
   flexOne: {
-    flex: 0.2,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    height: 100,
-    paddingTop: 5
+    height: 130
   },
   lineHelp: {
     flex: 1,
@@ -289,9 +272,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
+    top: 10,
     right: 0,
     left: 0,
-    bottom: 0,
     height: 80
   },
   textHelp: {
@@ -347,8 +330,6 @@ const styles = StyleSheet.create({
     padding: 30,
     paddingBottom: 0,
     backgroundColor: '#FF2C55',
-    width: null,
-    height: null,
   },
   FlexI: {
     flex: 1,

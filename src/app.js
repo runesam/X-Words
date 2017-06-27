@@ -49,7 +49,7 @@ class App extends Component {
 
   }
   updateRoute = (data) => {
-    this.setState({ initial: data || 'slider' });
+    this.setState({ initial: 'main' || 'slider' });
   }
   renderRouter() {
     if (this.state.initial) {

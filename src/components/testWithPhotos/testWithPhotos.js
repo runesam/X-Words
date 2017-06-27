@@ -59,7 +59,6 @@ class component extends Component {
           testIData: res,
           header: `${this.state.page}/${res.length}`
         });
-        // console.log(res);
         this.manageData();
       })
       .catch(reason => console.log(reason));
@@ -92,7 +91,7 @@ class component extends Component {
         })
         .catch(reason => console.log(reason));
       });
-      generalUtils.storageSetItem('status','PurchaseHolder');
+      generalUtils.storageSetItem('status', 'PurchaseHolder');
       Actions.PurchaseHolder();
     }
   }

@@ -12,7 +12,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-import { DefaultTabBar, Analytics } from './components/';
+import { DefaultTabBar, Analytics, Recommends } from './components/';
 import {
   // Button,
   // CardSection,
@@ -22,7 +22,6 @@ import {
   // PickerButton,
   // HscrollView
 } from '../common/';
-// import generalUtils from '../utils/generalUtils';
 // const _ = require('lodash');
 
 class profile extends Component {
@@ -48,11 +47,9 @@ class profile extends Component {
         <View style={styles.Analytics} tabLabel="ios-analytics">
           <Analytics />
         </View>
-        <ScrollView tabLabel="ios-people" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Friends</Text>
-          </View>
-        </ScrollView>
+        <View style={styles.Analytics} tabLabel="ios-people">
+          <Recommends />
+        </View>
         <ScrollView tabLabel="ios-chatboxes" style={styles.tabView}>
           <View style={styles.card}>
             <Text>Messenger</Text>

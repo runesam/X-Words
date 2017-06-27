@@ -29,10 +29,10 @@ class Slider extends Component {
 
   }
   onPress() {
-    generalUtils.storageSetItem('status', 'interests');
+    generalUtils.storageSetItem('status', 'levels');
     this.setState({ loading: true });
     setTimeout(() => {
-      Actions.interests();
+      Actions.levels();
       this.setState({ routing: null });
     }, 500);
   }

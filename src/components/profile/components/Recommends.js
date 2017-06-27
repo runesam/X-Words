@@ -10,14 +10,13 @@ import {
   ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
-import * as Progress from 'react-native-progress';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   // Button,
   // CardSection,
   // ShapedTextInput,
-  Spinner,
+  // Spinner,
   // PickerView,
   // PickerButton,
   // HscrollView
@@ -28,113 +27,34 @@ import user from '../../../utils/user';
 
 class Single extends Component {
   state= {
-    progress: 0
+
   }
   componentWillMount() {
 
   }
   componentDidMount() {
-    const looper = setInterval(() => {
-      if (this.state.progress >= this.props.data[1] / 100) {
-        console.log(this.state.progress);
-        this.setState({ progress: this.props.data[1] / 100 });
-        clearInterval(looper);
-      } else {
-        this.setState({ progress: this.state.progress + this.props.velocity });
-      }
-    });
+
   }
   render() {
     return (
       <View style={styles.SingleContainer}>
-        <View style={styles.SingleTitleContainer}>
-          <Text style={styles.SingleTitle}>{this.props.data[0]}</Text>
-        </View>
-        <View style={styles.SingleBodyContainer}>
-          <View style={styles.SingleBodyLeftContainer}>
-            <Text>{this.props.data[2]}</Text>
-            <Text>{this.props.data[3]}</Text>
-          </View>
-          <View style={styles.SingleSpinnerContainer}>
-            <Progress.Circle
-              size={80}
-              progress={this.state.progress}
-              showsText
-              borderWidth={0}
-              indeterminate={this.props.indeterminate}
-              color={this.props.data[6] || 'red'}
-              borderColor={this.props.data[6] || 'red'}
-              thickness={6}
-              unfilledColor='rgba(0,0,0,0.5)'
-            />
-            <View style={styles.SingleVertical}></View>
-          </View>
-          <View style={styles.SingleBodyLeftContainer}>
-            <Text>{this.props.data[4]}</Text>
-            <Text>{this.props.data[5]}</Text>
-          </View>
-        </View>
+        <Text style={styles.SingleTitle}>{this.props.data[0]}</Text>
+        <Text style={[styles.SingleTitle, { color: 'black' }]}>{this.props.data[1]}</Text>
       </View>
     );
   }
 }
 
-class Analytics extends Component {
+class Recommends extends Component {
   state= {
-    headerTitle: 'Analytics',
-    headerText: 'Your 10 Words Analytics',
-    headerSubText: 'You can share your score on social media',
+    headerTitle: 'Recommendations',
+    headerText: 'Your 10 Words Recommends',
+    headerSubText: 'You can follow the following tips to get higher scores',
   }
   componentWillMount() {
-    this.data = [
-      {
-        title: 'Correct Answers Percentage',
-        target: 40,
-        color: 'green',
-        statices: [
-          {
-            number: 34,
-            text: 'One Week'
-          },
-          {
-            number: 55,
-            text: 'One Month'
-          }
-        ]
-      },
-      {
-        title: 'Hours Percentage',
-        target: 72,
-        color: 'red',
-        statices: [
-          {
-            number: 77,
-            text: 'One Week'
-          },
-          {
-            number: 54,
-            text: 'One Month'
-          }
-        ]
-      },
-      {
-        title: 'Points & Averge',
-        target: 23,
-        color: 'blue',
-        statices: [
-          {
-            number: 77,
-            text: 'One Week'
-          },
-          {
-            number: 34,
-            text: 'One Month'
-          }
-        ]
-      }
-    ];
-    generalUtils.setDataFromApi('statistics', user.getUserData()).then(res => {
+    generalUtils.setDataFromApi('recommendations', user.getUserData()).then(res => {
       this.setState({ data: res.data });
+      console.log(res);
     });
     generalUtils.storageGetAllItems();
   }
@@ -146,9 +66,8 @@ class Analytics extends Component {
   }
   renderSingles() {
     if (this.state.data) {
-      return this.state.data.map((value, key) => <Single key={key} data={value} indeterminate={false} velocity={0.07} />);
+      return this.state.data.map((value, key) => <Single key={key} data={value} />);
     }
-    return <Spinner size='large' style={styles.spinnerStyle} />;
   }
   render() {
     return (
@@ -171,7 +90,7 @@ class Analytics extends Component {
             </View>
           </View>
         </View>
-        <View style={!this.state.data ? { paddingTop: 150, flex: 10 } : { flex: 10 }}>
+        <View style={{ flex: 10 }}>
           <ScrollView>
             {this.renderSingles()}
           </ScrollView>
@@ -266,4 +185,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export { Analytics };
+export { Recommends };

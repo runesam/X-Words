@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from 'react-native';
-import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
+import { Scene, Router, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -166,7 +166,7 @@ class RouterComponent extends Component {
                 component={FlowDirector}
                 hideNavBar={false}
                 hideTabBar
-                renderBackButton = {this.backRender('white')}
+                renderBackButton={this.backRender('white')}
               />
               <Scene
                 key='QuizHolder'
@@ -239,7 +239,7 @@ class RouterComponent extends Component {
               lang={this.props.lang}
               icon={singleTab}
               sceneStyle={styles.tabSceneStyle}
-              renderBackButton={()=>(null)}
+              renderBackButton={() => (null)}
             />
             {/* forth tab ends */}
           </Scene>
