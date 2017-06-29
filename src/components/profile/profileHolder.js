@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Text,
+  // Text,
   // Alert,
   // StatusBar,
   // Keyboard,
-  ScrollView,
+  // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-import { DefaultTabBar, Analytics, Recommends } from './components/';
+import { DefaultTabBar, Analytics, Recommends, LearnedWords, Social } from './components/';
 import {
   // Button,
   // CardSection,
@@ -45,26 +45,17 @@ class profile extends Component {
         style={styles.ScrollableTabView}
       >
         <View style={styles.Analytics} tabLabel="ios-analytics">
-          <Analytics />
+          <Analytics lang={this.props.lang} />
         </View>
         <View style={styles.Analytics} tabLabel="ios-people">
-          <Recommends />
+          <Recommends lang={this.props.lang} />
         </View>
-        <ScrollView tabLabel="ios-chatboxes" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Messenger</Text>
-          </View>
-        </ScrollView>
-        <ScrollView tabLabel="ios-notifications" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Notifications</Text>
-          </View>
-        </ScrollView>
-        <ScrollView tabLabel="ios-list" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Other nav</Text>
-          </View>
-        </ScrollView>
+        <View style={styles.Analytics} tabLabel="ios-chatboxes">
+          <LearnedWords lang={this.props.lang} />
+        </View>
+        <View style={styles.Analytics} tabLabel="ios-notifications">
+          <Social lang={this.props.lang} />
+        </View>
       </ScrollableTabView>
     );
   }

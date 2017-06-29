@@ -8,10 +8,11 @@ import {
   // StatusBar,
   Dimensions,
   ScrollView,
-  // TouchableWithoutFeedback
+  TouchableOpacity
 } from 'react-native';
 // import renderIf from 'render-if';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import Tts from 'react-native-tts';
 import {
   // Button,
   // CardSection,
@@ -30,29 +31,64 @@ class Single extends Component {
 
   }
   componentWillMount() {
-
+    Tts.setDefaultRate(0.4);
   }
   componentDidMount() {
-
+    Tts.addEventListener('tts-finish', this.endingLoader);
+  }
+  componentWillUnmount() {
+    Tts.removeEventListener('tts-finish', this.endingLoader);
+  }
+  endingLoader = () => {
+    this.setState({ disabled: false });
+  }
+  textToSpeech(text) {
+    this.setState({ disabled: true }, () => {
+      if (this.props.accent) {
+        const accent = `com.apple.ttsbundle.${this.props.accent}-compact`;
+        console.log(accent);
+        Tts.setDefaultVoice(accent);
+      }
+      Tts.speak(text);
+    });
+  }
+  translateHolderIcon(data) {
+    if (this.state.disabled) {
+      return <Spinner size={data[0]} colors='white' />;
+    }
+    return <Icon name='volume-2' size={data[1]} color='white' />;
   }
   render() {
     return (
       <View style={styles.SingleContainer}>
-        <Text style={styles.SingleTitle}>{this.props.data[0]}</Text>
-        <Text style={[styles.SingleTitle, { color: 'black' }]}>{this.props.data[1]}</Text>
+        <View>
+          <Text style={styles.SingleTitle}>
+            {this.props.data[0]}
+          </Text>
+          <Text style={[styles.SingleTitle, { color: 'black' }]}>
+            {this.props.data[1]}
+          </Text>
+        </View>
+        <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data[0])} style={styles.translateHolderButton}>
+          <View style={styles.translateHolderIcon}>
+            {this.translateHolderIcon(['large', 35])}
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-class Recommends extends Component {
+class LearnedWords extends Component {
   state= {
-    headerTitle: 'Recommendations',
-    headerText: 'Your 10 Words Recommends',
-    headerSubText: 'You can follow the following tips to get higher scores',
+    headerTitle: 'Learned Words',
+    headerText: 'Your 10 Words History List',
+    headerSubText: 'Here you can check what words you\'ve lerned so far',
   }
   componentWillMount() {
-    generalUtils.setDataFromApi('recommendations', user.getUserData()).then(res => {
+    this.apiData = user.getUserData();
+    this.apiData.pageNumber = 1;
+    generalUtils.setDataFromApi('learned_words_list', this.apiData).then(res => {
       this.setState({ data: res.data });
       console.log(res);
     });
@@ -151,8 +187,9 @@ const styles = StyleSheet.create({
     marginRight: 20,
     borderBottomWidth: 1,
     borderColor: 'gray',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginTop: 5
   },
   SingleTitleContainer: {
@@ -160,12 +197,24 @@ const styles = StyleSheet.create({
   },
   SingleTitle: {
     alignItems: 'flex-start',
-    fontSize: 17,
-    textAlign: 'left'
+    textAlign: 'left',
+    fontSize: 17
   },
   spinnerStyle: {
     paddingTop: 150
-  }
+  },
+  translateHolderButton: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  translateHolderIcon: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ff0050',
+    width: (Dimensions.get('window').width - 100) / 4,
+    height: (Dimensions.get('window').width - 100) / 4,
+    borderRadius: (Dimensions.get('window').width - 100) / 8
+  },
 });
 
-export { Recommends };
+export { LearnedWords };

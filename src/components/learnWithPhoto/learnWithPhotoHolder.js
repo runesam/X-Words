@@ -48,12 +48,12 @@ class LearnWithPhotoHolder extends Component {
       break;
       case 'notNew':
       generalUtils.storageGetItem('todayWords').then((data) => {
-      this.wordsData = data;
-      generalUtils.storageGetItem('reminder').then((reminders) => {
-        this.reminders = reminders;
-      this.showArray(this.props.words);
-    });
-    });
+        this.wordsData = data;
+        generalUtils.storageGetItem('reminder').then((reminders) => {
+          this.reminders = reminders;
+          this.showArray(this.props.words);
+        });
+      });
       break;
       default:
 
@@ -86,83 +86,83 @@ class LearnWithPhotoHolder extends Component {
   }
   next() {
     this.allToUpdate.push(this.currentId);
-    if(this.props.action === 'newDay'){
-    if (this.currentId + 1 === this.datakeys.length) {
-      generalUtils.storageSetItem('learnstatus', 'finished');
-      generalUtils.storageSetItem('reminder', this.reminders);
-      Actions.pop({ refresh: { toGo: 'ahmed' } });
-      return false;
-    }
-    this.currentId++;
-    this.structureAndSetWordData();
-  } else if (this.props.action === 'notNew') {
-    if (this.last) {
-      generalUtils.storageSetItem('reminder', this.reminders);
-      if (this.props.updateNotificaion) {
-        generalUtils.storageGetItem('todayFlow').then((todayFlow) => {
-          this.todayFlowNew = todayFlow;
-          this.todayFlowNew[this.props.iK][1] = 1;
-          generalUtils.storageSetItem('todayFlow', this.todayFlowNew).then(() => {
-            generalUtils.storageGetItem('showVSquiz').then((showVSquiz) => {
-              this.showVSquiz = showVSquiz;
-                  for(var i=0;i < this.allToUpdate.length; i++){
-                    this.showVSquiz[this.allToUpdate[i]][0] = 1;
-                  }
-              generalUtils.storageSetItem('showVSquiz', this.showVSquiz).then(() => {
-                Actions.HomePageHolder();
+    if (this.props.action === 'newDay') {
+      if (this.currentId + 1 === this.datakeys.length) {
+        generalUtils.storageSetItem('learnstatus', 'finished');
+        generalUtils.storageSetItem('reminder', this.reminders);
+        Actions.pop({ refresh: { toGo: 'ahmed' } });
+        return false;
+      }
+      this.currentId++;
+      this.structureAndSetWordData();
+    } else if (this.props.action === 'notNew') {
+      if (this.last) {
+        generalUtils.storageSetItem('reminder', this.reminders);
+        if (this.props.updateNotificaion) {
+          generalUtils.storageGetItem('todayFlow').then((todayFlow) => {
+            this.todayFlowNew = todayFlow;
+            this.todayFlowNew[this.props.iK][1] = 1;
+            generalUtils.storageSetItem('todayFlow', this.todayFlowNew).then(() => {
+              generalUtils.storageGetItem('showVSquiz').then((showVSquiz) => {
+                this.showVSquiz = showVSquiz;
+                for (let i = 0; i < this.allToUpdate.length; i++) {
+                  this.showVSquiz[this.allToUpdate[i]][0] = 1;
+                }
+                generalUtils.storageSetItem('showVSquiz', this.showVSquiz).then(() => {
+                  Actions.HomePageHolder();
+                });
               });
             });
           });
-        });
+        } else {
+          Actions.FlowDirector();
+        }
       } else {
-        Actions.FlowDirector();
+        this.words[this.keyF][1] = 1;
+        this.showArray(this.words);
       }
-    } else {
-      this.words[this.keyF][1] = 1;
-      this.showArray(this.words);
     }
-  }
   }
   showArray(words) {
-      this.setState({ able: false });
-      this.maxTe =words.length;
-      this.words=words;
-    this.continueSearch=true;
-    this.whichstep=0;
-    for(var i=0;i < this.words.length; i++){
-    if(this.words[i][1]===0 && this.continueSearch){
-      this.continueSearch=false;
-      this.whichstep = i + 1;
-      this.keyF=i;
-          this.currentId = this.words[this.keyF][0];
-          //  console.log(this.currentId);
-          //  console.log(this.reminders[this.currentId][0]);
-          this.currentWordData = {};
-          const currentSentenceId = this.reminders[this.currentId][0];
-          console.log(currentSentenceId);
-          this.updateReminder(this.currentId);
-          this.currentWordData.sentence = this.wordsData[this.currentId].sentences[currentSentenceId];
-          this.currentWordData.details = this.wordsData[this.currentId].details;
-          console.log(this.currentWordData);
-          const head = `${this.whichstep} / ${this.maxTe}`;
-          this.setState({
-            dataSource: this.currentWordData,
-            headline: head
-          });
+    this.setState({ able: false });
+    this.maxTe = words.length;
+    this.words = words;
+    this.continueSearch = true;
+    this.whichstep = 0;
+    for (let i = 0; i < this.words.length; i++) {
+      if (this.words[i][1] === 0 && this.continueSearch) {
+        this.continueSearch = false;
+        this.whichstep = i + 1;
+        this.keyF = i;
+        this.currentId = this.words[this.keyF][0];
+        //  console.log(this.currentId);
+        //  console.log(this.reminders[this.currentId][0]);
+        this.currentWordData = {};
+        const currentSentenceId = this.reminders[this.currentId][0];
+        console.log(currentSentenceId);
+        this.updateReminder(this.currentId);
+        this.currentWordData.sentence = this.wordsData[this.currentId].sentences[currentSentenceId];
+        this.currentWordData.details = this.wordsData[this.currentId].details;
+        console.log(this.currentWordData);
+        const head = `${this.whichstep} / ${this.maxTe}`;
+        this.setState({
+          dataSource: this.currentWordData,
+          headline: head
+        });
 
-          const tempInterval = setInterval(() => {
-            if (this.state.dataSource.details) {
-              clearInterval(tempInterval);
-              if (this.whichstep === this.maxTe) {
-                this.last = true;
-              }
-              this.setState({ able: true });
+        const tempInterval = setInterval(() => {
+          if (this.state.dataSource.details) {
+            clearInterval(tempInterval);
+            if (this.whichstep === this.maxTe) {
+              this.last = true;
             }
-          });
+            this.setState({ able: true });
+          }
+        });
         this.setState({ max: this.datakeys });
+      }
     }
-    }
-}
+  }
   manyNumbers() {
     generalUtils.storageGetItem('todayWords').then((data) => {
       console.log(data);

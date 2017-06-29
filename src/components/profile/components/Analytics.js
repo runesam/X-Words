@@ -171,7 +171,7 @@ class Analytics extends Component {
             </View>
           </View>
         </View>
-        <View style={!this.state.data ? { paddingTop: 150, flex: 10 } : { flex: 10 }}>
+        <View style={{ flex: 10 }}>
           <ScrollView>
             {this.renderSingles()}
           </ScrollView>
@@ -263,6 +263,9 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: 'gray',
     marginTop: 10
+  },
+  spinnerStyle: {
+    paddingTop: 150
   }
 });
 
