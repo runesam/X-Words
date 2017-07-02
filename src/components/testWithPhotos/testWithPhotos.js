@@ -53,15 +53,13 @@ class component extends Component {
       console.log(option);
       const data = {};
       data.level_id = option;
-      generalUtils.setDataFromApi(this.props.api.getTestByLevel, data)
-      .then(res => {
+      generalUtils.setDataFromApi(this.props.api.getTestByLevel, data).then(res => {
         this.setState({
           testIData: res,
           header: `${this.state.page}/${res.length}`
         });
         this.manageData();
-      })
-      .catch(reason => console.log(reason));
+      }).catch(reason => console.log(reason));
     });
   }
   componentDidUpdate() {

@@ -143,7 +143,7 @@ class LearnedWords extends Component {
           keyExtractor={this.keyExtractor}
           renderItem={item => <Single data={item} loading={this.state.loading} noData={this.state.noData} />}
           onEndReached={this.loadMore.bind(this)}
-          onEndReachedThreshold={3}
+          onEndReachedThreshold={50}
         />
       );
     }

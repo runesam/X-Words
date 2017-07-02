@@ -40,20 +40,20 @@ class profile extends Component {
   render() {
     return (
       <ScrollableTabView
-        initialPage={2}
+        initialPage={0}
         renderTabBar={() => <DefaultTabBar />}
         style={styles.ScrollableTabView}
       >
-        <View style={styles.Analytics} tabLabel="ios-analytics">
+        <View style={styles.Analytics} tabLabel='ios-analytics'>
           <Analytics lang={this.props.lang} />
         </View>
-        <View style={styles.Analytics} tabLabel="ios-people">
+        <View style={styles.Analytics} tabLabel='ios-notifications'>
           <Recommends lang={this.props.lang} />
         </View>
-        <View style={styles.Analytics} tabLabel="ios-chatboxes">
+        <View style={styles.Analytics} tabLabel='ios-school'>
           <LearnedWords lang={this.props.lang} />
         </View>
-        <View style={styles.Analytics} tabLabel="ios-notifications">
+        <View style={styles.Analytics} tabLabel='ios-people'>
           <Social lang={this.props.lang} />
         </View>
       </ScrollableTabView>

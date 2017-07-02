@@ -5,7 +5,6 @@
     "error": "Error",
     "ok": "OK",
     "congrats" : "Congratulations",
-    "start_test": " -------------------------------------- SignUpForm -------------------------------------------",
     "register": "Register",
     "start_test": "Start Test",
     "placeholder_name": "Your Name",
@@ -41,14 +40,17 @@
     "subscriptionSetting":"Cancel my subscription",
     "rateSetting":"Cancel my subscription",
     "suggestSetting":"Cancel my subscription",
+    "cool": " *** congrats ***",
+    "not_cool": " !!! opps !!!",
+    "next": "Next =>"
   },
   "text": {
     "saveTodayWork": "You finished today works",
-    "choosed": "SEÇILMIŞ",
-    "left": "KALAN",
-    "topic": " Konu",
-    "change": "Değişter",
-    "custom": "Düzey: ",
+    "choosed": "Choosed",
+    "left": "Left",
+    "topic": " Topic",
+    "change": "Change",
+    "custom": "Edit: ",
     "interests_text": "Scroll and choose your interests",
     "levels_text": "Select your English level",
     "error_interests_validation": "You must select at least 3 interests",
@@ -70,5 +72,11 @@
     "learnAlready": "Finish ",
     "welcome": "Have a good day, Here are sum ",
     "question": "choose correct sentence",
+    "practice_sentence": "Translate this sentence",
+    "practice_word": "Translate this word",
+    "choose_answers": "Choose from words below",
+    "no_learned_words": "no words been learned yet",
+    "cool_message": "your answer is correct :)",
+    "not_cool_message": " opps, your answer is incorrect :("
   }
 }
