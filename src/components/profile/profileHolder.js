@@ -40,7 +40,7 @@ class profile extends Component {
   render() {
     return (
       <ScrollableTabView
-        initialPage={0}
+        initialPage={2}
         renderTabBar={() => <DefaultTabBar />}
         style={styles.ScrollableTabView}
       >

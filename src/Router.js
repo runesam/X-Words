@@ -227,6 +227,7 @@ class RouterComponent extends Component {
               icon={singleTab}
               sceneStyle={styles.tabSceneStyle}
               renderBackButton={this.backRender('white')}
+              initial
             />
             {/* third tab ends */}
             {/* forth tab starts */}

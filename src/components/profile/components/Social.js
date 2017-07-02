@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import firebase from 'firebase';
 import {
   StyleSheet,
   View,
@@ -7,23 +6,8 @@ import {
   Image,
   Share,
   Dimensions,
-  ScrollView,
   TouchableOpacity
 } from 'react-native';
-// import renderIf from 'render-if';
-// import Icon from 'react-native-vector-icons/SimpleLineIcons';
-// import Tts from 'react-native-tts';
-import {
-  // Button,
-  // CardSection,
-  // ShapedTextInput,
-  // PickerView,
-  // PickerButton,
-  // HscrollView
-} from './../../common/';
-import generalUtils from '../../../utils/generalUtils';
-import user from '../../../utils/user';
-// const _ = require('lodash');
 
 class Social extends Component {
   state= {
@@ -32,13 +16,23 @@ class Social extends Component {
     headerSubText: 'share your current status in 10 words with others',
   }
   componentWillMount() {
-    this.apiData = user.getUserData();
-    this.apiData.pageNumber = 1;
-    generalUtils.setDataFromApi('learned_words_list', this.apiData).then(res => {
-      this.setState({ data: res.data });
-      console.log(res);
-    });
-    generalUtils.storageGetAllItems();
+    this.shareContents = [
+      {
+        message: 'I wanna share 10 words',
+        title: 'best English Training App Ever',
+        url: 'http://10words.com'
+      },
+      {
+        message: 'I wanna share 10 words',
+        title: 'best English Training App Ever',
+        url: 'http://10words.com'
+      },
+      {
+        message: 'I wanna share 10 words',
+        title: 'best English Training App Ever',
+        url: 'http://10words.com'
+      }
+    ];
   }
   componentDidMount() {
 
@@ -46,12 +40,8 @@ class Social extends Component {
   ComponentDidUpdate() {
 
   }
-  shareNow() {
-    Share.share({
-      message: 'I wanna share 10 words',
-      title: 'best English Training App Ever',
-      url: 'http://10words.com'
-    }, {
+  shareNow(type) {
+    Share.share(this.shareContents[type], {
       dialogTitle: '10 words sharing system Title',
       excludedActivityTypes: [
         // we include the apps we don t wanna show here
@@ -83,21 +73,24 @@ class Social extends Component {
             </View>
           </View>
         </View>
-        <View style={{ flex: 10 }}>
-          <View style={styles.aboutContainer}>
-            <ScrollView>
-              <Text style={styles.about}>
-                {'dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500\'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960\'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.'}
-              </Text>
-            </ScrollView>
-          </View>
-          <View style={styles.shareContainer}>
-            <TouchableOpacity onPress={this.shareNow.bind(this)} style={styles.share}>
-              <Text style={styles.shareText}>
-                {'share now'}
-              </Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.buttonsContainer}>
+          <View style={{ height: 30 }} />
+          <TouchableOpacity onPress={this.shareNow.bind(this, 0)} style={styles.share}>
+            <Text style={styles.shareText}>
+              {'share now'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.shareNow.bind(this, 1)} style={styles.share}>
+            <Text style={styles.shareText}>
+              {'share now'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.shareNow.bind(this, 2)} style={styles.share}>
+            <Text style={styles.shareText}>
+              {'share now'}
+            </Text>
+          </TouchableOpacity>
+          <View style={{ height: 30 }} />
         </View>
       </View>
     );
@@ -148,31 +141,13 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontSize: Dimensions.get('window').width < 375 ? 12 : 14
   },
-  aboutContainer: {
-    flex: 8,
-    padding: 10
-  },
-  about: {
-    fontSize: 17,
-    lineHeight: 30,
-    textAlign: 'center',
-    color: '#ff0050',
-    textShadowColor: 'black',
-    textShadowOffset: {
-      width: 1,
-      height: 2
-    },
-    textShadowRadius: 2
-  },
-  shareContainer: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
+  buttonsContainer: {
+    flex: 10,
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   share: {
     padding: 5,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: '#ff0050',
     borderRadius: 50,
     width: 150,

@@ -5,9 +5,8 @@ import {
   View,
   Text,
   Image,
-  // StatusBar,
+  FlatList,
   Dimensions,
-  ScrollView,
   TouchableOpacity
 } from 'react-native';
 // import renderIf from 'render-if';
@@ -58,18 +57,27 @@ class Single extends Component {
     }
     return <Icon name='volume-2' size={data[1]} color='white' />;
   }
+  renderfinal() {
+    if (this.props.noData) {
+      return <Text>'no more words ...'</Text>;
+    }
+    return <Spinner size='large' />;
+  }
   render() {
+    if (this.props.data.item[0] === 'loader') {
+      return <View style={[styles.loaderContainer, this.props.loading ? { opacity: 1 } : { opacity: 0 }]}>{this.renderfinal()}</View>;
+    }
     return (
       <View style={styles.SingleContainer}>
         <View>
           <Text style={styles.SingleTitle}>
-            {this.props.data[0]}
+            {this.props.data.item[0]}
           </Text>
           <Text style={[styles.SingleTitle, { color: 'black' }]}>
-            {this.props.data[1]}
+            {this.props.data.item[1]}
           </Text>
         </View>
-        <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data[0])} style={styles.translateHolderButton}>
+        <TouchableOpacity onPress={this.textToSpeech.bind(this, this.props.data.item[0])} style={styles.translateHolderButton}>
           <View style={styles.translateHolderIcon}>
             {this.translateHolderIcon(['large', 35])}
           </View>
@@ -89,10 +97,10 @@ class LearnedWords extends Component {
     this.apiData = user.getUserData();
     this.apiData.pageNumber = 1;
     generalUtils.setDataFromApi('learned_words_list', this.apiData).then(res => {
-      this.setState({ data: res.data });
-      console.log(res);
+      this.tempData = res.data;
+      this.tempData.push(['loader']);
+      this.keyingDataUpdate();
     });
-    generalUtils.storageGetAllItems();
   }
   componentDidMount() {
 
@@ -100,9 +108,44 @@ class LearnedWords extends Component {
   ComponentDidUpdate() {
 
   }
+  keyingDataUpdate() {
+    let i = 0;
+    this.tempData.forEach((item, key) => {
+      this.tempData[key].id = i;
+      i++;
+    });
+    this.setState({ data: this.tempData }, () => setTimeout(() => {
+      this.setState({ loading: false });
+    }, 500));
+  }
+  loadMore() {
+    this.apiData.pageNumber++;
+    this.setState({ loading: true });
+    generalUtils.setDataFromApi('learned_words_list', this.apiData).then(res => {
+      if (res.data && res.data.length > 0) {
+        let tempData = JSON.stringify(this.state.data);
+        tempData = JSON.parse(tempData);
+        tempData.pop();
+        this.tempData = [...tempData, ...res.data];
+        this.tempData.push(['loader']);
+        this.keyingDataUpdate();
+      } else {
+        this.setState({ noData: true });
+      }
+    });
+  }
+  keyExtractor = (item) => item.id;
   renderSingles() {
     if (this.state.data) {
-      return this.state.data.map((value, key) => <Single key={key} data={value} />);
+      return (
+        <FlatList
+          data={this.state.data}
+          keyExtractor={this.keyExtractor}
+          renderItem={item => <Single data={item} loading={this.state.loading} noData={this.state.noData} />}
+          onEndReached={this.loadMore.bind(this)}
+          onEndReachedThreshold={3}
+        />
+      );
     }
     return <Spinner size='large' style={styles.spinnerStyle} />;
   }
@@ -128,9 +171,7 @@ class LearnedWords extends Component {
           </View>
         </View>
         <View style={{ flex: 10 }}>
-          <ScrollView>
-            {this.renderSingles()}
-          </ScrollView>
+          {this.renderSingles()}
         </View>
       </View>
     );
@@ -191,6 +232,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 5
+  },
+  loaderContainer: {
+    flex: 2
   },
   SingleTitleContainer: {
     flex: 1

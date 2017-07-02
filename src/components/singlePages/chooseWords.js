@@ -149,21 +149,21 @@ class ChooseWordsHolder extends Component {
     generalUtils.storageGetItem('wordsPerDay').then((wordsPerDay) => {
       this.nowTime = new Date().getTime();
       // this.nowTime = new Date().getTime() - (10 * 3600000);
-      var d = new Date(this.nowTime); // for now
+      const d = new Date(this.nowTime); // for now
       console.log(d);
-      var crnt = d.getHours() + (d.getMinutes() / 60);
-      if (crnt <= 9 ) {
+      const crnt = d.getHours() + (d.getMinutes() / 60);
+      if (crnt <= 9) {
         this.setState({ left: wordsPerDay || 10 });
-      }else if (crnt <= 11.5 ) {
-        this.setState({ left: (wordsPerDay/5)*4 || 8 });
-      }else if (crnt <= 14 ) {
-        this.setState({ left: (wordsPerDay/5)*3 || 8 });
-      }else if (crnt <= 16.5 ){
-        this.setState({ left: (wordsPerDay/5)*2 || 8 });
-      }else if (crnt <= 19 ) {
-        this.setState({ left: (wordsPerDay/5)*1 || 8 });
-      }else{
-        Alert.alert('Too Late','You passed day Please press start tomorrow earler');
+      } else if (crnt <= 11.5) {
+        this.setState({ left: (wordsPerDay / 5) * 4 || 8 });
+      } else if (crnt <= 14) {
+        this.setState({ left: (wordsPerDay / 5) * 3 || 8 });
+      } else if (crnt <= 16.5) {
+        this.setState({ left: (wordsPerDay / 5) * 2 || 8 });
+      } else if (crnt <= 19) {
+        this.setState({ left: (wordsPerDay / 5) * 1 || 8 });
+      } else {
+        Alert.alert('Too Late', 'You passed day Please press start tomorrow earler');
         Actions.pop();
       }
     });
@@ -174,13 +174,12 @@ class ChooseWordsHolder extends Component {
       } else {
         // console.log("1");
         const apiData = {};
-        this.setState({ memberId: memberId });
+        this.setState({ memberId });
         apiData.memberId = memberId;
         apiData.not = this.state.not;
         // console.log("2");
         console.log(apiData);
         generalUtils.setDataFromApi(this.state.getLink, apiData).then(res => {
-
           if (res.none) {
             Alert.alert(
     'No data',
