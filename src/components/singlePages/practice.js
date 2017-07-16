@@ -126,7 +126,6 @@ class PracticeHolder extends Component {
 
   }
   componentWillMount() {
-    // const types = ['CircleFlip', 'Bounce', 'Wave', 'WanderingCubes', 'Pulse', 'ChasingDots', 'ThreeBounce', 'Circle', '9CubeGrid', 'FadingCircle', 'FadingCircleAlt'];
     this.apiData = user.getUserData();
     generalUtils.setDataFromApi('practice', this.apiData).then(data => {
       this.setQuestionData(data);
@@ -135,13 +134,12 @@ class PracticeHolder extends Component {
     });
   }
   onPressMe() {
-    console.log(this.apiData);
     this.apiData.result = this.result;
     this.apiData.questionId = this.state.data.questionId;
     this.setState({ data: null });
     Alert.alert(
       this.result === 'correct' ? this.props.lang.title.cool : this.props.lang.title.not_cool,
-      this.result === 'correct' ? this.props.lang.text.cool_message : this.props.lang.text.not_cool_message,
+      this.result === 'correct' ? this.props.lang.text.cool_message : `${this.props.lang.text.not_cool_message}\n${this.state.data.wrongExaplain}`,
       [
         {
           text: this.props.lang.title.next,
@@ -162,9 +160,7 @@ class PracticeHolder extends Component {
     data.queue.forEach(item => {
       this.queue.push({ selected: false, word: item });
     });
-    console.log(data);
-    console.log(this.queue);
-    this.setState({ data, queue: this.queue });
+    this.setState({ data, queue: this.queue, validAnswer: false });
   }
   updateAnswer(data, answer) {
     this.result = data === this.state.data.answer ? 'correct' : 'wrong';

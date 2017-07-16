@@ -3,166 +3,98 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Text,
-  Image,
-  Alert,
-  StatusBar,
+  // Text,
+  // Image,
+  // Alert,
+  // StatusBar,
   ScrollView,
 } from 'react-native';
+import SettingsList from 'react-native-settings-list';
 import { Actions } from 'react-native-router-flux';
-import Loader from 'react-native-spinkit';
+// import Loader from 'react-native-spinkit';
 // import renderIf from 'render-if';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import PushNotification from 'react-native-push-notification';
-import { Button } from '../common/';
+// import PushNotification from 'react-native-push-notification';
+// import { Button } from '../common/';
 import generalUtils from '../../utils/generalUtils';
-import images from '../../json/images.json';
-import SettingsList from 'react-native-settings-list';
+// import images from '../../json/images.json';
+const _ = require('lodash');
 
-// const _ = require('lodash');
 class Settings extends Component {
   state= {
-
+    data: {
+      words: '10',
+      level: 'starter',
+    }
   }
   componentWillMount() {
-
+    generalUtils.storageGetAllItems();
+    if (this.props.data) {
+      this.setState({ data: _.merge(this.state.data, this.props.data) });
+    }
   }
   componentWillReceiveProps(nextProps) {
-Alert.alert(nextProps.toGo);
+    if (nextProps.data) {
+      this.setState({ data: _.merge(this.state.data, nextProps.data) });
+    }
   }
-
-  constructor(){
-    super();
-    this.onValueChange = this.onValueChange.bind(this);
-    this.state = {switchValue: false};
+  onValueChange(value) {
+    this.setState({ switchValue: value });
   }
-  render() {
-    var bgColor = '#DCE3F4';
+  renderIcon(name, size, color) {
     return (
-      <View style={{backgroundColor:'#EFEFF4',flex:1}}>
-        <View style={{backgroundColor:'#EFEFF4',flex:1}}>
-          <ScrollView>
-          <SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
-            <SettingsList.Header />
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#ff9500" />
-                </View>
-              }
-              hasSwitch={true}
-              switchState={this.state.switchValue}
-              switchOnValueChange={this.onValueChange}
-              hasNavArrow={false}
-              title='Airplane Mode'
-            />
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#007aff" />
-                </View>
-              }
-              title='Wi-Fi'
-              titleInfo='Bill Wi The Science Fi'
-              titleInfoStyle={styles.titleInfoStyle}
-              onPress={() => Alert.alert('Route to Wifi Page')}
-            />
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#007aff" />
-                </View>
-              }
-              title='Blutooth'
-              titleInfo='Off'
-              titleInfoStyle={styles.titleInfoStyle}
-              onPress={() => Alert.alert('Route to Blutooth Page')}
-            />
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#4cd964" />
-                </View>
-              }
-              title='Cellular'
-              onPress={() => Alert.alert('Route To Cellular Page')}
-            />
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#4cd964" />
-                </View>
-              }
-              title='Personal Hotspot'
-              titleInfo='Off'
-              titleInfoStyle={styles.titleInfoStyle}
-              onPress={() => Alert.alert('Route To Hotspot Page')}
-            />
-            <SettingsList.Header headerStyle={{marginTop:15}}/>
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#ff3b30" />
-                </View>
-              }
-              title='Notifications'
-              onPress={() => Alert.alert('Route To Notifications Page')}
-            />
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#8e8e93" />
-                </View>
-              }
-              title='Control Center'
-              onPress={() => Alert.alert('Route To Control Center Page')}
-            />
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#ff9500" />
-                </View>
-              }
-              title='Do Not Disturb'
-              onPress={() => Alert.alert('Route To Do Not Disturb Page')}
-            />
-            <SettingsList.Header headerStyle={{marginTop:15}}/>
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#ff9500" />
-                </View>
-              }
-              title='General'
-              onPress={() => Alert.alert('Route To General Page')}
-            />
-            <SettingsList.Item
-              icon={
-                <View style={styles.imageStyle}>
-                  <Icon name="apple" size={25} color="#ff9500" />
-                </View>
-              }
-              title='Display & Brightness'
-              onPress={() => Alert.alert('Route To Display Page')}
-            />
-          </SettingsList>
-        </ScrollView>
-        </View>
+      <View style={styles.iconStyle}>
+        <Icon name={name} size={size} color={color} />
       </View>
     );
   }
-  onValueChange(value){
-    this.setState({switchValue: value});
+  render() {
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          <SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
+            <SettingsList.Item
+              icon={this.renderIcon('calendar-plus-o', 25, 'red')}
+              title={this.props.lang.title.words_a_day}
+              titleInfo={this.state.data.words}
+              onPress={Actions.options.bind(this, { option: 0, wordsPerDay: this.state.data.words })}
+            />
+            <SettingsList.Item
+              icon={this.renderIcon('list-ol', 25, '#9c27b0')}
+              title={this.props.lang.title.level_edit}
+              titleInfo={this.state.data.level}
+              onPress={Actions.options.bind(this, { option: 1, level: this.state.data.level })}
+            />
+            <SettingsList.Item
+              icon={this.renderIcon('paper-plane-o', 25, '#67b100')}
+              title={this.props.lang.title.contact_us}
+              onPress={Actions.options.bind(this, { option: 2 })}
+            />
+            <SettingsList.Item
+              icon={this.renderIcon('remove', 25, 'white')}
+              title={this.props.lang.title.cancel_membership}
+              backgroundColor='#c10000'
+              titleStyle={{ color: 'white', fontWeight: '800', fontSize: 17 }}
+            />
+          </SettingsList>
+        </ScrollView>
+      </View>
+    );
   }
 }
 const styles = StyleSheet.create({
-  imageStyle:{
-     marginLeft:10,
-     alignSelf:'center',
-     width:20,
-     height:20,
-     justifyContent:'center'
-   }
+  container: {
+    flex: 1,
+    marginTop: 50,
+    marginBottom: 60,
+  },
+  iconStyle: {
+    marginLeft: 10,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: 25,
+    height: 20,
+  }
 });
 
 export { Settings };

@@ -10,3 +10,4 @@ export * from './Login';
 export * from './quizHolder';
 export * from './FlowDirector';
 export * from './settings';
+export * from './Options';

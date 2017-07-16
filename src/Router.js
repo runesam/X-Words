@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import reducerCreate from './reducers/routeChecker';
-import { Slider, Interests, Levels, SignUpForm, LoginForm, HomePageHolder, Settings, PracticeHolder, ChooseWordsHolder, ConfirmWords, QuizHolder, FlowDirector } from './components/singlePages/';
+import { Slider, Interests, Levels, SignUpForm, LoginForm, HomePageHolder, Settings, PracticeHolder, ChooseWordsHolder, ConfirmWords, QuizHolder, FlowDirector, Options } from './components/singlePages/';
 
 import LearnWithPhotoHolder from './components/learnWithPhoto/learnWithPhotoHolder';
 import testWithPhotos from './components/testWithPhotos/testWithPhotos';
@@ -49,7 +49,7 @@ class RouterComponent extends Component {
   }
   render() {
     return (
-      <Router duration={500} createReducer={reducerCreate}>
+      <Router duration={250} createReducer={reducerCreate}>
         <Scene key='root'>
           <Scene
             key='slider'
@@ -214,7 +214,6 @@ class RouterComponent extends Component {
               icon={singleTab}
               sceneStyle={styles.tabSceneStyle}
               renderBackButton={this.backRender('white')}
-              initial
             />
             {/* second tab ends */}
             {/* third tab starts */}
@@ -235,13 +234,26 @@ class RouterComponent extends Component {
               key='settings'
               title={this.props.lang.title.settings_tab}
               iconName='sliders'
-              component={Settings}
               hideNavBar={false}
               lang={this.props.lang}
               icon={singleTab}
               sceneStyle={styles.tabSceneStyle}
-              renderBackButton={() => (null)}
-            />
+              initial
+            >
+              <Scene
+                key='settingsHolder'
+                title={this.props.lang.title.settings}
+                component={Settings}
+                lang={this.props.lang}
+                sceneStyle={styles.tabSceneStyle}
+              />
+              <Scene
+                key='options'
+                component={Options}
+                lang={this.props.lang}
+                sceneStyle={styles.tabSceneStyle}
+              />
+            </Scene>
             {/* forth tab ends */}
           </Scene>
           {/* page with tabs ends */}

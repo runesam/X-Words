@@ -9,7 +9,6 @@ import {
   StatusBar,
   // Keyboard,
   ScrollView,
-  // TouchableWithoutFeedback
 } from 'react-native';
 // import renderIf from 'render-if';
 import { Actions } from 'react-native-router-flux';
@@ -167,7 +166,7 @@ class SignUpForm extends Component {
     return (
       <View style={[styles.userAuth, { padding: 0 }]}>
         <StatusBar barStyle='light-content' />
-        <ScrollView style={[styles.userAuth, { flex: 1 }]} showsVerticalScrollIndicator={false} >
+        <ScrollView style={[styles.userAuth, { flex: 1 }]} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='always'>
           <View style={styles.FlexI}>
             <View style={{ flex: 1 }}>
               <Image source={{ uri: 'logo_white' }} style={styles.logo} />

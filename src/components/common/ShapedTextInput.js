@@ -5,22 +5,34 @@ import {
   TextInput
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import renderIf from 'render-if';
 
 class ShapedTextInput extends Component {
+  renderIcon() {
+    if (this.props.icon) {
+      return (
+        <View style={[styles.icon_container, { top: this.props.icon[2] }, { left: this.props.icon[3] }]}>
+          <Icon name={this.props.icon[0] || 'bath'} size={this.props.icon[1]} color={this.props.icon[4] || 'white'} />
+        </View>
+      );
+    }
+  }
   render() {
     return (
-      <View style={[styles.view_style, this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
+      <View style={[this.props.style ? this.props.style : styles.view_style, this.props.inValid ? { borderWidth: 1.5, borderColor: 'red' } : null]}>
           <TextInput
             placeholder={this.props.placeholder || 'placeholder'}
             placeholderTextColor={this.props.placeholderColor || '#c5c4d6'}
             autoCorrect={this.props.autoCorrect || false}
-            style={[styles.TextInput, this.props.icon ? { paddingLeft: 50 } : { paddingLeft: 20 }]}
+            style={[this.props.TextInputStyle ? this.props.TextInputStyle : styles.TextInput, this.props.icon ? { paddingLeft: 50 } : { paddingLeft: 20 }]}
             editable={this.props.editable || true}
             maxLength={this.props.maxLength}
             keyboardType={this.props.keyboardType || 'default'}
             secureTextEntry={this.props.secureTextEntry || false}
             value={this.props.value}
+            editable={this.props.editable || true}
+            multiline={this.props.multiline || false}
+            numberOfLines={this.props.numberOfLines || 1}
+            maxLength={this.props.maxLength || 1000}
             onBlur={
               function (text) {
                 if (this.props.onBlurText && this.props.name) {
@@ -36,11 +48,7 @@ class ShapedTextInput extends Component {
               }.bind(this)
             }
           />
-        {renderIf(this.props.icon)(
-          <View style={[styles.icon_container, { top: this.props.icon[2] }, { left: this.props.icon[3] }]}>
-            <Icon name={this.props.icon[0] || 'bath'} size={this.props.icon[1]} color='white' />
-          </View>
-        )}
+          {this.renderIcon()}
       </View>
     );
   }

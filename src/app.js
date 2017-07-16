@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 // import PushNotification from 'react-native-push-notification';
 import updateInitial from './utils/updateInitial';
+import user from './utils/user';
 import reducers from './reducers';
 import {
   // Header,
@@ -31,6 +32,7 @@ class App extends Component {
   }
   componentWillMount() {
     // generalUtils.storageSetItem('status', 'main');
+    user.setUserData();
     updateInitial.getStatus(this.updateRoute);
     // PushNotification.localNotificationSchedule({
     //   message: 'My Notification Message', // (required)
@@ -49,6 +51,7 @@ class App extends Component {
 
   }
   updateRoute = (data) => {
+    console.log(data);
     this.setState({ initial: 'main' || 'slider' });
   }
   renderRouter() {

@@ -25,6 +25,7 @@
     "practice_tab": "Practice",
     "profile_tab": "Profile",
     "settings_tab": "Settings",
+    "settings": "10 Words Settings",
     "iWantLearn": "öğrenmek istiyorum",
     "chooseWords_pageTitle": "Choose some words",
     "confirmWords_pageTitle": "Confirm words",
@@ -42,7 +43,13 @@
     "suggestSetting":"Cancel my subscription",
     "cool": " *** congrats ***",
     "not_cool": " !!! opps !!!",
-    "next": "Next =>"
+    "next": "Next",
+    "words_a_day": "Words per Day",
+    "level_edit": "Change Your Level",
+    "contact_us": "Contact Us",
+    "cancel_membership": "Cancel My Subscrption",
+    "placeholder_message": "What do you wanna tell us...",
+    "send": "Send"
   },
   "text": {
     "saveTodayWork": "You finished today works",
@@ -60,6 +67,7 @@
     "phoneError": "Please enter a valid phone number",
     "emailError": "Please enter a valid E-mail",
     "passwordError": "Password must be at least 6 characters",
+    "messageError": "Please enter a valid message, Your phone is not enough to know what do you wanna say",
     "which_photo": "Which photo refers to",
     "test_footer": "Questions hints and another tips to increase conversion",
     "congrats_text": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
@@ -77,6 +85,8 @@
     "choose_answers": "Choose from words below",
     "no_learned_words": "no words been learned yet",
     "cool_message": "your answer is correct :)",
-    "not_cool_message": " opps, your answer is incorrect :("
+    "not_cool_message": " opps, your answer is incorrect :(",
+    "contact_text_I": "comment, complain and even give us your feedback, we are really listening !",
+    "contact_text_II": "we usually take care of all messages and will get back to you within 3 working days. stay around :)"
   }
 }
