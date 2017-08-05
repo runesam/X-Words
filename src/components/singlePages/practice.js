@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 30,
     marginLeft: 30,
-    borderRadius: 250
+    borderRadius: 20
   },
   submitButtonText: {
     color: 'white',

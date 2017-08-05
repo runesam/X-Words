@@ -58,7 +58,7 @@ class Single extends Component {
           <View style={styles.SingleSpinnerContainer}>
             <Progress.Circle
               size={80}
-              progress={this.state.progress}
+              progress={this.props.data[1] / 100}
               showsText
               borderWidth={0}
               indeterminate={this.props.indeterminate}

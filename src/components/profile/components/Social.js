@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   share: {
     padding: 5,
     backgroundColor: '#ff0050',
-    borderRadius: 50,
+    borderRadius: 20,
     width: 150,
     height: 40,
   },
