@@ -64,9 +64,9 @@ class Levels extends Component {
       .then(data => {
         const filterLevels = _.filter(data, (o) => o.active === true);
         const tempLevels = [];
-        filterLevels.map((value) =>{
+        filterLevels.map((value) => {
           tempLevels.push(parseInt(value.level_id, 10));
-          this.setState({ selectedLevel: parseInt(value.level_id, 10) });
+          return this.setState({ selectedLevel: parseInt(value.level_id, 10) });
         });
         this.setState({ dataSource: ds.cloneWithRows(data), dataCame: true, levelsStorage: data, Levels: tempLevels });
       })
@@ -80,7 +80,7 @@ class Levels extends Component {
   }
   onPressMe() {
     generalUtils.storageSetItem('levelOptionData', this.state.selectedLevel);
-    generalUtils.storageSetItem('status','signup');
+    generalUtils.storageSetItem('status', 'signup');
     Actions.signup();
   }
   handleAppStateChange() {

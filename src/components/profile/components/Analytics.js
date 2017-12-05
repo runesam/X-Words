@@ -17,12 +17,13 @@ import {
   // Button,
   // CardSection,
   // ShapedTextInput,
-  // Spinner,
+  Spinner,
   // PickerView,
   // PickerButton,
   // HscrollView
 } from './../../common/';
-// import generalUtils from '../utils/generalUtils';
+import generalUtils from '../../../utils/generalUtils';
+import user from '../../../utils/user';
 // const _ = require('lodash');
 
 class Single extends Component {
@@ -34,9 +35,9 @@ class Single extends Component {
   }
   componentDidMount() {
     const looper = setInterval(() => {
-      if (this.state.progress >= this.props.data.target / 100) {
+      if (this.state.progress >= this.props.data[1] / 100) {
         console.log(this.state.progress);
-        this.setState({ progress: this.props.data.target / 100 });
+        this.setState({ progress: this.props.data[1] / 100 });
         clearInterval(looper);
       } else {
         this.setState({ progress: this.state.progress + this.props.velocity });
@@ -47,28 +48,30 @@ class Single extends Component {
     return (
       <View style={styles.SingleContainer}>
         <View style={styles.SingleTitleContainer}>
-          <Text style={styles.SingleTitle}>{this.props.data.title}</Text>
+          <Text style={styles.SingleTitle}>{this.props.data[0]}</Text>
         </View>
         <View style={styles.SingleBodyContainer}>
           <View style={styles.SingleBodyLeftContainer}>
-            <Text>{this.props.data.statices[0].number}</Text>
-            <Text>{this.props.data.statices[0].text}</Text>
+            <Text>{this.props.data[2]}</Text>
+            <Text>{this.props.data[3]}</Text>
           </View>
           <View style={styles.SingleSpinnerContainer}>
             <Progress.Circle
               size={80}
-              progress={this.state.progress}
+              progress={this.props.data[1] / 100}
               showsText
-              borderWidth={1}
+              borderWidth={0}
               indeterminate={this.props.indeterminate}
-              color={this.props.data.color}
-              borderColor={this.props.data.color}
+              color={this.props.data[6] || 'red'}
+              borderColor={this.props.data[6] || 'red'}
+              thickness={6}
+              unfilledColor='rgba(0,0,0,0.5)'
             />
             <View style={styles.SingleVertical}></View>
           </View>
           <View style={styles.SingleBodyLeftContainer}>
-            <Text>{this.props.data.statices[1].number}</Text>
-            <Text>{this.props.data.statices[1].text}</Text>
+            <Text>{this.props.data[4]}</Text>
+            <Text>{this.props.data[5]}</Text>
           </View>
         </View>
       </View>
@@ -130,6 +133,10 @@ class Analytics extends Component {
         ]
       }
     ];
+    generalUtils.setDataFromApi('statistics', user.getUserData()).then(res => {
+      this.setState({ data: res.data });
+    });
+    generalUtils.storageGetAllItems();
   }
   componentDidMount() {
 
@@ -138,7 +145,10 @@ class Analytics extends Component {
 
   }
   renderSingles() {
-    return this.data.map((value, key) => <Single key={key} data={value} indeterminate={false} velocity={0.07} />);
+    if (this.state.data) {
+      return this.state.data.map((value, key) => <Single key={key} data={value} indeterminate={false} velocity={0.07} />);
+    }
+    return <Spinner size='large' style={styles.spinnerStyle} />;
   }
   render() {
     return (
@@ -176,7 +186,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   headerContainer: {
-    flex: 2,
+    flex: 3,
     backgroundColor: '#ff0050'
   },
   headerTitleContainer: {
@@ -253,6 +263,9 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: 'gray',
     marginTop: 10
+  },
+  spinnerStyle: {
+    paddingTop: 150
   }
 });
 

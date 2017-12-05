@@ -18,7 +18,6 @@ import { Button } from '../common/';
 import generalUtils from '../../utils/generalUtils';
 import images from '../../json/images.json';
 // const _ = require('lodash');
-
 class HomePageHolder extends Component {
   state= {
     days: 10,
@@ -31,54 +30,37 @@ class HomePageHolder extends Component {
     type: null
   }
   componentWillMount() {
-    // generalUtils.storageGetAllItems();
-    //Actions.FlowDirector();
-    //  generalUtils.storageSetItem('learnstatus', 'ready');
     const types = ['CircleFlip', 'Bounce', 'Wave', 'WanderingCubes', 'Pulse', 'ChasingDots', 'ThreeBounce', 'Circle', '9CubeGrid', 'FadingCircle', 'FadingCircleAlt'];
     let i = 10;
     setInterval(() => {
       i = i === types.length - 1 ? 0 : i + 1;
-      //this.setState({ type: types[i] }, () => {
-      //  console.log(this.state.type);
-      //});
     }, 2000);
     PushNotification.configure({
-    // (optional) Called when Token is generated (iOS and Android)
-    onRegister: (token) => {
+      onRegister: (token) => {
         console.log('TOKEN:', token);
-    },
-    // (required) Called when a remote or local notification is opened or received
-    onNotification: (notification) => {
-      Actions.FlowDirector();
-    },
-    // IOS ONLY (optional): default: all - Permissions to register.
-    permissions: {
+      },
+      onNotification: (notification) => {
+        console.log(notification);
+        Actions.FlowDirector();
+      },
+      permissions: {
         alert: true,
         badge: true,
         sound: true
-    },
-
-    // Should the initial notification be popped automatically
-    // default: true
-    popInitialNotification: true,
-    /**
-      * (optional) default: true
-      * - Specified if permissions (ios) and token (android and ios) will requested or not,
-      * - if not, you must call PushNotificationsHandler.requestPermissions() later
-      */
-    requestPermissions: true,
-  });
-    //generalUtils.storageSetItem('endDate', null);
-    //generalUtils.storageSetItem('learnstatus', 'choosed');
+      },
+      popInitialNotification: true,
+      requestPermissions: true,
+    });
+    generalUtils.storageSetItem('endDate', null);
+    generalUtils.storageSetItem('learnstatus', 'ready');
     this.checkstatus = null;
     this.checkMemberId = null;
     this.checkday = null;
-    this.missed=0;
+    this.missed = 0;
     //generalUtils.storageGetAllItems();
     this.faks = new Date().getTime();
-  //  this.faks = new Date().getTime()+ (14 * 3600000);
+    //  this.faks = new Date().getTime()+ (14 * 3600000);
     generalUtils.storageGetItem('learnstatus').then((status) => {
-
       this.checksStatus = status;
       this.setState({ status });
       generalUtils.storageGetItem('memeberId').then((memeberId) => {
@@ -89,14 +71,15 @@ class HomePageHolder extends Component {
             if (this.props.replaceColor) {
               this.props.replaceColor('white');
             }
-
             if (this.faks < endDate) {
-
+              console.log('not here');
             } else {
-            Actions.PurchaseHolder();
+              // Actions.PurchaseHolder();
             }
             let buttonT = '';
             let textT = '';
+            const date = new Date();
+            const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
             switch (this.checksStatus) {
               case 'confirmed':
               buttonT = this.props.lang.title.startLearn;
@@ -107,36 +90,46 @@ class HomePageHolder extends Component {
               textT = this.props.lang.text.choosedAlready;
               break;
               case 'finished':
-                  generalUtils.storageGetItem('todayFlow').then((todayFlow) => {
-                    for(var i=0;i<todayFlow.length;i++){
-                      if(todayFlow[i][1] === 0 &&  this.faks > todayFlow[i][0] ){
+              generalUtils.storageGetItem('todayFlow').then((todayFlow) => {
+                for (let t = 0; t < todayFlow.length; t++) {
+                  if (this.checkday === newDate) {
+                    if (todayFlow[t][1] === 0 && this.faks > todayFlow[t][0]) {
                       this.missed++;
-                      }
                     }
-                    if(this.missed === 0){
-                      this.setState({
-                        starter: this.props.lang.text.learnAlready,
-                        startLearn: this.props.lang.title.takeQuize,
-                      });
-                    }else{
-                      this.setState({
-                        toDo: this.missed,
-                        starter: this.props.lang.text.missedAlready + this.missed,
-                        startLearn: this.props.lang.title.continue,
-                      });
-                    }
+                  } else if (todayFlow[t][1] === 0) {
+                    this.missed++;
+                  }
+                }
+                if (this.missed === 0) {
+                  if (this.checkday === newDate) {
+                    this.setState({
+                      starter: this.props.lang.text.learnAlready,
+                      startLearn: this.props.lang.title.takeQuize,
+                    });
+                  } else {
+                    this.setState({ status: 'finished' });
+                    this.setState({
+                      starter: this.props.lang.text.saveTodayWork,
+                      startLearn: this.props.lang.title.saveWork,
+                    });
+                  }
+                } else {
+                  this.setState({
+                    toDo: this.missed,
+                    starter: this.props.lang.text.missedAlready + this.missed,
+                    startLearn: this.props.lang.title.continue,
                   });
+                }
+              });
               break;
               case 'passed':
-              const date = new Date();
-              const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
+              this.setState({ status: 'ready' });
               if (this.checkday === newDate) {
                 buttonT = this.props.lang.title.takeQuize;
                 textT = this.props.lang.text.learnAlready;
               } else {
                 buttonT = this.props.lang.title.chooseWords;
                 textT = this.props.lang.text.starter;
-                generalUtils.storageSetItem('todaywords', null);
                 generalUtils.storageSetItem('learnstatus', 'ready');
               }
               break;
@@ -154,8 +147,8 @@ class HomePageHolder extends Component {
       });
     });
   }
-  ComponentDidUpdate() {
-
+  componentWillReceiveProps(nextProps) {
+    Alert.alert(nextProps.toGo);
   }
   goSomewhere() {
     if (this.state.status === 'choosed') {
@@ -165,13 +158,19 @@ class HomePageHolder extends Component {
     } else if (this.state.status === 'ready') {
       Actions.ChooseWordsHolder();
     } else if (this.state.status === 'finished') {
+      const date = new Date();
+      const newDate = parseInt(date.toLocaleDateString('en-GB').split('/').join(''), 10);
       if (this.missed === 0) {
-        Alert.alert('Not Ready', 'No Work to do for now follow notifcation');
+        if (this.checkday === newDate) {
+          Alert.alert('Not Ready', 'No Work to do for now follow notifcation');
+        } else {
+          Actions.FlowDirector();
+        }
       } else {
         Actions.FlowDirector();
       }
     } else if (this.state.status === 'passed') {
-      Alert.alert('Practice page to old words');
+      Actions.ChooseWordsHolder();
     }
   }
   renderLoader() {

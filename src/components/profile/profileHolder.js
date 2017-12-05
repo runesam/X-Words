@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Text,
+  // Text,
   // Alert,
   // StatusBar,
   // Keyboard,
-  ScrollView,
+  // ScrollView,
   // TouchableWithoutFeedback
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 // import renderIf from 'render-if';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-import { DefaultTabBar, Analytics } from './components/';
+import { DefaultTabBar, Analytics, Recommends, LearnedWords, Social } from './components/';
 import {
   // Button,
   // CardSection,
@@ -22,7 +22,6 @@ import {
   // PickerButton,
   // HscrollView
 } from '../common/';
-// import generalUtils from '../utils/generalUtils';
 // const _ = require('lodash');
 
 class profile extends Component {
@@ -45,29 +44,18 @@ class profile extends Component {
         renderTabBar={() => <DefaultTabBar />}
         style={styles.ScrollableTabView}
       >
-        <View style={styles.Analytics} tabLabel="ios-analytics">
-          <Analytics />
+        <View style={styles.Analytics} tabLabel='ios-analytics'>
+          <Analytics lang={this.props.lang} />
         </View>
-        <ScrollView tabLabel="ios-people" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Friends</Text>
-          </View>
-        </ScrollView>
-        <ScrollView tabLabel="ios-chatboxes" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Messenger</Text>
-          </View>
-        </ScrollView>
-        <ScrollView tabLabel="ios-notifications" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Notifications</Text>
-          </View>
-        </ScrollView>
-        <ScrollView tabLabel="ios-list" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Other nav</Text>
-          </View>
-        </ScrollView>
+        <View style={styles.Analytics} tabLabel='ios-notifications'>
+          <Recommends lang={this.props.lang} />
+        </View>
+        <View style={styles.Analytics} tabLabel='ios-school'>
+          <LearnedWords lang={this.props.lang} />
+        </View>
+        <View style={styles.Analytics} tabLabel='ios-people'>
+          <Social lang={this.props.lang} />
+        </View>
       </ScrollableTabView>
     );
   }
